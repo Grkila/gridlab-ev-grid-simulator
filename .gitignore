@@ -1,0 +1,6 @@
+/.idea
+*.pyc
+*.pkl
+/cache
+/venv
+ppnet.json

@@ -1,0 +1,367 @@
+{
+    "1": {
+        "cities_list": [
+            "Darmstadt"
+        ],
+        "queries": {
+            "s": {
+                "type": "Substations",
+                "tag": "power",
+                "nwr": "",
+                "in_tag": "",
+                "ex_tag": [],
+                "ex_nwr": {},
+                "in_nwr": {
+                    "way": {
+                        "28369264": {
+                            "name": "Sued",
+                            "pairs": [
+                                1,
+                                2,
+                                3
+                            ]
+                        },
+                        "28369864": {
+                            "name": "HBf",
+                            "pairs": [
+                                2,
+                                4,
+                                5
+                            ]
+                        },
+                        "41847231": {
+                            "name": "Nord",
+                            "pairs": [
+                                7,
+                                5,
+                                6
+                            ]
+                        },
+                        "150126865": {
+                            "name": "Wixhausen",
+                            "pairs": [
+                                7
+                            ]
+                        },
+                        "162033283": {
+                            "name": "Eberstadt",
+                            "pairs": [
+                                1
+                            ]
+                        },
+                        "256102730": {
+                            "name": "Mitte",
+                            "pairs": [
+                                3,
+                                4,
+                                6
+                            ]
+                        }
+                    }
+                },
+                "out": "out geom"
+            },
+            "t": {
+                "type": "Transformers",
+                "tag": "power",
+                "nwr": "nwr",
+                "in_tag": "[power~'substation|transformer']",
+                "ex_tag": [
+                    "[!fixme]",
+                    "[frequency!=16.7]"
+                ],
+                "ex_nwr": {
+                    "node": {
+                        "10943699231": {},
+                        "10943699232": {},
+                        "10819901573": {},
+                        "10816635484": {},
+                        "10819869262": {},
+                        "10819869263": {}
+                    },
+                    "way": {
+                        "751065167": {},
+                        "1081934475": {},
+                        "1163421617": {},
+                        "669989905": {}
+                    }
+                },
+                "out": "out geom"
+            },
+            "sc": {
+                "type": "Special Consumers",
+                "in_nwr": {
+                    "way": {
+                        "536471392": {
+                            "name": "TUD-Lichtwiese",
+                            "dem": 5.8,
+                            "tag": "special"
+                        },
+                        "723075568": {
+                            "name": "GSI Helmholtzzentrum",
+                            "dem": 6.7,
+                            "tag": "special"
+                        },
+                        "150016559": {
+                            "name": "Klinikum Darmstadt",
+                            "dem": 1.5,
+                            "tag": "special"
+                        },
+                        "659640086": {
+                            "name": "Müllheizkraftwerk",
+                            "dem": 1,
+                            "tag": "special"
+                        }
+                    },
+                    "relation": {
+                        "2688333": {
+                            "name": "Merck",
+                            "dem": 6.1,
+                            "tag": "special"
+                        }
+                    }
+                },
+                "out": "out geom"
+            },
+            "lu": {
+                "type": "Land Use",
+                "tag": "landuse",
+                "nwr": "wr",
+                "in_tag": "[landuse~'residential|industrial|military|commercial|retail']",
+                "ex_nwr": {
+                    "way": {
+                        "196346927": null,
+                        "23872501": null,
+                        "51142503": null,
+                        "10101995": null,
+                        "5037376": null,
+                        "22815266": null,
+                        "149516189": null,
+                        "96468380": null,
+                        "223292578": null,
+                        "467763461": null,
+                        "24335023": null
+                    }
+                },
+                "out": "out geom"
+            },
+            "ch": {
+                "type": "Charging Stations",
+                "tag": "capacity",
+                "nwr": "nw",
+                "in_tag": "[amenity=charging_station]",
+                "out": "out geom"
+            },
+            "d": {
+                "type": "District",
+                "tag": "admin_level",
+                "nwr": "rel",
+                "in_tag": "[admin_level=9]",
+                "out": "out geom"
+            }
+        },
+        "add_transf_by_coord": [
+            [[49.887434,8.623431], 2],
+            [[49.895042,8.651991], 4],
+            [[49.899244,8.652248], 4],
+            [[49.884670,8.650934], 0.63],
+            [[49.848056,8.621328], 0.63],
+            [[49.873190,8.679779], 0.63],
+            [[49.805550,8.640999], 0.63],
+            [[49.803545,8.636960], 0.63],
+            [[49.871863,8.651476], 0.63],
+            [[49.870328,8.653300], 0.63],
+            [[49.876004,8.657688], 0.63],
+            [[49.882766,8.669468], 0.63],
+            [[49.884280,8.663245], 0.63]
+        ],
+        "custom_transf_cap": {
+        }
+    },
+
+    "2": {
+        "simplify_polygon_tolerance": 0,
+        "osm_street_graph_options": {
+            "network_type": "all",
+            "retain_all": false,
+            "simplify": false
+        },
+        "auto_balance_load": false,
+        "opt_assign": 0,
+        "vrpy_opts": {
+            "prob": {
+                "load_capacity": 9800,
+                "num_vehicles": 10,
+                "drop_penalty": 10000000000
+            },
+            "solve": {
+                "time_limit": 7
+            }
+        }
+    },
+
+    "3": {
+        "crs": "WGS84",
+        "area_factors": {
+            "residential": 0.02082,
+            "industrial": 0.08205,
+            "military": 0.02082,
+            "commercial": 0.08695,
+            "retail": 0.08695,
+            "evcharger": 0.022
+        },
+        "std_transfo_capacity": 0.63,
+        "peak_to_mean_ratio": 1.3,
+        "overdesign_factor": 1.5,
+         "pandapower": {
+            "HV_kV": 110,
+            "MV_kV": 20,
+            "subst_transf_opt": {
+                "std_type": "63 MVA 110/20 kV",
+                "parallel": 2
+            },
+            "XG_opt": {
+                "vm_pu": 1.02
+            },
+            "load_opt": {
+                "q_mvar": 0.20
+            },
+            "line_opt": {
+            "std_type": "NA2XS2Y 1x150 RM/25 12/20 kV"
+        }
+        }
+    },
+
+    "4": {
+        "1": {
+            "choro_style": {
+                "fillOpacity": 0.75,
+                "color": "black",
+                "weight": 0.7},
+            "transf_style": {
+                "fillColor": "gray",
+                "fillOpacity": 0.2,
+                "weight": 2,
+                "color": "black"},
+            "transf_marker": {
+                "radius":7,
+                "color": "red",
+                "fill": true},
+            "charger_style": {
+                "fillColor": "red",
+                "fillOpacity": 0.2,
+                "weight": 2,
+                "color": "black"},
+            "charger_marker": {
+                "radius":7,
+                "color": "magenta",
+                "fill": true},
+            "circle_markers_ch": {
+                "radius":5,
+                "color": "magenta",
+                "fill": true,
+                "fillOpacity": 0.5},
+            "circle_markers_tr": {
+                "radius":5,
+                "color": "blue",
+                "fill": true,
+                "fillOpacity": 0.5},
+            "land_use": {
+                "fillOpacity": 0.9,
+                "weight": 1
+            }
+        },
+        "2": {
+            "sub_style": {
+                "fillColor": "blue",
+                "fillOpacity": 0.8,
+                "weight": 2,
+                "color": "black"},
+            "transf_style": {
+                "fillColor": "gray",
+                "fillOpacity": 0.2,
+                "weight": 2,
+                "color": "black"},
+            "transf_marker": {
+                "radius":7,
+                "color": "red",
+                "fill": true},
+            "route_style": {
+                "fillColor": "magenta",
+                "fillOpacity": 0.8,
+                "weight": 2,
+                "color": "magenta"},
+            "circle_markers": {
+                "radius":5,
+                "color": "blue",
+                "fill": true,
+                "fillOpacity": 0.5}},
+        "3": {
+            "Line Loading (%)": {
+                "cmap": {
+                    "colors": [
+                        "green",
+                        "yellow",
+                        "red"
+                    ],
+                    "vmin": 0,
+                    "vmax": 90,
+                    "caption": "Line Voltage (%)"
+                },
+                "style": {
+                    "weight": 5,
+                    "opacity": 0.75
+                }
+            },
+            "Trafo Loading (%)": {
+                "cmap": {
+                    "colors": [
+                        "green",
+                        "yellow",
+                        "red"
+                    ],
+                    "vmin": 0,
+                    "vmax": 90,
+                    "caption": "Trafo Loading (%)"
+                },
+                "style": {
+                    "fillOpacity": 0.95,
+                    "weight": 0.75,
+                    "color": "black"
+                },
+                "circlemarker": {
+                    "radius": 20,
+                    "weight": 0.5,
+                    "color": "black",
+                    "fill": true,
+                    "fillOpacity": 0.9
+                }
+            },
+            "Bus Voltage (PU)": {
+                "cmap": {
+                    "colors": [
+                        "red",
+                        "yellow",
+                        "green",
+                        "yellow",
+                        "red"
+                    ],
+                    "vmin": 0.98,
+                    "vmax": 1.02,
+                    "caption": "Bus Voltage (PU)"
+                },
+                "style": {
+                    "weight": 7,
+                    "opacity": 1
+                },
+                "circlemarker": {
+                    "radius": 7.5,
+                    "weight":0.5,
+                    "color": "black",
+                    "fill": true,
+                    "fillOpacity": 0.9
+                }
+            }
+        }
+    }
+}
