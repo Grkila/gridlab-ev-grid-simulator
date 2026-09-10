@@ -84,3 +84,10 @@
   .results-workspace .map { height: 340px; }
   .results-workspace .district-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
+
+.chat-controls { display:flex; flex-wrap:wrap; gap:6px; padding:8px 12px; }
+.chat-controls select { min-width:0; max-width:220px; flex:1; }
+.chat-notes { padding:4px 12px; font-size:11px; overflow-wrap:anywhere; }
+.chat-notes textarea { width:100%; min-height:70px; }
+.chat .event p { white-space:pre-wrap; overflow-wrap:anywhere; }
+.chat .feed { min-height:80px; }

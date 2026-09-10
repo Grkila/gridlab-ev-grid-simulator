@@ -273,7 +273,7 @@ class RLEnergyBudgetAdversarialTests(unittest.TestCase):
                      'fleet_size':2,'metrics':{},'complete':True}]} for run,experiment in [('run-a','exp-a'),('run-b','exp-b')]}
             for run in records:
                 write_json(service._path('runs',run)/'manifest.json',{'fingerprint':{'code':'identical'}})
-            with patch.object(service,'get_results',side_effect=lambda run:records[run]), \
+            with patch.object(service,'get_results',side_effect=lambda run, **kwargs:records[run]), \
                  patch.object(service,'get_experiment',side_effect=lambda exp:{'definition':definitions[exp]}):
                 self.assertTrue(service.compare_runs(['run-a','run-b'])['paired_compatible'])
                 definitions['exp-b']['rl']['daily_energy_limit_kwh']=200.

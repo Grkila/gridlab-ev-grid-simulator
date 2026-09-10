@@ -1,4 +1,28 @@
-# Standard strategy commands
+# Typed strategy workflow
+
+Read `ev_get_contract` and the live tool schemas first. Prefer `ev_propose_strategy`
+with name, idea and research category, then `ev_specify_strategy(record_id, definition)`.
+The complete definition requires objective, causal information enum entries, forecast,
+actions (continuous_kw or binary_on_off), constraints, algorithm, fallback, research,
+verification_tests (named repository test modules), and limitations. Parameters and
+primary references are optional except references are required for reproduction or
+adaptation. Engineering baselines need no invented citation. Planned test modules may
+be specified before they exist; verification requires their implementation.
+
+For a revision, call `ev_specify_strategy` with the prior record ID and a complete new
+definition. Legacy REVISE cannot change forecast, actions, verification_tests or
+limitations; it is retained for old records. A modern specification is validated again
+before BUILD, including when accessed through the legacy adapter.
+
+An explicit implementation request authorizes workspace coding and tests. In app chat,
+select Implement and the saved specification ID; the next turn resets to automatic
+mode. `ev_verify_strategy` executes the named repository tests with a 90-second budget
+and saves counts, output and source/specification/test fingerprints. `checks_passed`
+means those software checks passed; it proves neither full specification conformance
+nor scientific superiority. Changes to bound source or tests make the report stale.
+Evaluate with frozen scenarios, bounded experiments and measured run evidence next.
+
+## Legacy strategy commands
 
 Commands may be pasted into Codex or the experiment chat. `ev_strategy_command`
 accepts the same text, or JSON with a `command` field. Read the live schema for
@@ -88,12 +112,16 @@ constraints, missed deadlines, observation causality, timeout fallback and energ
 accounting. Follow repository integration checks. Cite which paper mechanism is
 implemented and what differs; do not transfer published performance percentages.
 
-Existing POCs: plain LLF, finite coordinate-descent valley filling, lexicographic
-linear MPC, and voltage droop with gradual recovery. MPC first minimizes horizon
+Existing controllers: generalized constrained smoothed LLF, finite simultaneous
+ODC valley filling, lexicographic linear MPC, and a custom voltage droop heuristic.
+See `docs/strategy-research-audit.md` in the repository for paper discrepancies.
+MPC first minimizes horizon
 required energy deficits then peak; it uses a relaxed linear network forecast and
 the simulator checks the applied action with AC power flow. Both optimization
 controllers default to persistence forecasts. Previous-day mode reads observed
 history, retains the known present value, and falls back to persistence where no
-historical value exists. No future arrivals are exposed. Voltage starts at zero
-until a valid preceding measurement exists; centralized safety may further reduce
+historical value exists. Both planners extend through connected departures, subject
+to variable limits and explicit plain-LLF fallback. No future arrivals are exposed.
+Voltage obtains a causal baseline measurement on initialization and requests zero
+if measurements are unavailable; mandatory centralized safety may further reduce
 its local request. Continuous and binary RL shields have different action constraints.

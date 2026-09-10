@@ -37,6 +37,12 @@ async def verify(root: str) -> dict:
         saved = await call("ev_save_experiment",definition=definition)
         duplicate = await call("ev_save_experiment",definition=definition)
         assert saved["experiment_id"] == duplicate["experiment_id"]
+        fetched = await call('ev_get_experiment', experiment_id=saved['experiment_id'])
+        assert {k:v for k,v in fetched.items() if k!='contract'} == {k:v for k,v in saved.items() if k!='contract'}
+        listing = await call('ev_list_experiments', limit=1)
+        assert listing['experiments'][0]['experiment_id'] == saved['experiment_id']
+        assert 'definition' not in listing['experiments'][0]
+
         run = await call("ev_start_run",experiment_id=saved["experiment_id"])
         await call("ev_cancel_run",run_id=run["run_id"])
         async def wait(run_id):
@@ -67,6 +73,12 @@ async def verify(root: str) -> dict:
         assert completed["status"]=="completed" and completed["verdict"]=="passed",completed
         results=await call("ev_get_results",run_id=run["run_id"])
         assert len(results["cases"])==2 and "intervals" not in results["cases"][0]
+        first_page=await call('ev_get_results',run_id=run['run_id'],limit=1)
+        second_page=await call('ev_get_results',run_id=run['run_id'],limit=1,after=first_page['next_cursor'])
+        assert first_page['cases']+second_page['cases']==results['cases']
+        assert first_page['evaluation']==results['evaluation'] and first_page['evaluation_scope']=='whole_run'
+        assert second_page['next_cursor'] is None
+
         detail=await call("ev_get_results",run_id=run["run_id"],case_id=results["cases"][0]["case_id"],include_intervals=True)
         assert len(detail["cases"][0]["intervals"])>=96
         assert detail["cases"][0]["metrics"]["pending_energy_kwh"] < 1e-6

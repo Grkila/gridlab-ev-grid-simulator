@@ -1,0 +1,11 @@
+# Node EV load control
+
+New benchmark suites can freeze aggregate_ev_nodes=true. Each connection retains one electrical EV load added to its baseline. The simulator exposes step_node_loads({block_id: kilowatts}); it can increase, decrease or switch off that EV load. Missing targets are off; targets are capped by connected charger capacity and remaining energy, then ordinary network checks apply. It does not shift baseline demand.
+
+Internal homogeneous cohorts retain node, arrival, departure, per-car energy, charger power and efficiency (and randomized release jitter when applicable). Compatible vehicles share continuous power equally. Cohorts do not create electrical nodes. Different deadlines remain separate internal energy accounts. Cars and energy metrics are weighted by original vehicle count; session/vehicle rows in aggregate mode represent cohorts and contain vehicle_count. Binary per-car RL is rejected. This is continuous load modulation, not a model of discrete charger switching or phase imbalance.
+
+The feasible equal-sharing schedule is realizable for these identical members, but greedy scheduling priorities and safety interventions can differ from individual-car mode. Results require a fresh suite/run, not relabeling historical results. The reference individual mode remains available.
+
+Validation: independent node command sequence 20,80,10,0 kW matches individual equal-sharing voltage and energy; grouping separates nodes/deadlines/efficiencies and randomized release times. Diagnostic 65536-car synchronized snapshot: 42 groups, 76 buses, 52 loads. Capacity-aware 0.116 seconds/interval; MPC decision plus step 0.288 seconds, 2563 LP variables, no fallback. Earlier individual snapshots were 2.085 and 5.126 seconds respectively, but the latter used fallback and host contention differed; these are indicative measurements, not equal-policy speedup certification. Immediate at this stress level did not converge in either representation.
+
+Evidence: artifacts/playground/ev-scaling-aggregated.json and ev-scaling-profile.json. Launcher: scripts/profile_ev_scaling.py --aggregate.

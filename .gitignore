@@ -12,6 +12,8 @@ ppnet.json
 *.log
 *.err
 /artifacts/playground/runtime/
+/artifacts/playground/strategy-poc-runtime/runs/
+/artifacts/playground/strategy-poc-runtime/worker.lock
 
 /web/node_modules/
 /web/dist/

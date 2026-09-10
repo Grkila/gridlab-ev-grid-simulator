@@ -10,6 +10,8 @@ from mvgrid.paths import NOVI_SAD_MODEL_DIR
 def detailed_check(result, steps):
     """Replay exact block dispatch into detailed member loads; hubs use source MV bus."""
     net=pp.from_json(str(NOVI_SAD_MODEL_DIR/'ppnet_novi_sad.json'))
+    if result.get('operating_scenario'):
+        net.ext_grid.vm_pu=result['operating_scenario']['source_voltage_pu']
     if result.get('capacity_alignment'):
         from .rebalance import rebalance_sources
         from .capacity_alignment import align_delivery_capacity

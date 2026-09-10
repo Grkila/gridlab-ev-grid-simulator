@@ -41,8 +41,19 @@ Evaluation uses deterministic probability threshold 0.5. This train/evaluation
 difference must be assessed on held-out days; stochastic training performance is
 not deterministic evaluation performance. The joint log-probability gradients
 use requested switches, including proposals rejected by the shield. Discounted
-returns use prior-episode time baselines; updates use return scaling and a bounded
-gradient norm. This is not PPO, DQN or a claim to reproduce a published algorithm.
+returns use prior-episode time baselines. The learning objective is expected
+episode-start discounted reward, E[sum_t gamma^t reward_t]; each score term includes
+the outer gamma^t, counting slots with no EV actions. Updates use episode-dependent
+return scaling, trajectory-length normalization and a bounded gradient norm;
+these are practical stabilizers rather than an unbiased gradient estimator.
+Logits remain clipped to [-20, 20] for frozen-model inference compatibility, and
+training uses zero score derivative outside that interval and at its two kinks.
+This is not PPO, DQN or a claim to reproduce a published algorithm.
+
+The research audit corrected the missing outer discount factor and the derivative
+through clipped logits. Existing models and demonstration results below retain
+their historical training semantics; those results do not validate the corrected
+trainer. No new policy-quality claim follows from these mathematical fixes.
 
 An on decision requests charger-rated power. The final interval may have lower
 average power when the requested battery energy is reached within that interval.

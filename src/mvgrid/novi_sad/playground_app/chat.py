@@ -10,6 +10,10 @@ import sys
 import threading
 import time
 import uuid
+import hashlib
+from .chat_records import ChatRecords
+from .chat_routing import route_request
+from mvgrid.novi_sad.playground.agent_contract import VERSION, check_version, render_instructions
 from mvgrid.paths import REPOSITORY_ROOT
 from mvgrid.novi_sad.playground.service import Service, read_json, write_json
 from mvgrid.novi_sad.playground.strategy_workflow import StrategyWorkflow
@@ -32,7 +36,7 @@ def codex_executable() -> str:
     raise FileNotFoundError('Codex CLI not found. Install/sign in to Codex, or set EV_CODEX_EXECUTABLE.')
 
 
-class ChatService:
+class ChatService(ChatRecords):
     def __init__(self, service: Service):
         self.service=service
         self.lock=threading.RLock()
@@ -45,29 +49,58 @@ class ChatService:
 
     def get(self, chat_id):
         with self.lock:
-            record=read_json(self.path(chat_id))
+            original=read_json(self.path(chat_id))
+            migrate=original.get('transport_version')!=1
+            record=self._normalize(original)
+            if migrate: write_json(self.path(chat_id),record)
             if record['status']=='running' and chat_id not in self.active:
                 record.update(status='interrupted',error='App restarted during this chat turn; send a new message to continue.')
                 write_json(self.path(chat_id),record)
             return record
 
-    def start(self,message,chat_id=None):
+    def start(self,message,chat_id=None,request_id=None,constraints=None,requested_action="auto",specification_id=None,contract_version=None):
         if not isinstance(message,str) or not message.strip() or len(message)>20000:
             raise ValueError('Enter a message between 1 and 20,000 characters.')
-        executable=codex_executable()
+        check_version(contract_version)
+        workflow,build_command=route_request(message,requested_action,specification_id)
+        if chat_id is not None:self.path(chat_id)
         with self.lock:
+            if constraints is not None and (not isinstance(constraints,str) or len(constraints)>4000):
+                raise ValueError('Pinned constraints must be text of at most 4,000 characters.')
+            request_path=self.service._path('chat-requests',request_id) if request_id else None
+            signature=hashlib.sha256(json.dumps([message,chat_id,constraints,requested_action,specification_id,contract_version]).encode()).hexdigest()
+            if request_path and request_path.exists():
+                previous=read_json(request_path)
+                if previous['signature']!=signature: raise ValueError('Request ID already used for a different message.')
+                return self.get(previous['chat_id'])
             if self.active: raise ValueError('A Codex response is already running. Wait or cancel it first.')
+            executable=codex_executable()
             build_request=None
-            if re.match(r'^\s*STRATEGY\s+BUILD(?:\s|$)',message,re.IGNORECASE):
-                build_request=StrategyWorkflow(self.service).command(message)
+            if build_command is not None:
+                if requested_action=='implement':
+                    from mvgrid.novi_sad.playground.strategy_contract import AlgorithmSpecification
+                    saved_spec=StrategyWorkflow(self.service).get(specification_id)['spec']
+                    AlgorithmSpecification.model_validate({k:saved_spec[k] for k in AlgorithmSpecification.model_fields if k in saved_spec})
+                build_request=StrategyWorkflow(self.service).command(build_command)
             chat_id=chat_id or 'chat-'+uuid.uuid4().hex[:16]
-            record=self.get(chat_id) if self.path(chat_id).exists() else {'chat_id':chat_id,'messages':[],'events':[]}
-            record['messages'].append({'role':'user','content':message.strip()})
+            record=self.get(chat_id) if self.path(chat_id).exists() else {'chat_id':chat_id,'messages':[],'events':[], 'sequence':0, 'transport_version':1}
+            record['turn_id']='turn-'+uuid.uuid4().hex
+            self._append(record,'messages',{'role':'user','content':message.strip()})
+            if constraints is not None: record['constraints']=constraints
+            record['references']=list(dict.fromkeys(record.get('references',[])+self.REFERENCES.findall(message)))[-80:]
             record.update(status='running',error=None,started_at=time.time(),cancel_requested=False,
-                          mode='strategy_build' if build_request else 'experiment',build_request=build_request)
+                          mode='strategy_build' if build_request else 'experiment',build_request=build_request,
+                          workflow=workflow,contract_version=VERSION)
             write_json(self.path(chat_id),record)
+            if request_path: write_json(request_path,dict(chat_id=chat_id,signature=signature))
             self.active.add(chat_id)
-            threading.Thread(target=self._run,args=(chat_id,executable),daemon=True).start()
+            try:
+                threading.Thread(target=self._run,args=(chat_id,executable),daemon=True).start()
+            except Exception:
+                self.active.discard(chat_id)
+                record.update(status='failed',error='Unable to start chat worker.')
+                write_json(self.path(chat_id),record)
+                raise
             return record
 
     def cancel(self,chat_id):
@@ -77,30 +110,29 @@ class ChatService:
                 record['cancel_requested']=True
                 write_json(self.path(chat_id),record)
                 process=self.processes.get(chat_id)
-                if process and process.poll() is None: process.terminate()
+                if process and process.poll() is None: self._terminate(process)
             return record
+
+    @staticmethod
+    def _terminate(process):
+        if process.poll() is not None: return
+        try: process.terminate()
+        except OSError: return
+        def escalate():
+            try:
+                if process.poll() is None: process.kill()
+            except OSError: pass
+        timer=threading.Timer(5,escalate)
+        timer.daemon=True
+        timer.start()
 
     def _run(self,chat_id,executable):
         process = None
         deadline = None
         try:
-            record=read_json(self.path(chat_id))
+            record=self._normalize(read_json(self.path(chat_id)))
             build_request=record.get('build_request')
-            instruction=(
-                'You are the EV hypothesis playground assistant. Use the ev_playground MCP tools for all experiment operations. '
-                'First discover their current catalog and strategy catalog when needed. '
-                'Create, validate, save, run and explain experiments when asked; report actual tool results and immutable IDs. '
-                'Read the live catalog for current network scope and capacity provenance; do not assume a remembered topology. '
-                'Default stop_on_violation stops at first electrical violation; stopped prefixes are incomplete, never a successful full comparison. '
-                'Never silently relax assertions or limits. Set case_origin to llm when you formulate an experiment. Explain assumptions and synthetic model limitations. '
-                'Use concise plain language. If a run is still executing, give its ID so the dashboard can monitor it. '
-                'Use ev_strategy_command for standardized STRATEGY PROPOSE/SPECIFY/BUILD/COMPARE/CHALLENGE/REVISE requests. '
-                'Use primary research papers when proposing strategies; web search is available for research and official technical documentation. '
-                'Preserve exact paper mechanisms and distinguish adaptation from reproduction. '
-                'COMPARE/CHALLENGE prepare experiments; start them with ev_start_run when comparison was requested. '
-                'BUILD returns a coding handoff, never proof that implementation succeeded. '
-                'Do not contact unrelated services. '
-            )
+            instruction=render_instructions(record.get('workflow','auto'))+'\n'
             if build_request:
                 instruction+=(
                     'This turn is an explicit request to implement the saved strategy. Workspace editing is enabled. '
@@ -112,15 +144,16 @@ class ChatService:
                     +build_request['coding_prompt']+'\n'
                 )
             else:
-                instruction+='Use ev_playground tools for experiment operations. Do not edit code or run shell commands in this turn. To implement a new controller, give the user STRATEGY BUILD with a saved specified record ID. '
+                instruction+='Do not edit code or run shell commands in this turn. If implementation was requested in prose, prepare the specification and guide the user to select Implement saved strategy with its ID, or send STRATEGY BUILD. Never claim implementation happened in a read-only turn. '
             instruction+='The following is this chat transcript:\n'
-            transcript='\n\n'.join(m['role'].upper()+': '+m['content'] for m in record['messages'][-20:])
+            transcript=self.context(record)
             args=[executable,'exec','--json','--ephemeral','--ignore-user-config','--sandbox','workspace-write' if build_request else 'read-only','--color','never',
                   '-C',str(REPOSITORY_ROOT),'-c','approval_policy="never"',
                   '-c','web_search="live"',
                   '-c','mcp_servers.ev_playground.command='+json.dumps(sys.executable),
                   '-c','mcp_servers.ev_playground.args='+json.dumps([str(REPOSITORY_ROOT/'scripts/run_playground_mcp.py')]),
                   '-c','mcp_servers.ev_playground.env.EV_PLAYGROUND_HOME='+json.dumps(str(self.service.root)),
+                  '-c','mcp_servers.ev_playground.env.EV_AGENT_CONTRACT_VERSION='+json.dumps(VERSION),
                   '-c','mcp_servers.ev_playground.startup_timeout_sec=30',
                   '-c','mcp_servers.ev_playground.tool_timeout_sec=120','-']
             if self.broker_url:
@@ -130,14 +163,14 @@ class ChatService:
                 creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
             with self.lock:
                 self.processes[chat_id]=process
-                if read_json(self.path(chat_id)).get('cancel_requested'): process.terminate()
+                if read_json(self.path(chat_id)).get('cancel_requested'): self._terminate(process)
             stderr=[]
             def drain():
                 for line in process.stderr:
                     stderr.append(line)
                     if len(stderr)>100: del stderr[0]
             threading.Thread(target=drain,daemon=True).start()
-            deadline=threading.Timer(1800 if build_request else 180,process.terminate)
+            deadline=threading.Timer(1800 if build_request else 180,self._terminate,args=(process,))
             deadline.daemon=True
             deadline.start()
             process.stdin.write(instruction+transcript)
@@ -152,34 +185,42 @@ class ChatService:
                 if event.get('type')=='item.completed' and item.get('type')=='agent_message':
                     answers.append(item.get('text',''))
                 with self.lock:
-                    current=read_json(self.path(chat_id))
-                    current['events'].append(event)
-                    current['events']=current['events'][-500:]
+                    current=self._normalize(read_json(self.path(chat_id)))
+                    self._event(current,event)
                     write_json(self.path(chat_id),current)
             code=process.wait()
             deadline.cancel()
             with self.lock:
-                current=read_json(self.path(chat_id))
-                if answers: current['messages'].append({'role':'assistant','content':'\n\n'.join(answers)})
-                current['status']='cancelled' if current.get('cancel_requested') else 'completed' if code==0 else 'failed'
+                current=self._normalize(read_json(self.path(chat_id)))
+                if answers: self._append(current,'messages',{'role':'assistant','content':'\n\n'.join(answers)})
+                current['pending_status']='cancelled' if current.get('cancel_requested') else 'completed' if code==0 else 'failed'
                 if code!=0 and not current.get('cancel_requested'):
                     current['error']='Codex CLI did not complete. '+''.join(stderr)[-3000:]
                 current['finished_at']=time.time()
                 write_json(self.path(chat_id),current)
         except Exception as exc:
             with self.lock:
-                current=read_json(self.path(chat_id))
-                current.update(status='cancelled' if current.get('cancel_requested') else 'failed',error=None if current.get('cancel_requested') else str(exc))
+                current=self._normalize(read_json(self.path(chat_id)))
+                current.update(pending_status='cancelled' if current.get('cancel_requested') else 'failed',error=None if current.get('cancel_requested') else str(exc))
                 write_json(self.path(chat_id),current)
         finally:
             if deadline is not None: deadline.cancel()
             if process is not None:
-                if process.poll() is None:
-                    process.terminate()
-                    try: process.wait(timeout=5)
-                    except subprocess.TimeoutExpired: process.kill(); process.wait()
+                try:
+                    if process.poll() is None:
+                        process.terminate()
+                        try: process.wait(timeout=5)
+                        except subprocess.TimeoutExpired: process.kill(); process.wait(timeout=5)
+                except (OSError,subprocess.TimeoutExpired): pass
                 for stream in (process.stdin,process.stdout,process.stderr):
-                    if stream is not None: stream.close()
+                    try:
+                        if stream is not None: stream.close()
+                    except (OSError,ValueError): pass
             with self.lock:
                 self.active.discard(chat_id)
                 self.processes.pop(chat_id,None)
+                current=self._normalize(read_json(self.path(chat_id)))
+                current['status']='cancelled' if current.get('cancel_requested') else current.pop('pending_status','failed')
+                current.pop('pending_status',None)
+                current['finished_at']=time.time()
+                write_json(self.path(chat_id),current)

@@ -2,9 +2,14 @@
   "mcpServers": {
     "ev-playground": {
       "command": "C:/Users/Dusan/Documents/Code/Schneider challenge/Automated-Generation-of-MV-Grid-Models-based-on-OSM-Data/.venv/Scripts/python.exe",
-      "args": ["C:/Users/Dusan/Documents/Code/Schneider challenge/Automated-Generation-of-MV-Grid-Models-based-on-OSM-Data/scripts/run_playground_mcp.py"],
+      "args": [
+        "C:/Users/Dusan/Documents/Code/Schneider challenge/Automated-Generation-of-MV-Grid-Models-based-on-OSM-Data/scripts/run_playground_mcp.py"
+      ],
       "startup_timeout_sec": 30,
-      "tool_timeout_sec": 120
+      "tool_timeout_sec": 120,
+      "env": {
+        "EV_AGENT_CONTRACT_VERSION": "1.0.0"
+      }
     }
   }
 }

@@ -8,6 +8,7 @@ from collections import defaultdict
 import networkx as nx
 import pandapower as pp
 from mvgrid.paths import DATA_DIR, NOVI_SAD_GENERATED_DIR, NOVI_SAD_MODEL_DIR
+from .feeder_equivalent import worst_path_equivalent
 
 REDUCED_PATH=DATA_DIR/'novi_sad'/'playground'/'reduced_network.json'
 
@@ -101,14 +102,17 @@ def reduce_reference(target_blocks=4, excluded_sources=('NS1','NS6','FUT'), excl
             lon=sum(float(inventory[x]['longitude'])*float(full.load.at[i,'p_mw']) for i,x in zip(members,member_ids))/p if p else float(coords.x)
             resistance=reactance=0.
             edge_power=defaultdict(float)
+            member_edges={}
             for i in members:
+                member_edges[i]=[]
                 for a,b in zip(paths[i],paths[i][1:]):
                     edge=graph[a][b]
-                    r=full.line.loc[edge['index']]
-                    weight=float(full.load.at[i,'p_mw'])/p
-                    resistance+=weight*r.length_km*r.r_ohm_per_km/r.parallel
-                    reactance+=weight*r.length_km*r.x_ohm_per_km/r.parallel
+                    member_edges[i].append(edge['index'])
                     edge_power[edge['index']]+=float(full.load.at[i,'p_mw'])
+            if members:
+                impedances={e:complex(full.line.at[e,'r_ohm_per_km'],full.line.at[e,'x_ohm_per_km'])*full.line.at[e,'length_km']/full.line.at[e,'parallel'] for e in edge_power}
+                equivalent,_=worst_path_equivalent(member_edges,{i:float(full.load.at[i,'p_mw']) for i in members},impedances)
+                resistance,reactance=equivalent.real,equivalent.imag
             voltage=float(full.bus.at[root,'vn_kv'])
             capacity=1000. if hub else min(math.sqrt(3)*voltage*float(full.line.at[e,'max_i_ka'])*float(full.line.at[e,'parallel'])*.97*1000*p/downstream for e,downstream in edge_power.items())
             blockbus=pp.create_bus(net,vn_kv=voltage,name=block_id,geodata=(lon,lat))
@@ -124,6 +128,11 @@ def reduce_reference(target_blocks=4, excluded_sources=('NS1','NS6','FUT'), excl
         if str(delivery) not in excluded_hubs:
             make_block([],0,True)
     net['playground_blocks']=blocks
+    net['feeder_reduction']={'version':2,'method':'worst_path_downstream_current',
+        'assumption':'Proportional within-block demand at PF 0.97; preserve largest first-order path drop using downstream branch current shares. Shared coupling between blocks and exact AC losses remain approximations.'}
+    for block in blocks:
+        block['assumptions']=[a for a in block['assumptions'] if not a.startswith('Demand-weighted path')]
+        block['assumptions'].append(net['feeder_reduction']['assumption'])
     net['capacity_alignment']=alignment
     for block in blocks:
         block['district_planning_factor']=1.

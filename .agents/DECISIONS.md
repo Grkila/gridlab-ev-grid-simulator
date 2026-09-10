@@ -1,5 +1,15 @@
 # Architecture decisions
 
+## 2026-09-10: User-selected voltage-regulated operating scenario
+
+The user requested a more optimistic operating scenario with positive winter EV service and the neutral name **Voltage-regulated grid**. `operating_mode=regulated` freezes source voltage at 1.04 pu and shifts baseline input above 220 MW to other hours while preserving each day's input energy. Complete days are processed before departure-tail slicing; demand below the cap is unchanged. The same helper is used by experiments, benchmarks and RL training. Settings remain visible, and saved network metadata records the intervention. Pass thresholds remain 0.95–1.05 pu, full asset/stage ratings, and departure energy delivery. The as-supplied scenario is available explicitly. The original large-capacity run was cancelled and moved out of the visible catalog to prioritize the regulated 500-car reference / 5,000-car search study; its partial evidence is not a completed capacity result.
+
+## 2026-09-10: Loss-inclusive consumption and corrected feeder reduction
+
+The user clarified that supplied consumption includes network losses. New DemandConfig definitions and seasonal presets use `supply_including_losses`: solve the zero-EV net baseline to match AC supply within 0.01 kW, then add EVs and incremental losses once. Explicit `load` inputs and historical saved records without the field retain load-side semantics. Capacity ratings and thresholds are not relaxed. The reduced feeder now uses downstream-current-weighted worst-path impedance instead of total load times average full-path impedance. This corrects excessive voltage drop while retaining a conservative first-order voltage screen, not an exact loss or AC reduction. The loss-weighted alternative was tested but not substituted for weakest-path voltage. See docs/baseline-loss-diagnosis.md for paired detailed evidence, limitations, and separate demand-response/voltage-support hypotheses.
+
+At the user's request, older experiment/run/benchmark entries were moved out of the runtime catalog to `artifacts/playground/retired-before-loss-correction-20260910`; automatic approval review rejected permanent deletion. Five fresh gross-input experiment definitions and a new capacity benchmark replace the visible test set. Models, strategy records and chats were retained.
+
 ## 2026-09-10: Centralized binary RL in the shared simulator
 
 The RL workspace uses a NumPy neural Bernoulli REINFORCE policy, shared over current connected EVs with global grid features. It requests binary on/off charging; a separately reported optional admission/AC shield removes whole requests. Training samples independently seeded seasonal daily amplitude/shape and sessions, completes overnight departures, and penalizes violations without early stopping. Evaluation uses immutable model JSON, held-out seeds, frozen seed-specific shared demand and the experiment's normal stop policy. Reward edits during evaluation rescore only; new learning requires a fresh job. Optional daily kWh budgets cover baseline+EV grid-load energy excluding AC losses, reset at midnight, and apply to all comparison strategies. Training completion is not policy acceptance; the four-episode diagnostic underperformed baselines. Details and evidence: docs/models/ev-rl.md.
@@ -54,3 +64,24 @@ All controllers use the same experiment replay and per-session kW adapter; RL re
 ## 2026-09-10: Isolate comparison case failures
 
 Multiple selected strategies imply a comparison batch: an individual limit stop, hard assertion failure, or controller exception cannot skip the remaining cases. Cancellation and total runtime budgets remain global. Single-strategy early rejection is preserved. GUI multi-selection defaults to full trajectories; explicitly stopped/error cases remain incomplete even when all cases have been attempted.
+
+## 2026-09-10: Correct paper mechanisms without claiming model reproduction
+
+Research review replaced plain LLF dispatch with an explicit constrained quadratic-utility smoothing formulation and cyclic valley descent with synchronous ODC. Existing IDs remain stable; immutable source fingerprints distinguish historical runs. Optimization covers all connected departures, bounded by variable limits, instead of assuming unconstrained capacity after a truncated horizon. Plain LLF remains a named numerical/resource fallback. Mandatory AC protection and the synthetic balanced MV boundary remain. Voltage is explicitly a custom droop heuristic; RL remains a custom REINFORCE prototype. Missing paper data, phase/pilot/BMS models, full voltage algorithm and policy-quality evidence are recorded in `docs/strategy-research-audit.md`, not claimed implemented.
+
+
+## 2026-09-10: Recoverable chat and bounded MCP evidence
+
+Chat readiness is published after cleanup under the same lock as its single-active-turn gate. Persistent request IDs make accepted POST retries idempotent. Turn/entry sequences support chronological rendering and delta polling with explicit resynchronization. Full completed tool output is archived separately; bounded previews never replace the evidence. Context uses exact pinned constraints and immutable-ID retrieval hints, not automatic memory summaries. Derived case summaries accelerate MCP reads while preserving original detailed artifacts and whole-run evaluation semantics. See `docs/chat-mcp-reliability.md`.
+
+## 2026-09-10: Frozen ten-test benchmark
+
+Benchmark suites freeze network, demand, district, capacity limits and nested deterministic EV session pools. Capacity scans retain failures and unknowns without assuming monotonic feasibility; the displayed capacity is the largest passing tested fleet, with explicit ceiling and baseline statuses. Every seed must complete departures and satisfy grid limits. Shared-fleet comparisons depend on the selected cohort and are excluded from cross-run comparisons. Implementation/settings fingerprints separate candidate versions. Benchmark workers reuse the shared simulator and worker lock. See `docs/benchmark.md`.
+
+
+## 2026-09-10: One versioned agent contract across MCP, plugin and chat
+
+Canonical Python rules generate plugin skill/assets and render MCP/chat guidance. Typed algorithm and scenario tools add strict structure while legacy records/tools remain usable. Software verification binds actual unittest counts to immutable specification/source/test revisions; passing checks do not imply scientific acceptance. Scenario conditions and network hashes are frozen separately from experiment choices. Explicit saved-spec implementation mode grants editing for one turn; focus routing otherwise preserves planning/explanation intent. Installed plugins pin the compatible contract version and are regenerated/reinstalled through the plugin update workflow. See `docs/agent-contract.md` and independent review `docs/agent-contract-validation.md`.
+
+## 2026-09-10: Per-node EV load aggregation
+User requested controllable total node demand. Use homogeneous cohorts internally and continuous equal sharing, retaining arrival/departure, charger, efficiency and energy constraints. Preserve individual mode and freeze aggregate_ev_nodes in benchmarks; reject binary RL. Power targets affect EV load only. Cohort policy can change greedy priority and safety behavior, so run new evidence rather than claiming all controller results identical.

@@ -1,5 +1,13 @@
 # Runbook
 
+## Loss-aware and voltage-regulated tests
+
+The active updated preview is `http://127.0.0.1:8533`. Rebuild with `npm --prefix web run build` and use a fresh backend after source changes. New presets reconcile loss-inclusive input; `load` retains an explicit legacy delivered-load interpretation. The GUI offers **Voltage-regulated grid** (1.04 pu source voltage and daily-energy-preserving 220 MW baseline peak shifting) or original operating assumptions.
+
+Run `python scripts/create_loss_test_experiments.py` to validate/save the five regulated experiments through fresh MCP. Run `python scripts/run_loss_capacity_study.py --mode regulated --reference 500 --max-fleet 5000` for the current ten-test comparison; it holds a fresh MCP connection and records IDs/results under `artifacts/playground/regulated-capacity-study`. `--job <id>` reads an existing job instead of starting another. Do not duplicate a live worker.
+
+`scripts/diagnose_baseline.py`, `scripts/test_baseline_interventions.py` and `scripts/test_winter_voltage.py` are explicit model/operating-assumption diagnostics. Original pre-correction evidence is under `artifacts/playground/baseline-diagnosis`; do not overwrite it to claim the original network was already corrected. Retired experiment catalogs are outside runtime under `artifacts/playground/retired-before-loss-correction-20260910`.
+
 From a checkout with the environment activated:
 
 ```powershell
@@ -20,3 +28,7 @@ Run `.venv/Scripts/python.exe scripts/verify_playground_rl.py` for bounded real 
 training and held-out comparisons in the normal runtime store. It creates a fresh
 four-episode demonstration model and saves measured evidence; it does not prove
 policy quality. For configuration and artifact semantics see `docs/models/ev-rl.md`.
+
+## Standard benchmark
+
+Build the frontend, then start a fresh playground server. Open Benchmarks, freeze a suite, select registered strategies and run. Reuse the suite for revised or new algorithms; raise the search ceiling in a new suite when the old ceiling passes. A small ceiling is workflow verification only. Run `python scripts/verify_benchmark.py --url http://127.0.0.1:8532` for the bounded real 30-cell workflow, `python scripts/verify_benchmark_mcp.py` for fresh MCP discovery, and `node scripts/verify_benchmark_gui.cjs` with Playwright available in NODE_PATH for browser acceptance. The GUI verifier defaults to port 8532; override EV_GUI_URL as needed. See `docs/benchmark.md`.

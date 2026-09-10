@@ -35,6 +35,7 @@ class CompositionConfig(StrictModel):
 
 class DemandConfig(StrictModel):
     scope: Literal["city_total", "active_sources"] = "city_total"
+    measurement: Literal["load", "supply_including_losses"] = "supply_including_losses"
     monthly_energy: FinitePositive = 95_636.0
     unit: Literal["kWh", "MWh"] = "MWh"
     month: Annotated[int, Field(ge=1, le=12)] = 1
@@ -183,6 +184,7 @@ class TrainingConfig(StrictModel):
 
 
 class Experiment(StrictModel):
+    operating_mode: Literal['as_supplied','regulated'] = 'as_supplied'
     schema_version: Literal[1] = 1
     name: str = Field(min_length=1)
     hypothesis: str = Field(min_length=1)

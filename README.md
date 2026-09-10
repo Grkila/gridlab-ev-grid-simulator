@@ -97,3 +97,5 @@ reward charts and charger timelines. See the [RL guide](docs/models/ev-rl.md);
 the included short training demonstration is not a validated control policy.
 
 The **Strategies** workspace provides a research-linked controller library and standardized proposal/specification/build/comparison commands. See [strategy development](docs/strategy-development.md) for the four new controller adaptations, shared RL integration and verified evidence.
+
+The **Benchmarks** workspace compares registered algorithms on ten frozen scenarios, including citywide and single-district capacity, worst-day demand, and electrical headroom at a shared passing fleet. See the [benchmark protocol](docs/benchmark.md) for reproducibility, GUI usage and the limits of capacity estimates.

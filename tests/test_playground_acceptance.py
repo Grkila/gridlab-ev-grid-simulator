@@ -32,7 +32,8 @@ class AcceptanceTests(unittest.TestCase):
                 try: psutil.Process(state['pid']).wait(timeout=10)
                 except psutil.NoSuchProcess: pass
                 return state,service.get_results(job['run_id'])
-            definition={'name':'ordering','hypothesis':'Ordering preserves complete verdicts','strategies':['immediate'],'fleet_sizes':[0,2], 'stop_on_violation':False, 'assertions':[{'type':'hard','metric':'nonconverged_steps','operator':'le','value':0}]}
+            # This test checks load-side scope scaling; gross supply includes nonlinear AC losses.
+            definition={'name':'ordering','hypothesis':'Ordering preserves complete verdicts','demand':{'measurement':'load'},'strategies':['immediate'],'fleet_sizes':[0,2], 'stop_on_violation':False, 'assertions':[{'type':'hard','metric':'nonconverged_steps','operator':'le','value':0}]}
             ordinary, a=run({**definition,'stress_first':False})
             stressed, b=run({**definition,'stress_first':True})
             self.assertEqual(ordinary['verdict'], 'passed')
@@ -56,7 +57,7 @@ class AcceptanceTests(unittest.TestCase):
             net,_=build_network()
             fraction=float(net['retained_demand_fraction'])
             self.assertAlmostEqual(fraction,1.0,places=7)
-            definition.update(fleet_sizes=[0],demand={'scope':'active_sources'})
+            definition.update(fleet_sizes=[0],demand={'scope':'active_sources','measurement':'load'})
             _,active=run(definition)
             city=next(c for c in a['cases'] if c['fleet_size']==0)
             for city_step,active_step in zip(city['intervals'],active['cases'][0]['intervals']):

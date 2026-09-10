@@ -181,3 +181,6 @@ Multi-strategy batches attempt every selected case even when an earlier case sto
 The GUI defaults multi-strategy selections to `stop_on_violation: false` for full trajectories. If the user explicitly enables early stopping, each affected case records its prefix and the next strategy still runs. Error cases store an error and missing metrics, not zero-valued successful results. A completed batch can therefore have a failed or incomplete verdict. Such cases cannot establish a successful paired comparison. Existing saved definitions and historical results are unchanged.
 
 Verification: eight independent worker regression tests plus real two-strategy electrical runs in `artifacts/playground/evidence/comparison_continuation.json` (one interval per case with early stopping, 96 per case with full-horizon evaluation, both preserving failed assertions).
+
+
+Chat recovery, cancellation, conversation history, pinned constraints, evidence retention, and paginated MCP results are documented in [Chat and MCP reliability](../chat-mcp-reliability.md).

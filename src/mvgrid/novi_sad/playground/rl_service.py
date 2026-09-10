@@ -132,7 +132,11 @@ def train(root, job_id):
     started = time.perf_counter()
     try:
         request = read_json(folder/'request.json'); cfg = request['config']; definition = request['definition']
-        net,blocks = build_network(); pp.to_json(net,str(folder/'network.json'))
+        from .operating_scenario import apply_network_scenario, apply_demand_scenario
+        mode=definition.get('operating_mode','as_supplied')
+        net,blocks = build_network()
+        apply_network_scenario(net,mode)
+        pp.to_json(net,str(folder/'network.json'))
         fingerprint = implementation_fingerprint()
         write_json(folder/'source_snapshot.json',{p.name:p.read_text(encoding='utf-8') for p in Path(__file__).parent.glob('*.py')})
         write_json(folder/'manifest.json',{'request':request,'fingerprint':fingerprint,
@@ -152,17 +156,18 @@ def train(root, job_id):
                                   'daily_scale_min':cfg['demand_scale_min'],'daily_scale_max':cfg['demand_scale_max'],'shape_noise':cfg['shape_noise']}}
             exp = Experiment.model_validate(exp_data)
             sessions = generate_sessions(exp,blocks,seed,size)
-            demand = generate_demand(exp.demand,seed)
+            demand = apply_demand_scenario(generate_demand(exp.demand,seed),mode)
             scale = net.get('retained_demand_fraction',1.) if exp.demand.scope=='city_total' else 1.
             demand = [v*scale for v in demand]
             # Generate the next day independently for the overnight tail, rather
             # than leaking a repeated next-day curve into the controller.
             end = max(96,max((s['departure_step'] for s in sessions),default=96))
             if end>96:
-                next_day = generate_demand(exp.demand,seed+1000003)
+                next_day = apply_demand_scenario(generate_demand(exp.demand,seed+1000003),mode)
                 demand.extend(v*scale for v in next_day[:end-96])
             control = {k:cfg[k] for k in ('reward','safety_shield','daily_energy_limit_kwh')}
             options = {'strategy':'rl','seed':seed,'network_path':str(folder/'network.json'),'blocks':blocks,
+                       'demand_measurement':definition['demand'].get('measurement','load'),
                        'resolved_districts':resolve_districts(blocks,definition.get('district_capacity')),
                        'network_capacity':definition.get('network_capacity',{}),'limits':definition['limits'],
                        'stop_on_violation':False,'rl':control,

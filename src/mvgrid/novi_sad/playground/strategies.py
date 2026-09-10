@@ -39,10 +39,10 @@ def strategy_catalog():
         ('fixed_delay', 'Fixed delay', 'baseline', 'Wait until the configured start hour.', None),
         ('randomized_delay', 'Randomized delay', 'baseline', 'Stagger starts using seeded delays.', None),
         ('capacity_aware', 'Capacity aware', 'heuristic', 'Departure-first allocation within capacity budgets and AC checks.', None),
-        ('least_laxity_first', 'Least laxity first', 'heuristic', 'Allocate headroom to sessions with the least time slack.', 'https://arxiv.org/abs/2102.08610'),
-        ('valley_filling', 'Valley filling', 'optimization', 'Coordinate-descent water filling flattens forecast demand for connected sessions.', 'https://smart.caltech.edu/papers/ContinuousEVCharging.pdf'),
+        ('least_laxity_first', 'Smoothed least laxity first', 'optimization', 'Optimize next-step laxity smoothing within current linear grid budgets.', 'https://arxiv.org/abs/2102.08610'),
+        ('valley_filling', 'Valley filling (ODC)', 'optimization', 'Simultaneous proximal ODC updates flatten forecast demand for connected sessions.', 'https://smart.caltech.edu/papers/ContinuousEVCharging.pdf'),
         ('mpc', 'Model predictive control', 'optimization', 'Re-solve a capacity-constrained linear program; prioritize energy delivery, then peak.', 'https://ieeexplore.ieee.org/document/9409126'),
-        ('voltage_responsive', 'Voltage responsive', 'local_feedback', 'Use previous measured block voltage with gradual recovery.', 'https://www.sciencedirect.com/science/article/pii/S0378779618301020'),
+        ('voltage_responsive', 'Voltage droop heuristic', 'local_feedback', 'Use causal block voltage with gradual recovery and mandatory central protection.', 'https://www.sciencedirect.com/science/article/pii/S0378779618301020'),
         ('rl', 'Learned on/off policy', 'reinforcement_learning', 'A frozen trained model chooses per-session on/off actions.', None),
     ]
     return [dict(id=key, label=label, family=family, description=description,
@@ -50,10 +50,13 @@ def strategy_catalog():
                  action_space='binary_on_off' if key == 'rl' else 'continuous_kw',
                  observations='previous measured block voltage' if key == 'voltage_responsive' else 'current connected sessions and grid state',
                  forecast='explicit causal persistence or previous-day baseline; no future arrivals' if key in ('mpc','valley_filling') else 'none',
-                 limitation='Balanced MV block voltage, not physical charger/LV voltage. Central safety overlay may intervene.' if key == 'voltage_responsive' else
-                 'Plain LLF, not the cited smoothed LLF algorithm.' if key == 'least_laxity_first' else
-                 'Finite-horizon approximation with reported LLF fallback; AC feasibility checked after action.' if key == 'mpc' else
-                 'Finite coordinate-descent iterations; no optimality guarantee; current action projected to capacity budgets.' if key == 'valley_filling' else '')
+                 limitation='Custom droop, not the cited historical three-phase algorithm. Balanced MV voltage and mandatory central shield; full paper algorithm unverified.' if key == 'voltage_responsive' else
+                 'Generalized constrained smoothing; numerical failure falls back to plain LLF. Paper feasibility theorems are not established for this grid.' if key == 'least_laxity_first' else
+                 'Full connected-departure linear forecast with plain LLF resource fallback; ASA phase, pilot, tariff and BMS mechanisms absent.' if key == 'mpc' else
+                 'Finite ODC iterations with convergence diagnostics; current action projected to capacity budgets; online forecast adaptation.' if key == 'valley_filling' else
+                 'Custom REINFORCE prototype, not EV-GNN or DeepTOP. Training completion does not validate policy quality.' if key == 'rl' else
+                 'Uncoordinated reference policy; no automatic grid safety reduction or paper-reproduction claim.' if key in ('immediate','fixed_delay','randomized_delay') else
+                 'Custom departure-priority heuristic with centralized protection, not a paper algorithm or feasibility guarantee.')
             for key,label,family,description,url in rows]
 
 
@@ -119,6 +122,7 @@ class ChargingController:
         self.name=name
         self.options=StrategyOptions.model_validate(options or {})
         self.voltages={}
+        self.voltage_initialized=False
         self.previous={}
         self.last={}
 
@@ -143,52 +147,78 @@ class ChargingController:
                        fallback=None, solver_status=None, predicted_shortfall_kwh=0.,
                        shortfall_scope='horizon-required battery energy; not a forecast of final departure shortfall')
         raw={s['id']:s['charger_kw'] for s in sessions}
+        smoothed_feasible=False
         if sessions:
-            if self.name in ('mpc','valley_filling'):
-                horizon=min(self.options.horizon_steps,max(s['departure_step']-sim.index for s in sessions))
-                if len(sessions)*horizon>self.options.max_variables:
-                    self.last['fallback']='least_laxity_first: variable budget exceeded'
+            if self.name=='least_laxity_first':
+                from .smoothed_llf import allocate
+                try:
+                    raw,diagnostics=allocate(sessions,sim.index,sim.dt,
+                        capacity_constraints(sim,baseline_at(sim,sim.index),sessions),
+                        seconds=self.options.solver_seconds,max_variables=self.options.max_variables)
+                    self.last.update(diagnostics)
+                    smoothed_feasible=True
+                except (RuntimeError, ValueError, ImportError, FloatingPointError, TimeoutError) as exc:
+                    self.last.update(fallback=f'plain_least_laxity_first: {exc}',
+                                     solver_status='smoothed_llf_failed',method='plain_llf_fallback')
+            elif self.name in ('mpc','valley_filling'):
+                departure_horizon=max(s['departure_step']-sim.index for s in sessions)
+                # Individual charger capacity beyond a truncated horizon cannot
+                # certify that shared network capacity can serve those EVs.
+                horizon=departure_horizon
+                self.last.update(requested_horizon_steps=self.options.horizon_steps,
+                                 effective_horizon_steps=horizon,
+                                 horizon_extended=horizon>self.options.horizon_steps)
+                variables=len(sessions)*horizon+(len(sessions)+1 if self.name=='mpc' else 0)
+                self.last['optimization_variables']=variables
+                if variables>self.options.max_variables:
+                    self.last['fallback']='plain_least_laxity_first: variable budget exceeded'
                 else:
                     profiles=self.forecast(sim,horizon)
                     raw=self._mpc(sim,sessions,profiles) if self.name=='mpc' else self._valley(sim,sessions,profiles)
             elif self.name=='voltage_responsive':
+                if not self.voltage_initialized and not self.voltages:
+                    measure=getattr(sim,'measure_baseline_voltages',None)
+                    self.voltages=measure() if measure else {}
+                    self.voltage_initialized=True
+                    self.last['voltage_bootstrap']='baseline_measurement' if self.voltages else 'measurement_unavailable'
+                self.last['safety_overlay']='mandatory centralized capacity and AC shield'
                 raw={}
                 for s in sessions:
                     voltage=self.voltages.get(s['block_id'])
                     fraction=0. if voltage is None else min(1.,max(0.,(voltage-self.options.voltage_stop_pu)/(self.options.voltage_full_pu-self.options.voltage_stop_pu)))
                     target=s['charger_kw']*fraction
-                    raw[s['id']]=min(target,self.previous.get(s['id'],0.)+s['charger_kw']*self.options.recovery_fraction)
+                    raw[s['id']]=min(target,self.previous.get(s['id'],0.)+s['charger_kw']*self.options.recovery_fraction*sim.dt/.25)
         raw={s['id']:min(max(0.,float(raw.get(s['id'],0.))),s['charger_kw'],s['remaining_kwh']/(sim.dt*s.get('efficiency',.9))) for s in sessions}
-        # Voltage policy remains local here; optional central protection belongs to simulator.
-        result=raw if self.name=='voltage_responsive' else project_headroom(sim,sessions,raw)
+        # Voltage policy is local here; the simulator always applies its central shield.
+        result=raw if self.name=='voltage_responsive' or smoothed_feasible else project_headroom(sim,sessions,raw)
         self.last.update(requested_kw=sum(raw.values()),allocated_kw=sum(result.values()),
                          headroom_curtailed_kw=max(0.,sum(raw.values())-sum(result.values())),
                          decision_seconds=time.perf_counter()-started)
         return result
 
     def _valley(self,sim,sessions,profiles):
+        from .valley_odc import solve_odc
         h=len(profiles)
-        schedule=np.zeros((len(sessions),h))
-        total=np.array([sum(p.values()) for p in profiles])
-        # Cyclic exact single-session water filling is coordinate descent on sum(total**2).
-        for _ in range(self.options.valley_iterations):
-            for i,s in enumerate(sessions):
-                available=min(h,s['departure_step']-sim.index)
-                efficiency=s.get('efficiency',.9)
-                # Reserve enough energy in this horizon that the rest remains physically possible.
-                outside=max(0,s['departure_step']-sim.index-h)*sim.dt*s['charger_kw']*efficiency
-                target=s['remaining_kwh'] if available<h or s['departure_step']-sim.index<=h else max(0.,s['remaining_kwh']-outside)
-                energy=min(target/(sim.dt*efficiency),available*s['charger_kw'])
-                total-=schedule[i]
-                low=float(total[:available].min())
-                high=float(total[:available].max()+s['charger_kw'])
-                for _ in range(45):
-                    middle=(low+high)/2
-                    if np.clip(middle-total[:available],0,s['charger_kw']).sum()<energy: low=middle
-                    else: high=middle
-                schedule[i,:available]=np.clip(high-total[:available],0,s['charger_kw'])
-                total+=schedule[i]
-        self.last['solver_status']='bounded_coordinate_descent'
+        upper=np.zeros((len(sessions),h))
+        energy=[]
+        deficit=0.
+        required=0.
+        for i,s in enumerate(sessions):
+            available=min(h,s['departure_step']-sim.index)
+            efficiency=s.get('efficiency',.9)
+            target=s['remaining_kwh']
+            attainable=min(target,available*s['charger_kw']*sim.dt*efficiency)
+            required+=target
+            deficit+=target-attainable
+            upper[i,:available]=s['charger_kw']
+            energy.append(attainable/(sim.dt*efficiency))
+        schedule,diagnostics=solve_odc([sum(p.values()) for p in profiles],upper,energy,self.options.valley_iterations)
+        self.last.update(diagnostics,predicted_shortfall_kwh=deficit,
+                         required_horizon_energy_kwh=required,
+                         feasible_horizon_energy_kwh=required-deficit,
+                         outside_horizon_assumed_energy_kwh=0.,
+                         energy_feasibility_scope='individual charger bounds only; excludes shared capacity and safety curtailment',
+                         paper_energy_constraints_feasible=deficit<=1e-8)
         return {s['id']:float(schedule[i,0]) for i,s in enumerate(sessions)}
 
     def _mpc(self,sim,sessions,profiles):
@@ -201,8 +231,7 @@ class ChargingController:
         required=[]
         for s in sessions:
             for t in range(h): bounds.append((0.,s['charger_kw'] if t<s['departure_step']-sim.index else 0.))
-            outside=max(0,s['departure_step']-sim.index-h)*sim.dt*s['charger_kw']*s.get('efficiency',.9)
-            required.append(max(0.,s['remaining_kwh']-outside))
+            required.append(s['remaining_kwh'])
         bounds += [(0.,required[i]) for i in range(n)]+[(0.,None)]
         rows=[]; rhs=[]
         for t,profile in enumerate(profiles):
@@ -220,7 +249,7 @@ class ChargingController:
         objective=np.zeros(count); objective[n*h:n*h+n]=1.
         first=linprog(objective,A_ub=matrix,b_ub=rhs,bounds=bounds,method='highs',options={'time_limit':self.options.solver_seconds})
         if not first.success:
-            self.last.update(fallback='least_laxity_first: delivery LP failed',solver_status=str(first.message))
+            self.last.update(fallback='plain_least_laxity_first: delivery LP failed',solver_status=str(first.message))
             return {s['id']:s['charger_kw'] for s in sessions}
         deficit=float(first.fun)
         extra=csr_matrix(objective.reshape(1,-1))
@@ -234,6 +263,14 @@ class ChargingController:
         return {s['id']:max(0.,float(plan[i*h])) for i,s in enumerate(sessions)}
 
     def observe(self,sim,interval):
+        if self.name=='voltage_responsive':
+            applied=sum(interval.get('applied_actions_kw',{}).values())
+            raw=float(self.last.get('requested_kw',0.))
+            self.last.update(raw_policy_kw=raw,applied_kw=applied,
+                             safety_curtailed_kw=max(0.,raw-applied),
+                             safety_intervened=raw-applied>1e-8,
+                             safety_overlay='mandatory centralized capacity and AC shield')
+        self.voltage_initialized=True
         interval['controller']=dict(self.last)
         self.voltages={b['id']:b.get('voltage_pu') for b in interval['blocks']} if interval['converged'] else {}
         self.voltages={key:value for key,value in self.voltages.items() if value is not None and math.isfinite(value)}

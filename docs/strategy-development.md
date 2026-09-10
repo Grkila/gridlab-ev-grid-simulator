@@ -38,10 +38,10 @@ Research web search is enabled; experiment operations stay on the local MCP tool
 
 | ID | Implemented method | Research and differences |
 | --- | --- | --- |
-| `least_laxity_first` | Greedy headroom allocation by `(departure-now) - remaining/(charger*efficiency)` | [Chen et al., 2021](https://arxiv.org/abs/2102.08610). Plain LLF; does not reproduce published smoothed LLF. |
-| `valley_filling` | Bounded cyclic coordinate descent; each session water-fills aggregate forecast load | [Gan, Topcu and Low](https://smart.caltech.edu/papers/ContinuousEVCharging.pdf). Centralized online adaptation; no decentralized convergence or exact-optimality claim. |
+| `least_laxity_first` | Constrained next-step laxity smoothing with explicit quadratic utility | [Chen et al., 2021](https://arxiv.org/abs/2102.08610), generalized equation 6. Multiple grid budgets and AC safety modify the single-station setting; numerical/resource failures fall back to plain LLF. |
+| `valley_filling` | Simultaneous proximal ODC updates with convergence and feasibility diagnostics | [Gan, Topcu and Low](https://smart.caltech.edu/papers/ContinuousEVCharging.pdf). Online forecast adaptation with bounded iterations and subsequent grid projection; no unconditional optimality claim. |
 | `mpc` | Sparse linear program each interval: minimize horizon-required energy deficit, then minimize peak at that deficit | [Lee et al., 2021](https://ieeexplore.ieee.org/document/9409126). Linear grid-budget approximation with subsequent AC validation; not the full ACN algorithm. |
-| `voltage_responsive` | Previous measured block voltage drives linear power reduction and gradual recovery | [Cardona, López and Rider, 2018](https://www.sciencedirect.com/science/article/pii/S0378779618301020). Simple feedback adaptation using balanced MV block measurements; not the paper's full historical-voltage scheduling scheme or charger-terminal control. |
+| `voltage_responsive` | Causal baseline bootstrap, then previous block-voltage droop with elapsed-time recovery | [Cardona, López and Rider, 2018](https://www.sciencedirect.com/science/article/pii/S0378779618301020). Custom heuristic, not the historical three-phase algorithm; mandatory central protection and synthetic MV measurements. |
 
 All implement `actions(sim)` and `observe(sim, interval)`. Power is finite,
 nonnegative and limited by charger and remaining battery energy. The simulator
@@ -52,9 +52,12 @@ MPC and valley filling only schedule currently connected sessions. Persistence
 forecasts repeat the known current baseline. Optional previous-day forecasts read
 observed history, retain the measured present value and use persistence where
 history is unavailable. Neither reads future arrivals or realized future demand.
-The default planning horizon is 96 intervals; the default variable budget is
-30,000. Exceeding that budget falls back to LLF with a recorded reason. Each MPC
-LP has a three-second default time limit. A failed first LP falls back to LLF; a
+The requested planning horizon defaults to 96 intervals, but both optimizers
+extend it through all connected departures to avoid assuming unlimited shared
+capacity afterward. Diagnostics record requested and effective horizons. The
+default variable budget is 30,000, including MPC deficit and peak variables.
+Exceeding that budget falls back to plain LLF with a recorded reason. Each MPC
+LP has a three-second default time limit. A failed first LP falls back to plain LLF; a
 failed peak LP retains the feasible delivery-optimal schedule. Horizon-required
 deficit is not represented as a prediction of final departure shortfall.
 
@@ -63,6 +66,10 @@ control requests locally and the simulator applies centralized budget checks.
 All four receive continuous AC safety reductions; RL preserves its binary action
 semantics. These differences must accompany algorithm comparisons. A baseline
 overload remains visible even if all EV power is removed.
+
+The [research audit](strategy-research-audit.md) records algorithm discrepancies,
+corrective work, remaining paper/model gaps and current verification. The original
+evidence below predates that audit and does not validate the revised algorithms.
 
 ## Verified evidence, 2026-09-10
 

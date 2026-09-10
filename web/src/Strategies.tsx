@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './strategies.css';
+import { visibleControllers } from './visibleControllers';
 type J = Record<string, any>;
 
 export function openStrategyChat(message: string) {
@@ -14,8 +15,8 @@ function template(stage: string, record: string, scenario: string) {
     PROPOSE: 'name: deadline_headroom\nidea: Allocate available grid capacity according to charging urgency.\nobjective: Meet departure energy requests within network limits.\nresearch: adaptation',
     SPECIFY: `based_on: ${parent}\ninformation: [connected sessions, current baseline, known grid capacity]\nconstraints: [charger limits, energy requirements, network limits]\nalgorithm: Describe the allocation rule and decision interval.\nfallback: Describe behavior if inputs or the solver fail.\nreferences: []`,
     BUILD: `based_on: ${parent}`,
-    COMPARE: `scenario: ${experiment}\ncandidates: [capacity_aware, least_laxity_first, valley_filling, mpc, voltage_responsive]\nseeds: [11, 12]\nmax_cases: 10\nmax_runtime_seconds: 300`,
-    CHALLENGE: `scenario: ${experiment}\ncandidates: [capacity_aware, mpc]\nseeds: [11]\nmax_cases: 4\nmax_runtime_seconds: 300\nvariations:\n  - fleet_sizes: [100, 1000]`,
+    COMPARE: `scenario: ${experiment}\ncandidates: [capacity_aware, least_laxity_first, valley_filling, voltage_responsive]\nseeds: [11, 12]\nmax_cases: 10\nmax_runtime_seconds: 300`,
+    CHALLENGE: `scenario: ${experiment}\ncandidates: [capacity_aware, valley_filling]\nseeds: [11]\nmax_cases: 4\nmax_runtime_seconds: 300\nvariations:\n  - fleet_sizes: [100, 1000]`,
     REVISE: `based_on: ${parent}\nidea: Describe the revision and the counterexample it addresses.`,
   };
   return `STRATEGY ${stage}\n${templates[stage]}`;
@@ -28,10 +29,10 @@ export function StrategyOptionsEditor({ value, onChange }: { value: J; onChange:
       <label>Baseline forecast<select aria-label="Baseline forecast" value={value?.forecast || 'persistence'} onChange={e => onChange({ ...value, forecast: e.target.value })}>
         <option value="persistence">Current baseline persists</option><option value="previous_day">Previous day, with persistence fallback</option>
       </select></label>
-      <label>Planning horizon (15-minute steps)<input type="number" min="1" max="192" value={value?.horizon_steps ?? 96} onChange={e => onChange({ ...value, horizon_steps: +e.target.value })} /></label>
-      <label>MPC solve limit (seconds per stage)<input type="number" min="0.1" max="30" step="0.1" value={value?.solver_seconds ?? 3} onChange={e => onChange({ ...value, solver_seconds: +e.target.value })} /></label>
+      <label>Requested horizon (extended through connected departures)<input type="number" min="1" max="192" value={value?.horizon_steps ?? 96} onChange={e => onChange({ ...value, horizon_steps: +e.target.value })} /></label>
+      <label>Solver time limit (seconds)<input type="number" min="0.1" max="30" step="0.1" value={value?.solver_seconds ?? 3} onChange={e => onChange({ ...value, solver_seconds: +e.target.value })} /></label>
     </div>
-    <small>MPC and valley filling use these planning settings. Continuous controllers and learned on/off policies have different action constraints.</small>
+    <small>Valley filling uses these planning settings. Continuous controllers and learned on/off policies have different action constraints.</small>
   </fieldset>;
 }
 
@@ -47,7 +48,7 @@ export function StrategiesWorkspace({ experiments, onUse, onPrepared }: { experi
     const response = await fetch(path, options);
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Request failed');
-    return data;
+    return visibleControllers(data);
   };
   const refresh = async () => {
     try { setCatalog(await request('/api/strategies')); } catch (e: any) { setError(e.message); }

@@ -1,3 +1,5 @@
+import { Chat } from './Chat';
+import { visibleControllers } from './visibleControllers';
 import { useEffect, useMemo, useState } from "react";
 import {
   MapContainer,
@@ -10,6 +12,7 @@ import {
 import L from "leaflet";
 import YAML from "yaml";
 import { StrategiesWorkspace, StrategyOptionsEditor } from "./Strategies";
+import { BenchmarksWorkspace } from "./Benchmarks";
 import { RLWorkspace, RLExperimentSettings, RLResults, modelControl } from "./RL";
 import {
   AreaChart,
@@ -52,7 +55,7 @@ const api = async (path: string, init?: RequestInit) => {
   });
   const j = await r.json();
   if (!r.ok) throw new Error(j.error || j.detail || `HTTP ${r.status}`);
-  return j;
+  return visibleControllers(j);
 };
 const clock = (step: number) => {
   const day = Math.floor(step / 96) + 1,
@@ -74,6 +77,7 @@ const statusClass = (s = "") =>
 
 const defaultDefinition: J = {
   schema_version: 1,
+  operating_mode: 'regulated',
   name: "EV charging comparison",
   hypothesis: "Managed charging reduces the city peak.",
   metric_boundary: "city_total",
@@ -85,6 +89,7 @@ const defaultDefinition: J = {
   ],
   demand: {
     monthly_energy: 120000,
+    measurement: "supply_including_losses",
     unit: "MWh",
     scope: "city_total",
     month: 1,
@@ -528,6 +533,7 @@ function ExperimentForm({
                     demand: {
                       ...definition.demand,
                       monthly_energy: season === "winter" ? 120000 : 76000,
+                      measurement: "supply_including_losses",
                       unit: "MWh",
                       scope: "city_total",
                       month: season === "winter" ? 1 : 6,
@@ -686,6 +692,22 @@ function ExperimentForm({
                 </select>
               </label>
               <label>
+                Consumption measurement
+                <select value={definition.demand.measurement || 'load'} onChange={e => set('demand.measurement', e.target.value)}>
+                  <option value="supply_including_losses">Grid input — includes network losses</option>
+                  <option value="load">Delivered load — excludes network losses</option>
+                </select>
+                <small>The supplied consumption charts include losses. Grid-input mode reconciles baseline loads plus modeled losses to that consumption before adding EVs.</small>
+              </label>
+              <label>
+                Grid operation
+                <select value={definition.operating_mode || 'as_supplied'} onChange={e => set('operating_mode', e.target.value)}>
+                  <option value="regulated">Voltage-regulated grid</option>
+                  <option value="as_supplied">Original operating assumptions</option>
+                </select>
+                {definition.operating_mode === 'regulated' && <small>Source voltage 1.04 pu. Baseline peak limited to 220 MW by shifting demand to other hours; daily input energy is preserved.</small>}
+              </label>
+              <label>
                 Loading limit %
                 <input
                   type="number"
@@ -715,7 +737,7 @@ function ExperimentForm({
                 ))}
               </div>
             </fieldset>
-            {definition.strategies.some((s: string) => ["mpc", "valley_filling"].includes(s)) && <StrategyOptionsEditor value={definition.strategy_options || {}} onChange={strategy_options => setDefinition({ ...definition, strategy_options })} />}
+            {definition.strategies.includes("valley_filling") && <StrategyOptionsEditor value={definition.strategy_options || {}} onChange={strategy_options => setDefinition({ ...definition, strategy_options })} />}
             {definition.strategies.includes("rl") && <RLExperimentSettings value={definition.rl} models={rlModels} onChange={rl => setDefinition({ ...definition, rl })} />}
             <fieldset>
               <legend>Reproducible randomized demand days</legend>
@@ -1476,157 +1498,6 @@ function Heatmap({ intervals }: { intervals: J[] }) {
   );
 }
 
-function Chat() {
-  const [open, setOpen] = useState(false),
-    [id, setId] = useState<string>(),
-    [message, setMessage] = useState(""),
-    [feed, setFeed] = useState<J[]>([]),
-    [busy, setBusy] = useState(false);
-  useEffect(() => {
-    const listener = (event: Event) => { setMessage((event as CustomEvent<string>).detail); setOpen(true); };
-    window.addEventListener("strategy-chat", listener);
-    return () => window.removeEventListener("strategy-chat", listener);
-  }, []);
-  const send = async () => {
-    if (busy || !message.trim()) return;
-    setBusy(true);
-    setFeed((f) => [...f, { role: "user", content: message }]);
-    try {
-      const x = await api("/api/chat", {
-        method: "POST",
-        body: JSON.stringify({ message, chat_id: id }),
-      });
-      setId(x.chat_id);
-      setFeed((f) => [...f, ...(x.events || [])]);
-      setMessage("");
-    } catch (e: any) {
-      setFeed((f) => [...f, { type: "error", text: e.message }]);
-      setBusy(false);
-    }
-  };
-  useEffect(() => {
-    if (!id || !busy) return;
-    const t = setInterval(async () => {
-      try {
-        const x = await api(`/api/chat/${id}`);
-        const combined = [...(x.messages || []), ...(x.events || []),
-          ...(x.error ? [{ event_id: `${x.chat_id}-terminal-error`, type: 'error', text: `${x.status}: ${x.error}` }] : [])];
-        setFeed(
-          Array.from(
-            new Map(
-              combined.map((e: J, i: number) => [
-                e.id || e.event_id || JSON.stringify(e) || i,
-                e,
-              ]),
-            ).values(),
-          ),
-        );
-        if (!["running", "starting"].includes(x.status)) setBusy(false);
-      } catch (e: any) {
-        setFeed((f) => [...f, { type: "error", text: e.message }]);
-        setBusy(false);
-      }
-    }, 1200);
-    return () => clearInterval(t);
-  }, [id, busy]);
-  if (!open)
-    return (
-      <button className="chat-launch" onClick={() => setOpen(true)}>
-        <Bot size={19} />
-        Codex CLI chat
-      </button>
-    );
-  return (
-    <aside className="chat">
-      <div className="chat-head">
-        <Bot />
-        <div>
-          <b>Codex experiment assistant</b>
-          <small>
-            {busy ? "Working with live tool events" : "Ready to send"}
-          </small>
-        </div>
-        <button
-          title={busy ? "Cancel Codex task" : "Minimize chat"}
-          onClick={() =>
-            busy && id
-              ? api(`/api/chat/${id}/cancel`, {
-                  method: "POST",
-                  body: "{}",
-                }).then(() => setBusy(false))
-              : setOpen(false)
-          }
-        >
-          <Square size={14} />
-        </button>
-      </div>
-      <div className="feed">
-        {!feed.length && (
-          <div className="welcome">
-            <MessageSquare />
-            <b>Ask about this study</b>
-            <p>
-              Draft an experiment, inspect a stopped run, or compare evidence.
-              Tool calls appear here as they happen.
-            </p>
-          </div>
-        )}
-        {feed.map((e, i) => {
-          const item = e.item || {},
-            tool = item.type === "mcp_tool_call";
-          return (
-            <div key={i} className={`event ${e.type || e.role || "tool"}`}>
-              <small>
-                {tool
-                  ? `${item.server || "MCP"} · ${item.tool} · ${item.status || "event"}`
-                  : e.type || e.role || "event"}
-              </small>
-              {tool ? (
-                <details>
-                  <summary>Tool call</summary>
-                  <pre>{JSON.stringify(item.arguments, null, 2)}</pre>
-                  {item.result && (
-                    <pre>
-                      {typeof item.result === "string"
-                        ? item.result
-                        : JSON.stringify(item.result, null, 2)}
-                    </pre>
-                  )}
-                </details>
-              ) : (
-                <p>
-                  {e.content ||
-                    e.text ||
-                    e.message ||
-                    item.text ||
-                    JSON.stringify(e)}
-                </p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      <div className="strategy-stages"><button className="ghost" disabled={busy} onClick={() => setMessage("STRATEGY PROPOSE\nname: new_strategy\nidea: Describe your charging idea.\nresearch: adaptation")}>Propose strategy</button><button className="ghost" disabled={busy} onClick={() => setMessage("Help me specify and compare a new charging strategy using the strategy workflow. Inspect the available strategies and saved scenarios first.")}>Plan comparison</button></div>
-      <div className="composer">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              send();
-            }
-          }}
-          aria-label="Message to Codex"
-          placeholder="Ask about experiments or paste a STRATEGY command…"
-        />
-        <button aria-label="Send message" onClick={send} disabled={busy || !message.trim()}>
-          <Send size={17} />
-        </button>
-      </div>
-    </aside>
-  );
-}
 
 export default function App() {
   const [view, setView] = useState("overview"),
@@ -1787,6 +1658,7 @@ export default function App() {
             ["overview", LayoutDashboard],
             ["experiments", FlaskConical],
             ["strategies", BatteryCharging],
+            ["benchmarks", Activity],
             ["rl", Bot],
             ["network", GitBranch],
             ["results", Activity],
@@ -1957,6 +1829,7 @@ export default function App() {
             </section>
           </>
         )}
+        {view === "benchmarks" && <BenchmarksWorkspace />}
         {view === "strategies" && <StrategiesWorkspace experiments={experiments} onPrepared={load} onUse={id => {
           setDefinition(previous => ({ ...previous, strategies: [...new Set([...previous.strategies, id])], stop_on_violation: false }));
           setView("experiments");

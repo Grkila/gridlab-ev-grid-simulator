@@ -10,6 +10,7 @@ from .demand import generate_demand, generate_sessions
 from .network import build_network
 from .simulation import simulate_case
 from .districts import resolve_districts, district_id
+from .operating_scenario import apply_network_scenario, apply_demand_scenario
 
 
 def evaluate(config: dict, results: list[dict], complete: bool) -> dict:
@@ -83,13 +84,14 @@ def run(root: str, run_id: str) -> None:
         manifest_path = folder / "manifest.json"
         if not manifest_path.exists():
             net, blocks = build_network()
+            apply_network_scenario(net,config.get('operating_mode','as_supplied'))
             resolved_districts=resolve_districts(blocks,config.get('district_capacity'))
             pp.to_json(net, str(folder / "network.json"))
             write_json(folder / "source_snapshot.json", {p.name:p.read_text(encoding="utf-8") for p in Path(__file__).parent.glob("*.py")})
-            demand = generate_demand(config["demand"])
+            demand = apply_demand_scenario(generate_demand(config["demand"]),config.get('operating_mode','as_supplied'))
             demand_scale = float(net.get("retained_demand_fraction", 1.0)) if config["demand"].get("scope", "city_total") == "city_total" else 1.0
             demand = [value*demand_scale for value in demand]
-            demand_by_seed = {str(seed):[v*demand_scale for v in generate_demand(config['demand'],seed)] for seed in config['seeds']}
+            demand_by_seed = {str(seed):[v*demand_scale for v in apply_demand_scenario(generate_demand(config['demand'],seed),config.get('operating_mode','as_supplied'))] for seed in config['seeds']}
             cases = cases_for(config)
             replays = {}
             for case in cases:
@@ -105,7 +107,7 @@ def run(root: str, run_id: str) -> None:
                 if last_departure > len(profile):
                     # Independent seeded next-day curve for completion, no new EVs.
                     tail_config = {**config['demand'],'days':1}
-                    tail = [v*demand_scale for v in generate_demand(tail_config,int(seed)+1000003)]
+                    tail = [v*demand_scale for v in apply_demand_scenario(generate_demand(tail_config,int(seed)+1000003),config.get('operating_mode','as_supplied'))]
                     profile.extend(tail[t%96] for t in range(last_departure-requested_steps))
             # Score exogenous concurrency, never a candidate controller outcome.
             from .demand import allocate_block_demand
@@ -160,6 +162,7 @@ def run(root: str, run_id: str) -> None:
                 if interval["step"] % 4 == 0: write_json(folder / "state.json", state)
             progress({"step": -1})
             options = {**case, "limits": config["limits"], "fixed_start_hour": config.get("fixed_start_hour",23),
+                       "demand_measurement":config['demand'].get('measurement','load'),
                        "rl":config.get('rl'),
                        "strategy_options":config.get('strategy_options'),
                        "resolved_districts":manifest['resolved_districts'],
@@ -188,6 +191,8 @@ def run(root: str, run_id: str) -> None:
             if case['strategy']=='rl': result.update(rl=config['rl'],rl_model_id=manifest['rl_model']['model_id'])
             result.update(limits=config["limits"],requested_steps=manifest.get("requested_steps",len(manifest["demand_kw"])),completion_tail_steps=manifest.get("completion_tail_steps",0),assumptions=config.get("assumptions",[]))
             write_json(folder / "cases" / (case["case_id"]+".json"), result)
+            try: service.save_case_summary(run_id,case["case_id"],result)
+            except OSError: pass  # Derived summaries can be rebuilt; evidence was saved above.
             results.append(result)
             if result.get("stop_reason") and not comparison:
                 assessment = evaluate(config, results, False)

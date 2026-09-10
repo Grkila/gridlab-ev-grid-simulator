@@ -255,6 +255,9 @@ class Service:
             raise
 
     def get_run(self, run_id: str) -> dict:
+        if run_id.startswith('bench-'):
+            from .benchmark import BenchmarkService
+            return BenchmarkService(self.root).get_job(run_id)
         if run_id.startswith('train-'):
             from .rl_service import RLService
             return RLService(self.root).get_job(run_id)
@@ -281,23 +284,77 @@ class Service:
             (self._path("runs", run_id) / "cancel").touch()
         return {"run_id": run_id, "cancel_requested": state["status"] in ("starting", "running")}
 
-    def get_results(self, run_id: str, case_id: str | None = None) -> dict:
-        folder = self._path("runs", run_id)
+    DETAIL_FIELDS = frozenset(('intervals','sessions','blocks','hierarchy_nodes','hierarchy_edges'))
+
+    def save_case_summary(self, run_id, case_id, result):
+        folder=self._path('runs',run_id)
+        source=folder/'cases'/(case_id+'.json')
+        stat=source.stat()
+        summary={k:v for k,v in result.items() if k not in self.DETAIL_FIELDS}
+        write_json(folder/'summaries'/(case_id+'.json'),dict(version=1,
+                   source_size=stat.st_size,source_mtime_ns=stat.st_mtime_ns,case=summary))
+        return summary
+
+    def _case_summary(self, run_id, path):
+        cached=self._path('runs',run_id)/'summaries'/path.name
+        stat=path.stat()
+        if cached.exists():
+            try:
+                record=read_json(cached)
+                if record.get('version')==1 and record.get('source_size')==stat.st_size and record.get('source_mtime_ns')==stat.st_mtime_ns:
+                    return record['case']
+            except (ValueError,KeyError): pass
+        # Old artifacts remain readable. The derived cache never modifies evidence.
+        result=read_json(path)
+        try: return self.save_case_summary(run_id,path.stem,result)
+        except OSError: return {k:v for k,v in result.items() if k not in self.DETAIL_FIELDS}
+
+    def get_results(self, run_id: str, case_id: str | None = None, *, summary=False,
+                    limit: int | None = None, after: str | None = None) -> dict:
+        folder = self._path('runs', run_id)
         state = self.get_run(run_id)
-        files = sorted((folder / "cases").glob("*.json"))
+        files = sorted((folder / 'cases').glob('*.json'))
         if case_id:
             files = [p for p in files if p.stem == case_id]
             if not files:
-                raise ValueError("Case not found among completed results; inspect run progress and returned case IDs.")
-        return {"run": state, "cases": [read_json(p) for p in files],
-                "evaluation": read_json(folder / "evaluation.json") if (folder / "evaluation.json").exists() else None}
+                raise ValueError('Case not found among completed results; inspect run progress and returned case IDs.')
+        if limit is not None and (isinstance(limit,bool) or not 1 <= limit <= 100):
+            raise ValueError('limit must be between 1 and 100')
+        total=len(files)
+        if after: files=[p for p in files if p.stem>after]
+        more=limit is not None and len(files)>limit
+        selected=files[:limit] if limit else files
+        return dict(run=state,cases=[self._case_summary(run_id,p) if summary else read_json(p) for p in selected],
+                    evaluation=read_json(folder/'evaluation.json') if (folder/'evaluation.json').exists() else None,
+                    evaluation_scope='whole_run',total_cases=total,
+                    next_cursor=selected[-1].stem if more else None)
+
+    def list_page(self, limit=20, after=None):
+        if isinstance(limit,bool) or not 1 <= limit <= 100: raise ValueError('limit must be between 1 and 100')
+        entries=sorted([(p.stem,'experiment',p) for p in (self.root/'experiments').glob('*.json')]+
+                       [(p.parent.name,'run',p) for p in (self.root/'runs').glob('*/state.json')])
+        if after: entries=[e for e in entries if e[0]>after]
+        rows=[]
+        for identifier,kind,path in entries:
+            if kind=='run' and self._run_metadata(identifier).get('deleted_at'): continue
+            rows.append((identifier,kind,path))
+            if len(rows)>limit: break
+        experiments=[]; runs=[]
+        for identifier,kind,path in rows[:limit]:
+            if kind=='run':
+                state=self.get_run(identifier)
+                runs.append({k:state.get(k) for k in ('run_id','name','experiment_id','status','verdict','completed_cases','total_cases')})
+            else:
+                record=read_json(path); definition=record['definition']
+                experiments.append(dict(experiment_id=identifier,**{k:definition.get(k) for k in ('name','hypothesis','strategies')}))
+        return dict(experiments=experiments,runs=runs,next_cursor=rows[limit-1][0] if len(rows)>limit else None)
 
     def compare_runs(self, run_ids: list[str]) -> dict:
         if len(run_ids) < 2 or len(run_ids) > 8:
             raise ValueError("Compare between two and eight runs.")
         rows, definitions, fingerprints, coverage = [], [], [], []
         for run_id in run_ids:
-            result = self.get_results(run_id)
+            result = self.get_results(run_id, summary=True)
             coverage.append(bool(result["run"]["status"] == "completed" and result.get("evaluation") and result["evaluation"].get("complete") and all(case.get("complete", True) for case in result["cases"])))
             definitions.append(self.get_experiment(result["run"]["experiment_id"])["definition"])
             manifest = self._path("runs", run_id) / "manifest.json"

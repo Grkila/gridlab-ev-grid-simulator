@@ -28,14 +28,16 @@ class StrategyIndependentTests(unittest.TestCase):
         s=self.sim([{'id':'a'},{'id':'b'}]); s.sessions[0].update(departure_step=2,remaining_kwh=.1); s.sessions[1].update(departure_step=4,remaining_kwh=7.9)
         with patch('mvgrid.novi_sad.playground.strategies.capacity_constraints',return_value=[(__import__('numpy').array([1.,1.]),8.)]):
             a=ChargingController('least_laxity_first').actions(s)
-        self.assertEqual(a['b'],8.); self.assertEqual(a['a'],0.)
+        # Urgency gap exceeds one slot: sLLF also saturates b, within solver tolerance.
+        self.assertAlmostEqual(a['b'],8.,places=6); self.assertAlmostEqual(a['a'],0.,places=6)
     def test_mpc_infeasible(self):
         s=self.sim([{'id':'a'}]); s.sessions[0].update(remaining_kwh=20.,energy_kwh=20.)
         c=ChargingController('mpc'); self.assertAlmostEqual(c.actions(s)['a'],8.,places=5)
         self.assertAlmostEqual(c.last['predicted_shortfall_kwh'],12.,places=5)
     def test_voltage_observation_and_recovery(self):
         s=self.sim([{'id':'a'}]); c=ChargingController('voltage_responsive')
-        self.assertEqual(c.actions(s)['a'],0.)
+        self.assertGreater(c.actions(s)['a'],0.)
+        self.assertEqual(c.last['voltage_bootstrap'],'baseline_measurement')
         c.observe(s,dict(converged=True,blocks=[dict(id=self.block,voltage_pu=1.)],applied_actions_kw={'a':2.}))
         self.assertEqual(c.actions(s)['a'],4.)
         c.observe(s,dict(converged=False,blocks=[],applied_actions_kw={'a':0.}))

@@ -89,11 +89,14 @@ class BinaryPolicy:
         return cls(weights=data['weights'])
 
     def update(self, trajectory, learning_rate=.01, gamma=.99):
-        """REINFORCE with previous-episode time baselines and bounded gradient norm.
+        """Practical REINFORCE for episode-start discounted return E[sum gamma^t r_t].
 
         Trajectory entries contain x/actions/probabilities/reward. The score is for
         requested switches, including shielded proposals; no gradient is fabricated
         from the executed action. Running baselines never use this episode first.
+        The outer gamma^t weights each score, including after empty-action slots.
+        Episode-dependent return scaling and gradient clipping are stabilizing
+        heuristics, so the final update is not an unbiased objective gradient.
         """
         if not trajectory: return 0.
         returns = np.zeros(len(trajectory)); running = 0.
@@ -105,9 +108,15 @@ class BinaryPolicy:
             n = min(len(returns),len(self.baseline)); baseline[:n] = self.baseline[:n]
         advantage = (returns-baseline)/max(float(np.std(returns-baseline)),1.)
         gradients = {k:np.zeros_like(v) for k,v in self.weights.items()}
-        for item, adv in zip(trajectory,advantage):
-            x = item['x']; residual = (item['actions']-item['probabilities'])*adv
+        for t, (item, adv) in enumerate(zip(trajectory,advantage)):
+            x = item['x']
             h = np.tanh(x@self.weights['w1']+self.weights['b1'])
+            logits = h@self.weights['w2']+self.weights['b2'][0]
+            # Preserve frozen-model inference, including its clipped logits.
+            # Outside the clipping interval the actual log-policy is constant;
+            # use zero derivative there (also choose zero at the two kinks).
+            active = (logits > -20.) & (logits < 20.)
+            residual = (item['actions']-item['probabilities'])*adv*(gamma**t)*active
             gradients['w2'] += h.T@residual
             gradients['b2'][0] += residual.sum()
             dh = residual[:,None]*self.weights['w2'][None,:]*(1-h*h)

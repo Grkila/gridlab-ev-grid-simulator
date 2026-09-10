@@ -1,0 +1,42 @@
+.benchmark-workspace { display: grid; gap: 20px; min-width: 0; }
+.benchmark-intro { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 4px solid #00875a; }
+.benchmark-intro p { max-width: 800px; line-height: 1.6; }
+.benchmark-badge { min-width: 120px; padding: 20px; border-radius: 12px; background: #eaf5ed; color: #176344; text-align: center; font-size: 40px; font-weight: 700; }
+.benchmark-badge span { display: block; font-size: 12px; font-weight: 500; }
+.benchmark-setup { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.benchmark-workspace label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; }
+.benchmark-workspace input:not([type=checkbox]), .benchmark-workspace select { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #cbd9d0; border-radius: 7px; color: #20392d; background: white; }
+.benchmark-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; margin: 16px 0; }
+.benchmark-frozen { background: #f0f7f2; padding: 12px; border-radius: 8px; margin: 12px 0; overflow-wrap: anywhere; }
+.benchmark-workspace summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+.benchmark-algorithms { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.benchmark-algorithms label { display: flex; align-items: center; font-weight: 400; }
+.benchmark-algorithms input { accent-color: #00875a; }
+.benchmark-setup small { display: block; margin-top: 10px; line-height: 1.5; color: #5d7065; }
+.benchmark-fixtures ol { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; padding-left: 24px; }
+.benchmark-fixtures li span { display: block; font-size: 13px; line-height: 1.5; color: #5d7065; margin-top: 5px; }
+.benchmark-toolbar, .benchmark-run-state { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; }
+.benchmark-toolbar label { min-width: 260px; }
+.benchmark-toolbar h3 { margin-right: auto; }
+.benchmark-run-state { padding: 12px; background: #edf5f0; border-radius: 8px; }
+.benchmark-run-state span { font-size: 13px; }
+.benchmark-workspace progress { width: 100%; accent-color: #00875a; height: 8px; }
+.benchmark-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.benchmark-metrics > div { display: grid; gap: 7px; border: 1px solid #dfe9e2; border-radius: 9px; padding: 17px; }
+.benchmark-metrics span, .benchmark-metrics small { color: #5c6e63; font-size: 12px; }
+.benchmark-metrics strong { font-size: 24px; color: #1f513a; }
+.benchmark-matrix table { min-width: 850px; }
+.benchmark-workspace caption { text-align: left; font-size: 13px; padding: 12px 0; color: #52665a; }
+.benchmark-matrix th { min-width: 155px; }
+.benchmark-workspace .benchmark-matrix { max-height: none; }
+.benchmark-cell { display: grid; width: 100%; text-align: left; gap: 5px; border: 1px solid #cddcd2; padding: 11px; border-radius: 7px; background: #f5f7f5; color: #42594d; }
+.benchmark-cell small { font-size: 11px; font-weight: 400; }
+.benchmark-cell.passed, .benchmark-cell.ceiling_reached, .benchmark-cell.bounded { background: #eaf6ee; border-color: #b8d9c3; color: #1d613b; }
+.benchmark-cell.failed, .benchmark-cell.baseline_limited, .benchmark-cell.no_common_fleet { background: #fff0ea; border-color: #ebc5b5; color: #90442c; }
+.benchmark-cell.incomplete { background: #fff7df; border-color: #dccd95; color: #745b1e; }
+.benchmark-cell:focus-visible { outline: 3px solid #1c7554; outline-offset: 2px; }
+.benchmark-chart { min-width: 0; margin: 16px 0; }
+.benchmark-detail { border-left: 4px solid #00875a; }
+.benchmark-scope { color: #617066; font-size: 12px; line-height: 1.6; }
+@media (max-width: 1050px) { .benchmark-setup { grid-template-columns: 1fr; } .benchmark-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .benchmark-intro { align-items: flex-start; } .benchmark-badge { display: none; } .benchmark-fields, .benchmark-fixtures ol, .benchmark-algorithms, .benchmark-metrics { grid-template-columns: 1fr; } }

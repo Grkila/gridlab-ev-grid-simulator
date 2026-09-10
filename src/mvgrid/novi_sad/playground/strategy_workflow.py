@@ -37,7 +37,7 @@ class StrategyCommand(BaseModel):
     constraints: list[str] | None = None
     algorithm: str | None = Field(default=None,max_length=12000)
     fallback: str | None = Field(default=None,max_length=3000)
-    research: Literal['reproduction','adaptation','new_hypothesis'] | None = None
+    research: Literal['reproduction','adaptation','new_hypothesis','engineering_baseline'] | None = None
     references: list[ResearchReference] | None = Field(default=None,max_length=20)
     parameters: dict = Field(default_factory=dict)
     candidates: list[str] | None = Field(default=None,min_length=1,max_length=9)
@@ -92,7 +92,10 @@ class StrategyWorkflow:
 
     def get(self,record_id):
         if not re.fullmatch(r'strategy-[a-f0-9]{20}',record_id): raise ValueError('Use a returned strategy record ID.')
-        return read_json(self.service._path('strategies',record_id).with_suffix('.json'))
+        record=read_json(self.service._path('strategies',record_id).with_suffix('.json'))
+        if 'strategy-'+digest({k:v for k,v in record.items() if k!='record_id'})[:20]!=record_id:
+            raise ValueError('Strategy record content hash mismatch.')
+        return record
 
     def _save(self,stage,spec,parent,status,extra=None):
         data=dict(stage=stage,spec=spec,parent=parent,status=status,**(extra or {}))
@@ -116,9 +119,15 @@ class StrategyWorkflow:
             required=('name','idea','objective','information','constraints','algorithm','fallback','research')
             missing=[key for key in required if not spec.get(key) or (isinstance(spec[key],str) and not spec[key].strip())]
             if missing: raise ValueError('Complete the strategy specification: '+', '.join(missing))
-            if spec['research']!='new_hypothesis' and not spec.get('references'):
+            for field in ('information','constraints'):
+                if any(not isinstance(item,str) or not item.strip() for item in spec[field]):
+                    raise ValueError(field+' entries must be nonblank text.')
+            if spec['research'] in ('reproduction','adaptation') and not spec.get('references'):
                 raise ValueError('A research adaptation/reproduction requires references with mechanism and difference.')
         if cmd.command=='BUILD':
+            if spec.get('specification_schema_version'):
+                from .strategy_contract import AlgorithmSpecification
+                AlgorithmSpecification.model_validate({key:spec[key] for key in AlgorithmSpecification.model_fields if key in spec})
             available=next((s for s in strategy_catalog() if s['id']==spec['name']),None)
             prompt=(f"Implement the saved charging strategy {spec['name']} from record {parent['record_id']}. "
                     'Read repository AGENTS and the EV strategy skill. Inspect the live strategy catalog. '
@@ -178,6 +187,6 @@ def register_strategy_tools(server,read_annotations,write_annotations,error_wrap
 
     @server.tool(annotations=write_annotations,structured_output=True)
     @error_wrapper
-    def ev_strategy_command(command: str | dict[str, Any]) -> dict[str, Any]:
+    def ev_strategy_command(command: str | StrategyCommand) -> dict[str, Any]:
         """Apply STRATEGY + YAML or typed JSON. Save development records or prepare bounded comparisons; BUILD returns a coding handoff, never executes submitted code."""
         return StrategyWorkflow().command(command)
