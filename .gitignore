@@ -3,6 +3,11 @@
 *.pkl
 /cache
 /venv
+/.venv
+/data/cache/
+/artifacts/legacy/runtime/
+__pycache__/
+*.egg-info/
 ppnet.json
 *.log
 *.err

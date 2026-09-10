@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mvgrid-osm-schneider"
+version = "0.1.0"
+description = "OSM-based MV grid reconstruction with a unified Novi Sad planning model"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Original upstream contributors"},
+  {name = "Schneider challenge contributors"},
+]
+dynamic = ["dependencies"]
+
+[project.scripts]
+mvgrid-novi-sad = "mvgrid.novi_sad.pipeline:main"
+mvgrid-legacy-gui = "mvgrid.legacy.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

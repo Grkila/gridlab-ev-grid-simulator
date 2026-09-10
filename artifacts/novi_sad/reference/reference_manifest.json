@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "scope": "single complete Novi Sad challenge reference bundle; text normalized to LF",
+  "files": [
+    {
+      "path": "artifacts/novi_sad/reference/maps/novi_sad_simulation_map.html",
+      "canonical_size_bytes": 15876788,
+      "sha256_lf_normalized": "afd8322e070b7fddad3f97f0cea382995dd02ab592211fbf25524cc7936a32fd"
+    },
+    {
+      "path": "artifacts/novi_sad/reference/models/novi_sad_model_manifest.json",
+      "canonical_size_bytes": 643030,
+      "sha256_lf_normalized": "9cfb4092bdf52ee2aff4e56514e15c32c82be6ee34ea32fa43695645ef33597e"
+    },
+    {
+      "path": "artifacts/novi_sad/reference/models/novi_sad_powerflow_results.json",
+      "canonical_size_bytes": 1769,
+      "sha256_lf_normalized": "f2b86a570dc7d5fc235ce06482ef459bcb8c596089d622a84c96a20abb6beed0"
+    },
+    {
+      "path": "artifacts/novi_sad/reference/models/ppnet_novi_sad.json",
+      "canonical_size_bytes": 16654377,
+      "sha256_lf_normalized": "8013b63f1ff06a0187486379a8f96978cb83a3d00088cd26f56e1bae82bfb42f"
+    },
+    {
+      "path": "artifacts/novi_sad/reference/reports/novi_sad_validation_report.json",
+      "canonical_size_bytes": 4787,
+      "sha256_lf_normalized": "7d783ea1f7b16852ebc27e63ead3eda3ed2b520fe64dc7e43800f6cc3b4ad5af"
+    },
+    {
+      "path": "artifacts/novi_sad/reference/reports/novi_sad_validation_report.md",
+      "canonical_size_bytes": 641,
+      "sha256_lf_normalized": "64446acd913a6f521f42cf2bcb9c8fa9d1263b44693ce3b68c52684a2106b40b"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_inferred_feeders.geojson",
+      "canonical_size_bytes": 10609065,
+      "sha256_lf_normalized": "56e3863736ec3a4797846e35c3fca61331f989a326a66c6dc100aaafedff894a"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_inferred_feeders_summary.json",
+      "canonical_size_bytes": 10483,
+      "sha256_lf_normalized": "89d94dad83c94c451af7f361049cc422af4400214a8a4e4785ca8127f9d1f6d0"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_input_manifest.json",
+      "canonical_size_bytes": 996,
+      "sha256_lf_normalized": "d8727822c35c9b8b139ecc5d0213cbc0d3382c4055b938837078a84badaffb53"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_legacy_35kv_routes.geojson",
+      "canonical_size_bytes": 46701,
+      "sha256_lf_normalized": "43e250b918489df01aab212e7a50fc5a56ed2713d4cb1dda0d6513997247a850"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_seeded_substations.json",
+      "canonical_size_bytes": 6259,
+      "sha256_lf_normalized": "7966b4077108158eafc749bb2608d76ed021664c639364ffff2b7e6f35d13c3b"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_synthetic_feeder_assignments.csv",
+      "canonical_size_bytes": 552597,
+      "sha256_lf_normalized": "9b74a8cc0eb3bb5f3cf069a26cbe288976659a3a64582a5413bb110cd3efe148"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_synthetic_transformers.csv",
+      "canonical_size_bytes": 398604,
+      "sha256_lf_normalized": "ea10382f812e5f655836756a9624da45d8c03c76a41417f2864b6bb250c901fb"
+    },
+    {
+      "path": "data/novi_sad/reference/generated/novi_sad_synthetic_transformers_summary.json",
+      "canonical_size_bytes": 406,
+      "sha256_lf_normalized": "e33db56782f96cbf3ae3d39a7b7f0cf7a23a9052d78b6193acf61460afb0a49d"
+    },
+    {
+      "path": "data/novi_sad/reference/inputs/novi_sad_boundary_raw.json",
+      "canonical_size_bytes": 67678,
+      "sha256_lf_normalized": "65aa580d3cf68143887cc6fbc980791a4f0df34b120ae1d0033d8d475c7f920e"
+    },
+    {
+      "path": "data/novi_sad/reference/inputs/osm_substations_bbox.json",
+      "canonical_size_bytes": 10768,
+      "sha256_lf_normalized": "bf38dbdb64c5babef01a1f0a1fa9faae1501e75df0ae632f52e34617224251a4"
+    }
+  ]
+}

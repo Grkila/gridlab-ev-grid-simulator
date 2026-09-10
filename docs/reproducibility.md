@@ -1,0 +1,21 @@
+# Reproducibility
+
+The Novi Sad generators are deterministic when given the same configuration, package versions, and cached stage snapshot. The committed input manifest records SHA-256 hashes and relevant package versions used for the reference run.
+
+The decisive `data/cache/data.pkl` snapshot is intentionally ignored. Pickle is Python-version-sensitive and unsafe to load from an untrusted source. Consequently, a clean clone can inspect and verify the checksums of committed reference outputs, but cannot regenerate them bit-for-bit without obtaining the exact trusted snapshot whose hash matches the manifest. The legacy cache does not retain authoritative per-query acquisition timestamps; the manifest labels that limitation rather than treating the local file modification time as an OSM timestamp.
+
+For a same-snapshot run:
+
+```powershell
+python scripts/run_novi_sad.py
+```
+
+For a new live-data run:
+
+```powershell
+python scripts/run_novi_sad.py --refresh-osm
+```
+
+A live refresh is a new dataset and may change topology. Record the new date and hashes, review data licensing, and never present changed results as a pure software regression. Long-term clean-clone reproducibility should use a safe, versioned interchange snapshot published with checksums in a release.
+
+`requirements.txt` is the complete pinned environment used by the project, including transitive packages. To update it, create a clean supported-Python environment, install and test intentionally chosen direct upgrades, freeze the resolved environment, run the full reference workflow, and review every model and checksum change before replacing the lock.

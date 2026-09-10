@@ -1,68 +1,81 @@
-# Automated Generation of geo-referenced medium-voltage (MV) Grid Models based on OpenStreetMap (OSM) Data
+# Novi Sad MV grid planning model
 
-This tool generates a synthetic medium-voltage (MV) power grid topology and a [pandapower](https://www.pandapower.org/) simulation model for a specified area by using OpenStreetMap (OSM) data.
-The reconstructed topology is geo-referenced, i.e. lines follow streets and paths from OSM.
-The tool outputs interactive HTML files and a pandapower file, which can be used for simulation and system analysis.
+This Schneider challenge repository builds a single geo-referenced, nine-source medium-voltage planning model for Novi Sad from OpenStreetMap-derived study data. It produces a pandapower network, an interactive map, and an internal validation report from the same inferred topology.
 
-## Methodology
+The current reference model passes its internal consistency gate with 2,648 loads, 21,783 buses, 21,759 lines, nine radial source islands, a 0.9568 pu minimum voltage, 72.29% maximum line loading, and 88.33% maximum transformer loading. These are synthetic planning results—not utility measurements or an as-built network.
 
-The approach is described in detail in the publication:
+## Repository map
 
-Tobias Gebhard; Andrea Tundis; Florian Steinke:
-"Automated Generation of Urban Medium-voltage Grids using OpenStreetMap Data", 
-*2024 IEEE PES Innovative Smart Grid Technologies Europe (ISGT EUROPE)*
-https://doi.org/10.1109/ISGTEUROPE62998.2024.10863461
-
-https://www.researchgate.net/publication/387261923_Automated_Generation_of_Urban_Medium-voltage_Grids_using_OpenStreetMap_Data
-
-**Abstract:**
-Realistic geo-referenced electrical distribution grid (DG) models are of great importance for power system analysis and resilience studies. However, DG data are usually not publicly available. In this study, we develop a new process for the automated generation of medium-voltage (MV) grid topologies, specifically for urban areas, based on openly available data and open-source software. OpenStreetMap (OSM) data on power infrastructure, street layouts, and land use, are used as the only input source. In contrast to previous works on DG reconstruction, we use available OSM data on substation locations. Different existing methods are combined in a new, hybrid approach by considering the incompleteness of OSM data, taking the street network into account, and applying the Capacitated vehicle routing problem (CVRP) to find cost-optimal routes for power lines. Our method is tested with a German city as a case study. Furthermore, we verify the result using land use data and evaluate the quality of power-related OSM data. The results demonstrate that our approach can yield realistic geo-referenced MV grid topologies, even with incomplete OSM power data.
+| Path | Purpose |
+| --- | --- |
+| `src/mvgrid/novi_sad/` | Deterministic Novi Sad generation, modelling, mapping, and validation pipeline |
+| `src/mvgrid/legacy/` | Original GUI-oriented OSM reconstruction implementation |
+| `scripts/` | Launchers that work directly from a checkout |
+| `configs/` | Novi Sad configuration and Darmstadt example |
+| `data/novi_sad/reference/` | Versioned reference inputs and intermediate data |
+| `data/cache/` | Ignored local OSM/pickle caches |
+| `artifacts/novi_sad/reference/` | Reference model, map, results, and reports |
+| `docs/` | Architecture, methodology, provenance, and reproducibility notes |
+| `.agents/` and `AGENTS.md` | Durable project context and working rules for coding agents |
 
 ## Setup
 
-Tested with Python 3.10.
+Python 3.10 or 3.11 is recommended. From the repository root:
 
-Create a virtual environment and activate:
-```
-python -m venv venv
-.\venv\scripts\activate
-```
-
-Install the packages:
-```
-pip install -r requirements.txt
-pip install geopandas==1.0.1
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .
 ```
 
+The editable install reads the pinned runtime dependencies from `requirements.txt`, including GeoPandas; do not install a second conflicting version over them.
 
-## Configuration
+This is deliberately a checkout-oriented application, not a standalone wheel: configuration, data, and artifact paths live beside the source. Use an editable install from a clone. A non-editable installation fails with an actionable message unless `MVGRID_ROOT` points to a valid checkout.
 
-The config file ``config.json`` defines the area of the grid reconstruction and requires some prior information to be provided.
-
-* The city (or multiple cities) are defined in "cities_list".
-* The HV-MV Substations must be pre-defined and provided in the queries list. The allowed connections can be restricted with the "pairs" field. 
-* If desired, certain OSM substations can be excluded in the "ex_nwr" field.
-* If desired, additional transformers can be added using "add_transf_by_coord" (1st element is coordinates, 2nd is the capacity in MW). The coordinates can be copied from the Land Use HTML map by clicking on a location. Also, custom consumers with a provided demand can be defined ("Special Consumers").
-* Parameters for the VRPy Routing Optimization can be adjusted in "2"
-* Voltage Levels, standard trafo size, and other factors can be adjusted in "3"/"pandapower"
-
-A config file for the German city of Darmstadt is included as an example.
-For a new area of interest, the config needs to be adjusted accordingly.
+On POSIX shells, activate with `source .venv/bin/activate`; all later commands use the same forward-slash script paths shown below.
 
 ## Run
 
-Execute ``main.py`` and follow the instructions of the GUI.
-
-## Novi Sad unified workflow
-
-The repository also includes a non-GUI Novi Sad workflow that builds one
-nine-primary pandapower planning model, its interactive map, and a validation
-report:
+Run the unified workflow from any working directory:
 
 ```powershell
-.\.venv\Scripts\python.exe run_novi_sad.py
+python "C:\path with spaces\to\repo\scripts\run_novi_sad.py"
 ```
 
-See [NOVI_SAD_MODEL.md](NOVI_SAD_MODEL.md) for the model scope, assumptions,
-outputs, validation criteria, and faster development-run options.
+For a quick regeneration that leaves the existing HTML map and validation reports unchanged:
 
+```powershell
+python scripts/run_novi_sad.py --skip-map --skip-validation
+```
+
+`--refresh-osm` deletes the ignored local snapshot and downloads current OSM data. Results may change as OSM changes. The normal cached run requires `data/cache/data.pkl`; that file is intentionally untracked because pickle is unsafe to accept from untrusted sources and is not a portable interchange format.
+
+Run the original upstream GUI with:
+
+```powershell
+python scripts/run_legacy_gui.py
+```
+
+## Validate
+
+```powershell
+python -m unittest discover -s tests -v
+python scripts/run_novi_sad.py
+```
+
+The committed report is at [`artifacts/novi_sad/reference/reports/novi_sad_validation_report.md`](artifacts/novi_sad/reference/reports/novi_sad_validation_report.md). Model assumptions and acceptance criteria are in [`docs/models/novi-sad.md`](docs/models/novi-sad.md).
+
+`artifacts/novi_sad/reference/reference_manifest.json` records OS-independent, LF-normalized SHA-256 hashes and sizes for every text file in the complete reference bundle. The offline tests reject missing, mixed, or modified bundle files.
+
+## Reproducibility and data
+
+The versioned input manifest records the local snapshot hash and package versions, but the ignored pickle means a fresh clone cannot reproduce the reference artifacts bit-for-bit. See [`docs/reproducibility.md`](docs/reproducibility.md) before making reproducibility claims.
+
+OpenStreetMap-derived data is attributed to OpenStreetMap contributors and is subject to the ODbL. EDS planning values retain their source-specific terms. See [`docs/data-sources-and-licenses.md`](docs/data-sources-and-licenses.md). The MIT license in this repository covers the code, not every external dataset.
+
+## Upstream project
+
+This work adapts the original “Automated Generation of geo-referenced MV Grid Models based on OSM Data” implementation. Its methodology is described by Tobias Gebhard, Andrea Tundis, and Florian Steinke in [Automated Generation of Urban Medium-voltage Grids using OpenStreetMap Data](https://doi.org/10.1109/ISGTEUROPE62998.2024.10863461). Original attribution is preserved in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
+
+Contributions should follow [`CONTRIBUTING.md`](CONTRIBUTING.md).
