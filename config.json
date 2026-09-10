@@ -1,0 +1,94 @@
+{
+  "1": {
+    "cities_list": ["Novi Sad, Serbia"],
+    "queries": {
+      "s": {
+        "type": "HV/MV Substations",
+        "tag": "power",
+        "nwr": "",
+        "in_tag": "",
+        "ex_tag": [],
+        "ex_nwr": {},
+        "in_nwr": {
+          "way": {
+            "220232167": {"name": "Novi Sad 7 (110/20 kV)", "pairs": [1, 3]},
+            "365786756": {"name": "Novi Sad 5 (110/20 kV)", "pairs": [1, 2]},
+            "365927134": {"name": "Rimski Sancevi (110/20 kV)", "pairs": [2, 3]}
+          }
+        },
+        "out": "out geom"
+      },
+      "t": {
+        "type": "Transformers",
+        "tag": "power",
+        "nwr": "nwr",
+        "in_tag": "[power~'substation|transformer']",
+        "ex_tag": ["[!fixme]", "[frequency!=16.7]"],
+        "ex_nwr": {},
+        "in_nwr": {},
+        "out": "out geom"
+      },
+      "sc": {
+        "type": "Special Consumers",
+        "disabled": true,
+        "tag": "amenity",
+        "nwr": "nwr",
+        "in_tag": "[amenity=university]",
+        "ex_tag": [],
+        "ex_nwr": {},
+        "in_nwr": {},
+        "out": "out geom"
+      },
+      "lu": {
+        "type": "Land Use",
+        "tag": "landuse",
+        "nwr": "wr",
+        "in_tag": "[landuse~'residential|industrial|military|commercial|retail']",
+        "ex_tag": [],
+        "ex_nwr": {},
+        "in_nwr": {},
+        "out": "out geom"
+      },
+      "ch": {
+        "type": "Charging Stations",
+        "disabled": true,
+        "tag": "capacity",
+        "nwr": "nw",
+        "in_tag": "[amenity=charging_station]",
+        "ex_tag": [],
+        "ex_nwr": {},
+        "in_nwr": {},
+        "out": "out geom"
+      },
+      "d": {
+        "type": "District",
+        "disabled": true,
+        "tag": "admin_level",
+        "nwr": "rel",
+        "in_tag": "[admin_level=9]",
+        "ex_tag": [],
+        "ex_nwr": {},
+        "in_nwr": {},
+        "out": "out geom"
+      }
+    },
+    "add_transf_by_coord": [],
+    "custom_transf_cap": {}
+  },
+  "2": {
+    "simplify_polygon_tolerance": 0.001,
+    "osm_street_graph_options": {"network_type": "all", "retain_all": false, "simplify": false},
+    "auto_balance_load": false,
+    "opt_assign": 0,
+    "vrpy_opts": {"prob": {"load_capacity": 9800, "num_vehicles": 10, "drop_penalty": 10000000000}, "solve": {"time_limit": 7}}
+  },
+  "3": {
+    "crs": "WGS84",
+    "area_factors": {"residential": 0.02082, "industrial": 0.08205, "military": 0.02082, "commercial": 0.08695, "retail": 0.08695, "evcharger": 0.022},
+    "std_transfo_capacity": 0.63,
+    "peak_to_mean_ratio": 1.64,
+    "overdesign_factor": 1.5,
+    "calibration": {"target_peak_mw": 104.1},
+    "pandapower": {"HV_kV": 110, "MV_kV": 20, "subst_transf_opt": {"std_type": "63 MVA 110/20 kV", "parallel": 1}, "XG_opt": {"vm_pu": 1.02}, "load_opt": {"q_mvar": 0.20}, "line_opt": {"std_type": "NA2XS2Y 1x150 RM/25 12/20 kV", "parallel": 3}}
+  }
+}

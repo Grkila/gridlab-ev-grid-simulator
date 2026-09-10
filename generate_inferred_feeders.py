@@ -1,0 +1,396 @@
+"""Infer a transparent street-routed feeder forest for the synthetic Novi Sad inventory.
+
+The output is a planning proxy, not an as-built utility network.  Each synthetic
+MV/LV service point is snapped to the OSM street graph and connected to one of
+seven EDS-listed stations with direct 110/20 kV function. Shared street edges
+form a capacity-balanced radial shortest-path forest.
+"""
+from __future__ import annotations
+
+import csv
+import json
+from collections import defaultdict
+from pathlib import Path
+
+import networkx as nx
+from scipy.spatial import cKDTree
+from shapely.geometry import LineString, mapping
+
+import utils
+
+
+INVENTORY = Path("novi_sad_synthetic_transformers.csv")
+ASSIGNMENTS = Path("novi_sad_synthetic_feeder_assignments.csv")
+OUTPUT_GEOJSON = Path("novi_sad_inferred_feeders.geojson")
+OUTPUT_SUMMARY = Path("novi_sad_inferred_feeders_summary.json")
+OUTPUT_STATIONS = Path("novi_sad_seeded_substations.json")
+OUTPUT_LEGACY = Path("novi_sad_legacy_35kv_routes.geojson")
+
+# Equipment, 2024 Pmax, and utilization come from EDS's public 2025-2034
+# development plan (base year 2024).  Only three coordinates are named in OSM;
+# the remaining coordinates are explicitly recorded as locality-matched inferences.
+PRIMARY_STATIONS = [
+    {"id": "NS1", "name": "Novi Sad 1 - Ledinci", "ratio": "110/20 + 110/35", "direct_20kv": True,
+     "installed_mva": 63.0, "direct_20kv_mva": 31.5,
+     "baseline_pmax_mw": 7.5, "utilization_pct": 24.2,
+     "derived_total_pmax_mw": 23.0, "max_section_utilization_pct": 50.1,
+     "sections": [
+         {"ratio": "110/20", "installed_mva": 31.5, "baseline_pmax_mw": 7.5, "utilization_pct": 24.2},
+         {"ratio": "110/35", "installed_mva": 31.5, "baseline_pmax_mw": 15.5, "utilization_pct": 50.1},
+     ],
+     "lat": 45.2172125, "lon": 19.8157080, "osm_id": 356832545, "coordinate_status": "inferred match to unnamed OSM substation in Ledinci"},
+    {"id": "NS2", "name": "Novi Sad 2", "ratio": "110/35", "direct_20kv": False,
+     "installed_mva": 51.5, "baseline_pmax_mw": 30.0, "utilization_pct": 58.3,
+     "lat": 45.2727450, "lon": 19.8461553, "osm_id": 142883147, "coordinate_status": "inferred match to unnamed OSM distribution substation"},
+    {"id": "NS4", "name": "Novi Sad 4 - Sever III", "ratio": "110/35", "direct_20kv": False,
+     "installed_mva": 126.0, "baseline_pmax_mw": 54.4, "utilization_pct": 43.4,
+     "lat": 45.2774527, "lon": 19.7990241, "osm_id": 141886238, "coordinate_status": "inferred match to unnamed OSM distribution substation in Sever III"},
+    {"id": "NS5", "name": "Novi Sad 5 - Detelinara", "ratio": "110/20/10", "direct_20kv": True,
+     "installed_mva": 63.0, "baseline_pmax_mw": 56.9, "utilization_pct": 91.0,
+     "lat": 45.2604530, "lon": 19.8048469, "osm_id": 365786756, "coordinate_status": "verified by named OSM feature"},
+    {"id": "NS6", "name": "Novi Sad 6 - Miseluk", "ratio": "110/20", "direct_20kv": True,
+     "installed_mva": 63.0, "baseline_pmax_mw": 28.0, "utilization_pct": 44.5,
+     "lat": 45.2269229, "lon": 19.8735339, "osm_id": 1431014564, "coordinate_status": "inferred match to unnamed OSM substation in Miseluk"},
+    {"id": "NS7", "name": "Novi Sad 7 - Juzni Telep", "ratio": "110/20 + 110/35", "direct_20kv": True,
+     "installed_mva": 83.0, "direct_20kv_mva": 63.0, "baseline_pmax_mw": 59.8, "utilization_pct": 95.4,
+     "sections": [
+         {"ratio": "110/20", "installed_mva": 63.0, "baseline_pmax_mw": 59.8, "utilization_pct": 95.4},
+         {"ratio": "110/35", "installed_mva": 20.0, "baseline_pmax_mw": 0.0, "utilization_pct": None},
+     ],
+     "lat": 45.2315098, "lon": 19.8139568, "osm_id": 220232167, "coordinate_status": "verified by named OSM feature"},
+    {"id": "NS9", "name": "Novi Sad 9 - Rafinerija", "ratio": "110/20/10", "direct_20kv": True,
+     "installed_mva": 63.0, "baseline_pmax_mw": 26.7, "utilization_pct": 42.4,
+     "lat": 45.2806465, "lon": 19.8789331, "osm_id": 359523533, "coordinate_status": "inferred match to unnamed OSM distribution substation in refinery area"},
+    {"id": "RIM", "name": "Rimski Sancevi", "ratio": "110/20", "direct_20kv": True,
+     "installed_mva": 63.0, "baseline_pmax_mw": 31.7, "utilization_pct": 51.1,
+     "lat": 45.3101654, "lon": 19.8272059, "osm_id": 365927134, "coordinate_status": "verified by named OSM feature"},
+    {"id": "FUT", "name": "Futog", "ratio": "110/20", "direct_20kv": True,
+     "installed_mva": 63.0, "baseline_pmax_mw": 33.2, "utilization_pct": 54.3,
+     "lat": 45.2601681, "lon": 19.7008355, "osm_id": 367560187, "coordinate_status": "inferred match to unnamed OSM substation east of Futog-Planta-Kisac road"},
+]
+
+LEGACY_SECONDARY_STATIONS = [
+    {"id": "LIMAN", "name": "Liman", "ratio": "35/10 (plus 35/20 section)", "installed_mva": 32.0, "lat": 45.2440300, "lon": 19.8403917, "osm_id": 219386583},
+    {"id": "CENTAR", "name": "Centar", "ratio": "35/10", "installed_mva": 32.0, "lat": 45.2451338, "lon": 19.8484361, "osm_id": 222835326},
+    {"id": "PODBARA", "name": "Podbara", "ratio": "35/10", "installed_mva": 32.0, "lat": 45.2616944, "lon": 19.8453786, "osm_id": 13476783676},
+    {"id": "SEVER", "name": "Sever", "ratio": "35/10", "installed_mva": 16.0, "lat": 45.2760796, "lon": 19.8223915, "osm_id": 1539728495},
+    {"id": "IND", "name": "Industrijska", "ratio": "35/10 (plus 35/20 section)", "installed_mva": 32.0, "lat": 45.2688048, "lon": 19.8308089, "osm_id": 1346366291},
+    {"id": "TELEP", "name": "Telep", "ratio": "35/10", "installed_mva": 16.0, "lat": 45.2517402, "lon": 19.7920114, "osm_id": 197685483},
+]
+
+# These two upstream relationships are explicitly documented in the EDS plan.
+# The remaining legacy-source associations are planning inferences chosen by
+# minimum road-network distance and are labelled as such in the output.
+DOCUMENTED_LEGACY_UPSTREAM = {"CENTAR": "NS2", "LIMAN": "NS4"}
+
+
+def edge_record(graph, u, v):
+    choices = graph.get_edge_data(u, v)
+    return min(choices.values(), key=lambda item: float(item.get("length", 0.0)))
+
+
+def edge_geometry(graph, u, v, record):
+    geometry = record.get("geometry")
+    if geometry is not None:
+        return geometry
+    return LineString(
+        [
+            (graph.nodes[u]["x"], graph.nodes[u]["y"]),
+            (graph.nodes[v]["x"], graph.nodes[v]["y"]),
+        ]
+    )
+
+
+def nearest_nodes(graph, coordinates):
+    """Return nearest graph node IDs using a local lon/lat KD-tree."""
+    node_ids = list(graph.nodes)
+    tree = cKDTree([(graph.nodes[node]["x"], graph.nodes[node]["y"]) for node in node_ids])
+    _, positions = tree.query(coordinates)
+    return [node_ids[int(position)] for position in positions]
+
+
+def road_routing_graph(graph):
+    """Keep a connected road-like graph and exclude implausible cable proxies."""
+    forbidden = {"steps", "path", "footway", "cycleway", "pedestrian"}
+    clean = graph.copy()
+    remove = []
+    for u, v, key, record in clean.edges(keys=True, data=True):
+        highway = record.get("highway", "")
+        highway_values = set(highway if isinstance(highway, list) else [highway])
+        route = record.get("route", "")
+        if route == "ferry" or highway_values & forbidden:
+            remove.append((u, v, key))
+    clean.remove_edges_from(remove)
+    clean.remove_nodes_from(list(nx.isolates(clean)))
+    largest = max(nx.connected_components(clean), key=len)
+    return clean.subgraph(largest).copy()
+
+
+def main() -> None:
+    if not INVENTORY.exists():
+        raise RuntimeError("Run generate_synthetic_transformers.py first.")
+
+    data = utils.data_un("data.pkl")
+    graph = road_routing_graph(data["G"].to_undirected())
+    direct_sources = [station for station in PRIMARY_STATIONS if station["direct_20kv"]]
+    source_rows = []
+    source_items = direct_sources
+    source_nodes = nearest_nodes(
+        graph,
+        [(row["lon"], row["lat"]) for row in source_items],
+    )
+    for row, node in zip(source_items, source_nodes):
+        source_rows.append(
+            {
+                "osmid": int(row["osm_id"]),
+                "station_id": row["id"],
+                "name": row["name"],
+                "node": int(node),
+                "installed_mva": row["installed_mva"],
+                "routing_capacity_mva": row.get("direct_20kv_mva", row["installed_mva"]),
+                "baseline_pmax_mw": row["baseline_pmax_mw"],
+                "lat": row["lat"],
+                "lon": row["lon"],
+            }
+        )
+    source_by_node = {row["node"]: row for row in source_rows}
+
+    with INVENTORY.open(encoding="utf-8", newline="") as file:
+        points = list(csv.DictReader(file))
+    target_nodes = nearest_nodes(
+        graph,
+        [(float(row["longitude"]), float(row["latitude"])) for row in points],
+    )
+
+    # Start with road-nearest territories, then minimally move points away from
+    # any source that exceeds 95% of its direct 20 kV nameplate.  This preserves
+    # geographic plausibility while preventing a visually convenient but
+    # electrically impossible source allocation.
+    source_distances = {
+        node: nx.single_source_dijkstra_path_length(graph, node, weight="length")
+        for node in source_by_node
+    }
+    point_info = []
+    assigned_peak = defaultdict(float)
+    for index, (point, target_node) in enumerate(zip(points, target_nodes)):
+        target_node = int(target_node)
+        source_node = min(source_by_node, key=lambda node: source_distances[node][target_node])
+        peak_mw = float(point["peak_demand_mw"])
+        point_info.append({"index": index, "point": point, "target_node": target_node, "source_node": source_node, "peak_mw": peak_mw})
+        assigned_peak[source_node] += peak_mw
+
+    capacity_limit = {
+        node: source_by_node[node]["routing_capacity_mva"] * 0.95
+        for node in source_by_node
+    }
+    for overloaded_node in source_by_node:
+        while assigned_peak[overloaded_node] > capacity_limit[overloaded_node] + 1e-9:
+            moves = []
+            for info in point_info:
+                if info["source_node"] != overloaded_node:
+                    continue
+                alternatives = [
+                    node for node in source_by_node
+                    if node != overloaded_node
+                    and assigned_peak[node] + info["peak_mw"] <= capacity_limit[node] + 1e-9
+                ]
+                if not alternatives:
+                    continue
+                alternate = min(alternatives, key=lambda node: source_distances[node][info["target_node"]])
+                distance_penalty = (
+                    source_distances[alternate][info["target_node"]]
+                    - source_distances[overloaded_node][info["target_node"]]
+                )
+                moves.append((distance_penalty, info["index"], alternate))
+            if not moves:
+                raise RuntimeError("Unable to rebalance synthetic demand within seeded 20 kV source capacities.")
+            _, index, alternate = min(moves)
+            info = point_info[index]
+            assigned_peak[overloaded_node] -= info["peak_mw"]
+            assigned_peak[alternate] += info["peak_mw"]
+            info["source_node"] = alternate
+
+    edge_peak_mw = defaultdict(float)
+    edge_sources = {}
+    assignments = []
+    source_point_counts = defaultdict(int)
+    source_peak_mw = defaultdict(float)
+
+    for source_node, source in source_by_node.items():
+        _, paths = nx.single_source_dijkstra(graph, source_node, weight="length")
+        for info in point_info:
+            if info["source_node"] != source_node:
+                continue
+            point = info["point"]
+            target_node = info["target_node"]
+            peak_mw = info["peak_mw"]
+            path = paths[target_node]
+            source_point_counts[source["osmid"]] += 1
+            source_peak_mw[source["osmid"]] += peak_mw
+            for u, v in zip(path, path[1:]):
+                key = (source["osmid"], *tuple(sorted((int(u), int(v)))))
+                edge_peak_mw[key] += peak_mw
+                edge_sources[key] = source["osmid"]
+            assignments.append(
+                {
+                    "synthetic_id": point["synthetic_id"],
+                    "source_osm_id": source["osmid"],
+                    "source_name": source["name"],
+                    "street_graph_node": target_node,
+                    "route_distance_km": source_distances[source_node][target_node] / 1000.0,
+                    "peak_demand_mw": peak_mw,
+                    "provenance": "capacity-balanced inferred shortest-path assignment on OSM streets; not an as-built feeder",
+                }
+            )
+
+    with ASSIGNMENTS.open("w", encoding="utf-8", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=assignments[0].keys())
+        writer.writeheader()
+        writer.writerows(assignments)
+
+    features = []
+    total_length_m = 0.0
+    source_lengths = defaultdict(float)
+    source_edge_counts = defaultdict(int)
+    physical_edges = set()
+    for (source_key, u, v), peak_mw in edge_peak_mw.items():
+        physical_edges.add((u, v))
+        record = edge_record(graph, u, v)
+        length_m = float(record.get("length", 0.0))
+        source_id = edge_sources[(source_key, u, v)]
+        total_length_m += length_m
+        source_lengths[source_id] += length_m
+        source_edge_counts[source_id] += 1
+        features.append(
+            {
+                "type": "Feature",
+                "properties": {
+                    "kind": "feeder_segment",
+                    "source_osm_id": source_id,
+                    "source_name": next(row["name"] for row in source_rows if row["osmid"] == source_id),
+                    "road_node_u": u,
+                    "road_node_v": v,
+                    "allocated_peak_mw": peak_mw,
+                    "length_m": length_m,
+                    "provenance": "synthetic street-routed feeder segment; not verified utility geometry",
+                },
+                "geometry": mapping(edge_geometry(graph, u, v, record)),
+            }
+        )
+
+    # Preserve an explicit visual connection for seeds that sit just outside
+    # the original urban street-graph footprint (most notably Futog).
+    for source in source_rows:
+        node = graph.nodes[source["node"]]
+        connector = LineString([(source["lon"], source["lat"]), (node["x"], node["y"])])
+        if connector.length <= 1e-7:
+            continue
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "kind": "source_connector",
+                "source_osm_id": source["osmid"],
+                "source_name": source["name"],
+                "allocated_peak_mw": source_peak_mw[source["osmid"]],
+                "length_m": connector.length * 85_000,
+                "provenance": "dotted inferred connector from seeded station to edge of available OSM street graph; route unverified",
+            },
+            "geometry": mapping(connector),
+        })
+
+    OUTPUT_GEOJSON.write_text(
+        json.dumps({"type": "FeatureCollection", "features": features}, separators=(",", ":")),
+        encoding="utf-8",
+    )
+
+    # Route the legacy 35 kV path from NS2/NS4 to the central 35/10 kV stations.
+    legacy_primary = [station for station in PRIMARY_STATIONS if not station["direct_20kv"]]
+    legacy_nodes = nearest_nodes(graph, [(row["lon"], row["lat"]) for row in legacy_primary])
+    secondary_nodes = nearest_nodes(graph, [(row["lon"], row["lat"]) for row in LEGACY_SECONDARY_STATIONS])
+    legacy_features = []
+    for secondary, target_node in zip(LEGACY_SECONDARY_STATIONS, secondary_nodes):
+        documented_source_id = DOCUMENTED_LEGACY_UPSTREAM.get(secondary["id"])
+        candidate_sources = [
+            (primary, source_node)
+            for primary, source_node in zip(legacy_primary, legacy_nodes)
+            if documented_source_id is None or primary["id"] == documented_source_id
+        ]
+        candidates = []
+        for primary, source_node in candidate_sources:
+            length, path = nx.single_source_dijkstra(graph, source_node, target=target_node, weight="length")
+            candidates.append((length, path, primary))
+        length, path, primary = min(candidates, key=lambda item: item[0])
+        association_status = "documented in EDS plan" if documented_source_id else "inferred by minimum road-network distance"
+        coordinates = []
+        for u, v in zip(path, path[1:]):
+            record = edge_record(graph, u, v)
+            geometry = edge_geometry(graph, u, v, record)
+            coordinates.append(list(geometry.coords))
+        legacy_features.append({
+            "type": "Feature",
+            "properties": {
+                "upstream": primary["name"],
+                "secondary": secondary["name"],
+                "ratio": secondary["ratio"],
+                "route_length_km": length / 1000.0,
+                "upstream_association_status": association_status,
+                "provenance": (
+                    f"Upstream association {association_status}; street-routed 35 kV corridor is inferred and exact route is unverified"
+                ),
+            },
+            "geometry": {"type": "MultiLineString", "coordinates": coordinates},
+        })
+    OUTPUT_LEGACY.write_text(
+        json.dumps({"type": "FeatureCollection", "features": legacy_features}, separators=(",", ":")),
+        encoding="utf-8",
+    )
+
+    station_output = {
+        "source": "EDS Plan razvoja distributivnog sistema 2025-2034, base year 2024",
+        "coordinate_warning": "Only NS5, NS7 and Rimski Sancevi are name-verified in OSM; every other identity-to-coordinate match is inferred and must not be treated as an as-built location.",
+        "primary_stations": PRIMARY_STATIONS,
+        "legacy_secondary_stations": [
+            {**station, "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"}
+            for station in LEGACY_SECONDARY_STATIONS
+        ],
+    }
+    OUTPUT_STATIONS.write_text(json.dumps(station_output, indent=2), encoding="utf-8")
+    source_summary = []
+    for source in source_rows:
+        source_id = source["osmid"]
+        source_summary.append(
+            {
+                "source_osm_id": source_id,
+                "source_name": source["name"],
+                "installed_mva": source["installed_mva"],
+                "routing_capacity_mva": source["routing_capacity_mva"],
+                "routing_limit_mw_at_95pct": source["routing_capacity_mva"] * 0.95,
+                "baseline_pmax_mw": source["baseline_pmax_mw"],
+                "assigned_points": source_point_counts[source_id],
+                "allocated_peak_mw": source_peak_mw[source_id],
+                "synthetic_peak_within_routing_limit": source_peak_mw[source_id] <= source["routing_capacity_mva"] * 0.95 + 1e-9,
+                "unique_route_edges": source_edge_counts[source_id],
+                "unique_route_length_km": source_lengths[source_id] / 1000.0,
+            }
+        )
+    summary = {
+        "method": "multi-source shortest-path forest on the OSM street graph, rooted at seven EDS-listed stations with direct 110/20 kV function",
+        "provenance": "Synthetic planning proxy; not an as-built electrical topology.",
+        "point_count": len(assignments),
+        "connected_point_count": len(assignments),
+        "source_specific_route_edges": len(edge_peak_mw),
+        "unique_physical_route_edges": len(physical_edges),
+        "source_connector_features": len(features) - len(edge_peak_mw),
+        "unique_route_length_km": total_length_m / 1000.0,
+        "sources": source_summary,
+        "legacy_path": "NS2/NS4 (110/35 kV) are shown separately feeding six EDS-listed 35/10 kV stations; they are not treated as direct 20 kV roots.",
+    }
+    OUTPUT_SUMMARY.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    print(
+        f"Created {OUTPUT_GEOJSON.resolve()} with {len(edge_peak_mw)} inferred street-routed segments "
+        f"connecting {len(assignments)} synthetic service points."
+    )
+
+
+if __name__ == "__main__":
+    main()

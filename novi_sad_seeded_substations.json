@@ -1,0 +1,217 @@
+{
+  "source": "EDS Plan razvoja distributivnog sistema 2025-2034, base year 2024",
+  "coordinate_warning": "Only NS5, NS7 and Rimski Sancevi are name-verified in OSM; every other identity-to-coordinate match is inferred and must not be treated as an as-built location.",
+  "primary_stations": [
+    {
+      "id": "NS1",
+      "name": "Novi Sad 1 - Ledinci",
+      "ratio": "110/20 + 110/35",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "direct_20kv_mva": 31.5,
+      "baseline_pmax_mw": 7.5,
+      "utilization_pct": 24.2,
+      "derived_total_pmax_mw": 23.0,
+      "max_section_utilization_pct": 50.1,
+      "sections": [
+        {
+          "ratio": "110/20",
+          "installed_mva": 31.5,
+          "baseline_pmax_mw": 7.5,
+          "utilization_pct": 24.2
+        },
+        {
+          "ratio": "110/35",
+          "installed_mva": 31.5,
+          "baseline_pmax_mw": 15.5,
+          "utilization_pct": 50.1
+        }
+      ],
+      "lat": 45.2172125,
+      "lon": 19.815708,
+      "osm_id": 356832545,
+      "coordinate_status": "inferred match to unnamed OSM substation in Ledinci"
+    },
+    {
+      "id": "NS2",
+      "name": "Novi Sad 2",
+      "ratio": "110/35",
+      "direct_20kv": false,
+      "installed_mva": 51.5,
+      "baseline_pmax_mw": 30.0,
+      "utilization_pct": 58.3,
+      "lat": 45.272745,
+      "lon": 19.8461553,
+      "osm_id": 142883147,
+      "coordinate_status": "inferred match to unnamed OSM distribution substation"
+    },
+    {
+      "id": "NS4",
+      "name": "Novi Sad 4 - Sever III",
+      "ratio": "110/35",
+      "direct_20kv": false,
+      "installed_mva": 126.0,
+      "baseline_pmax_mw": 54.4,
+      "utilization_pct": 43.4,
+      "lat": 45.2774527,
+      "lon": 19.7990241,
+      "osm_id": 141886238,
+      "coordinate_status": "inferred match to unnamed OSM distribution substation in Sever III"
+    },
+    {
+      "id": "NS5",
+      "name": "Novi Sad 5 - Detelinara",
+      "ratio": "110/20/10",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "baseline_pmax_mw": 56.9,
+      "utilization_pct": 91.0,
+      "lat": 45.260453,
+      "lon": 19.8048469,
+      "osm_id": 365786756,
+      "coordinate_status": "verified by named OSM feature"
+    },
+    {
+      "id": "NS6",
+      "name": "Novi Sad 6 - Miseluk",
+      "ratio": "110/20",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "baseline_pmax_mw": 28.0,
+      "utilization_pct": 44.5,
+      "lat": 45.2269229,
+      "lon": 19.8735339,
+      "osm_id": 1431014564,
+      "coordinate_status": "inferred match to unnamed OSM substation in Miseluk"
+    },
+    {
+      "id": "NS7",
+      "name": "Novi Sad 7 - Juzni Telep",
+      "ratio": "110/20 + 110/35",
+      "direct_20kv": true,
+      "installed_mva": 83.0,
+      "direct_20kv_mva": 63.0,
+      "baseline_pmax_mw": 59.8,
+      "utilization_pct": 95.4,
+      "sections": [
+        {
+          "ratio": "110/20",
+          "installed_mva": 63.0,
+          "baseline_pmax_mw": 59.8,
+          "utilization_pct": 95.4
+        },
+        {
+          "ratio": "110/35",
+          "installed_mva": 20.0,
+          "baseline_pmax_mw": 0.0,
+          "utilization_pct": null
+        }
+      ],
+      "lat": 45.2315098,
+      "lon": 19.8139568,
+      "osm_id": 220232167,
+      "coordinate_status": "verified by named OSM feature"
+    },
+    {
+      "id": "NS9",
+      "name": "Novi Sad 9 - Rafinerija",
+      "ratio": "110/20/10",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "baseline_pmax_mw": 26.7,
+      "utilization_pct": 42.4,
+      "lat": 45.2806465,
+      "lon": 19.8789331,
+      "osm_id": 359523533,
+      "coordinate_status": "inferred match to unnamed OSM distribution substation in refinery area"
+    },
+    {
+      "id": "RIM",
+      "name": "Rimski Sancevi",
+      "ratio": "110/20",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "baseline_pmax_mw": 31.7,
+      "utilization_pct": 51.1,
+      "lat": 45.3101654,
+      "lon": 19.8272059,
+      "osm_id": 365927134,
+      "coordinate_status": "verified by named OSM feature"
+    },
+    {
+      "id": "FUT",
+      "name": "Futog",
+      "ratio": "110/20",
+      "direct_20kv": true,
+      "installed_mva": 63.0,
+      "baseline_pmax_mw": 33.2,
+      "utilization_pct": 54.3,
+      "lat": 45.2601681,
+      "lon": 19.7008355,
+      "osm_id": 367560187,
+      "coordinate_status": "inferred match to unnamed OSM substation east of Futog-Planta-Kisac road"
+    }
+  ],
+  "legacy_secondary_stations": [
+    {
+      "id": "LIMAN",
+      "name": "Liman",
+      "ratio": "35/10 (plus 35/20 section)",
+      "installed_mva": 32.0,
+      "lat": 45.24403,
+      "lon": 19.8403917,
+      "osm_id": 219386583,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    },
+    {
+      "id": "CENTAR",
+      "name": "Centar",
+      "ratio": "35/10",
+      "installed_mva": 32.0,
+      "lat": 45.2451338,
+      "lon": 19.8484361,
+      "osm_id": 222835326,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    },
+    {
+      "id": "PODBARA",
+      "name": "Podbara",
+      "ratio": "35/10",
+      "installed_mva": 32.0,
+      "lat": 45.2616944,
+      "lon": 19.8453786,
+      "osm_id": 13476783676,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    },
+    {
+      "id": "SEVER",
+      "name": "Sever",
+      "ratio": "35/10",
+      "installed_mva": 16.0,
+      "lat": 45.2760796,
+      "lon": 19.8223915,
+      "osm_id": 1539728495,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    },
+    {
+      "id": "IND",
+      "name": "Industrijska",
+      "ratio": "35/10 (plus 35/20 section)",
+      "installed_mva": 32.0,
+      "lat": 45.2688048,
+      "lon": 19.8308089,
+      "osm_id": 1346366291,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    },
+    {
+      "id": "TELEP",
+      "name": "Telep",
+      "ratio": "35/10",
+      "installed_mva": 16.0,
+      "lat": 45.2517402,
+      "lon": 19.7920114,
+      "osm_id": 197685483,
+      "coordinate_status": "inferred match to unnamed OSM substation near the EDS-listed locality"
+    }
+  ]
+}

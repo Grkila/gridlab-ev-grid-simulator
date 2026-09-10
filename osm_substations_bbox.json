@@ -1,0 +1,585 @@
+[
+  {
+    "type": "node",
+    "id": 13476783676,
+    "lat": 45.2616944,
+    "lon": 19.8453786,
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "node",
+    "id": 13593515628,
+    "lat": 45.2345944,
+    "lon": 19.8229025,
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 43526316,
+    "center": {
+      "lat": 45.2402442,
+      "lon": 19.8445816
+    },
+    "tags": {
+      "building": "yes",
+      "height": "4",
+      "operator": "Elektrovojvodina",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 141886238,
+    "center": {
+      "lat": 45.2774527,
+      "lon": 19.7990241
+    },
+    "tags": {
+      "barrier": "fence",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 142883147,
+    "center": {
+      "lat": 45.272745,
+      "lon": 19.8461553
+    },
+    "tags": {
+      "barrier": "fence",
+      "fixme": "name",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 146415822,
+    "center": {
+      "lat": 45.2439256,
+      "lon": 19.8446428
+    },
+    "tags": {
+      "building": "industrial",
+      "power": "substation",
+      "substation": "minor_distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 197685483,
+    "center": {
+      "lat": 45.2517402,
+      "lon": 19.7920114
+    },
+    "tags": {
+      "power": "substation",
+      "substation": "minor_distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 219386583,
+    "center": {
+      "lat": 45.24403,
+      "lon": 19.8403917
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 220232167,
+    "center": {
+      "lat": 45.2315098,
+      "lon": 19.8139568
+    },
+    "tags": {
+      "barrier": "fence",
+      "landuse": "industrial",
+      "location": "outdoor",
+      "name": "Нови Сад 7",
+      "name:en": "Novi Sad 7",
+      "name:sr": "Нови Сад 7",
+      "name:sr-Latn": "Novi Sad 7",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution",
+      "voltage": "110000;20000"
+    }
+  },
+  {
+    "type": "way",
+    "id": 222835326,
+    "center": {
+      "lat": 45.2451338,
+      "lon": 19.8484361
+    },
+    "tags": {
+      "building": "yes",
+      "building:levels": "1",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 314456280,
+    "center": {
+      "lat": 45.231742,
+      "lon": 19.8834983
+    },
+    "tags": {
+      "area": "yes",
+      "barrier": "fence",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 359523533,
+    "center": {
+      "lat": 45.2806465,
+      "lon": 19.8789331
+    },
+    "tags": {
+      "barrier": "fence",
+      "fixme": "name",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 365786756,
+    "center": {
+      "lat": 45.260453,
+      "lon": 19.8048469
+    },
+    "tags": {
+      "barrier": "fence",
+      "int_name": "Novi Sad 5",
+      "location": "outdoor",
+      "name": "Нови Сад 5",
+      "name:sr": "Нови Сад 5",
+      "name:sr-Latn": "Novi Sad 5",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution",
+      "voltage": "110000;20000"
+    }
+  },
+  {
+    "type": "way",
+    "id": 365927134,
+    "center": {
+      "lat": 45.3101654,
+      "lon": 19.8272059
+    },
+    "tags": {
+      "barrier": "fence",
+      "int_name": "Rimski Sancevi",
+      "location": "outdoor",
+      "name": "Римски Шанчеви",
+      "name:sr": "Римски Шанчеви",
+      "name:sr-Latn": "Rimski Šančevi",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "rating": "63 MVA",
+      "substation": "distribution",
+      "voltage": "110000;20000"
+    }
+  },
+  {
+    "type": "way",
+    "id": 366054330,
+    "center": {
+      "lat": 45.2672583,
+      "lon": 19.886619
+    },
+    "tags": {
+      "barrier": "fence",
+      "int_name": "TE-TO Novi Sad",
+      "name": "ТЕ-ТО Нови Сад",
+      "name:sr": "ТЕ-ТО Нови Сад",
+      "name:sr-Latn": "TE-TO Novi Sad",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "generation",
+      "voltage": "110000"
+    }
+  },
+  {
+    "type": "way",
+    "id": 689946931,
+    "center": {
+      "lat": 45.2490473,
+      "lon": 19.7980221
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 691229866,
+    "center": {
+      "lat": 45.2483235,
+      "lon": 19.7974897
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 691229867,
+    "center": {
+      "lat": 45.2491487,
+      "lon": 19.799724
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 749837139,
+    "center": {
+      "lat": 45.2444697,
+      "lon": 19.79862
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1107436395,
+    "center": {
+      "lat": 45.2578786,
+      "lon": 19.8063729
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1107436396,
+    "center": {
+      "lat": 45.2586148,
+      "lon": 19.8058815
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1293881910,
+    "center": {
+      "lat": 45.258854,
+      "lon": 19.8437689
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1312741191,
+    "center": {
+      "lat": 45.2649701,
+      "lon": 19.8312185
+    },
+    "tags": {
+      "building": "service",
+      "power": "substation",
+      "substation": "minor_distribution",
+      "utility": "power"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1331595343,
+    "center": {
+      "lat": 45.2574256,
+      "lon": 19.8412539
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1340055876,
+    "center": {
+      "lat": 45.2619784,
+      "lon": 19.8483621
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1341034865,
+    "center": {
+      "lat": 45.2548782,
+      "lon": 19.8533175
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1346366291,
+    "center": {
+      "lat": 45.2688048,
+      "lon": 19.8308089
+    },
+    "tags": {
+      "barrier": "fence",
+      "landuse": "industrial",
+      "operator": "Elektromreža Srbije",
+      "operator:short": "EMS",
+      "operator:wikidata": "Q18250047",
+      "power": "substation",
+      "substation": "distribution"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1377885410,
+    "center": {
+      "lat": 45.2617428,
+      "lon": 19.8331247
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1381550686,
+    "center": {
+      "lat": 45.2380551,
+      "lon": 19.8372918
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1384187694,
+    "center": {
+      "lat": 45.2623354,
+      "lon": 19.8096954
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1387796793,
+    "center": {
+      "lat": 45.2650247,
+      "lon": 19.8353531
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1388966984,
+    "center": {
+      "lat": 45.2504072,
+      "lon": 19.7853975
+    },
+    "tags": {
+      "building": "service",
+      "power": "substation",
+      "substation": "minor_distribution",
+      "utility": "power"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1392239855,
+    "center": {
+      "lat": 45.243443,
+      "lon": 19.8436364
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1392239863,
+    "center": {
+      "lat": 45.2431269,
+      "lon": 19.8484065
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1393146515,
+    "center": {
+      "lat": 45.242497,
+      "lon": 19.8001838
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1415738188,
+    "center": {
+      "lat": 45.248655,
+      "lon": 19.8482411
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1423711977,
+    "center": {
+      "lat": 45.2511338,
+      "lon": 19.8518798
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1424619054,
+    "center": {
+      "lat": 45.2624308,
+      "lon": 19.8573847
+    },
+    "tags": {
+      "mapillary": "1247911856254413",
+      "power": "substation",
+      "substation": "yes"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1424756287,
+    "center": {
+      "lat": 45.2612276,
+      "lon": 19.8518846
+    },
+    "tags": {
+      "power": "substation",
+      "substation": "yes"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1427529434,
+    "center": {
+      "lat": 45.2832608,
+      "lon": 19.7712073
+    },
+    "tags": {
+      "mapillary": "972179817985234",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1431014564,
+    "center": {
+      "lat": 45.2269229,
+      "lon": 19.8735339
+    },
+    "tags": {
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1447620689,
+    "center": {
+      "lat": 45.2555402,
+      "lon": 19.8320952
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1539728495,
+    "center": {
+      "lat": 45.2760796,
+      "lon": 19.8223915
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  },
+  {
+    "type": "way",
+    "id": 1553731389,
+    "center": {
+      "lat": 45.2679414,
+      "lon": 19.8242065
+    },
+    "tags": {
+      "building": "yes",
+      "power": "substation"
+    }
+  }
+]

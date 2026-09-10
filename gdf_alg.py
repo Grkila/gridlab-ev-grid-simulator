@@ -81,7 +81,7 @@ def extend_gdf_data(data):
         return ch
     
     def cleanup_lu(lu0):
-        lu0 = lu0.loc[lu0['geometry'].geom_type == 'Polygon']  # Keep only landuse polygons
+        lu0 = lu0.loc[lu0['geometry'].geom_type == 'Polygon'].copy()  # Keep only landuse polygons
         gdf_gen.gdf_deduplicate(lu0)  # Eliminate internal duplicated areas
         lu0 = lu0[~lu0.index.isin(sc.index)]  # Remove geometries that are going to be added later as special consumers
         lu0sc = lu0.sjoin(sc, predicate='intersects')
@@ -91,21 +91,22 @@ def extend_gdf_data(data):
         lu0 = lu0[~lu0['geometry'].is_empty]  # Remove rows where the entire geometry is within a special consumer
         lu0['area'] = lu0['geometry'].apply(gdf_gen.get_planar_area) * 100
         lu0['dem'] = lu0.apply(lambda r: r['area'] * afs.get(r['tag']), axis=1) * p2m * od
-        sc['area'] = sc['geometry'].apply(gdf_gen.get_planar_area) * 100
+        if not sc.empty:
+            sc['area'] = sc['geometry'].apply(gdf_gen.get_planar_area) * 100
         lu0 = pd.concat([lu0, sc], axis=0)  # Add special consumers
         return lu0
 
     def voronoi_around_t(t0):
         tr = t0.copy()
         tr['geometry'] = tr['geometry'].apply(lambda x: x.centroid)
-        v0 = (gpd.GeoDataFrame(
-            tr.voronoi_polygons(extend_to=poly), geometry=0, crs=crs)
+        voronoi = shp.voronoi_polygons(tr.geometry.unary_union, extend_to=poly)
+        v0 = (gpd.GeoDataFrame(geometry=list(voronoi.geoms), crs=crs)
              .sjoin(tr, how='inner', predicate='contains'))
         v0 = gpd.overlay(
             v0,
             gpd.GeoDataFrame([poly], geometry=0, crs="WGS84"),
             how='intersection'
-        ).set_index('ID')
+        ).set_index('index_right')
         v0['name'] = v0.index
         return v0[['geometry', 'name', 'cap']]
 
@@ -155,6 +156,8 @@ def extend_gdf_data(data):
         return dlugrp
    
     def dem_ch(div, ch0):
+        if ch0.empty:
+            return pd.DataFrame(columns=['ch', 'dem_ch'])
         dch = gdf_gen.gdfs_intersection(div, ch)
         dch = dch.rename(columns={'tag': 'ch', 'dem': 'dem_ch'})
         dchgrp = dch.groupby('ID_l')[['ch', 'dem_ch']].sum()
@@ -178,8 +181,9 @@ def extend_gdf_data(data):
         v['cap'] = ((v['dem'] // trc) + 1) * trc
         t['cap'] = v['cap']
 
-    d = transf_within_districts(d, t)
-    d = add_lu_ch(d, lu, ch)
+    if not d.empty:
+        d = transf_within_districts(d, t)
+        d = add_lu_ch(d, lu, ch)
 
     data.update({'ch': ch, 'lu': lu, 't': t, 'v': v, 'd': d})
     return data

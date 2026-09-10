@@ -5,6 +5,7 @@ import osmnx as ox
 import osmnx.settings
 import geopandas as gpd
 import overpy
+import requests
 from gdf_gen import get_planar_length as pl
 from tqdm import tqdm
 
@@ -14,11 +15,33 @@ ov_api = overpy.Overpass()
 
 def op_query(query):
     global ov_api
-    try:
-        return ov_api.query(query)
-    except (overpy.exception.OverpassGatewayTimeout, overpy.exception.OverpassTooManyRequests):
-        ov_api = overpy.Overpass(url='https://overpass.kumi.systems/api/interpreter')
-        return ov_api.query(query)
+    errors = []
+    for endpoint in ('https://overpass-api.de/api/interpreter',
+                     'https://overpass.kumi.systems/api/interpreter',
+                     'https://overpass.private.coffee/api/interpreter'):
+        try:
+            response = requests.get(endpoint, params={'data': query},
+                                    headers={'User-Agent': 'MVGridModelGenerator/1.0'}, timeout=90)
+            response.raise_for_status()
+            return ov_api.parse_xml(response.content)
+        except (requests.RequestException, ValueError) as error:
+            errors.append(f'{endpoint}: {error}')
+    raise RuntimeError(f'All Overpass endpoints failed: {" | ".join(errors)}')
+
+
+def op_query_json(query):
+    errors = []
+    for endpoint in ('https://overpass-api.de/api/interpreter',
+                     'https://overpass.kumi.systems/api/interpreter',
+                     'https://overpass.private.coffee/api/interpreter'):
+        try:
+            response = requests.get(endpoint, params={'data': query},
+                                    headers={'User-Agent': 'MVGridModelGenerator/1.0'}, timeout=90)
+            response.raise_for_status()
+            return response.json()
+        except (requests.RequestException, ValueError) as error:
+            errors.append(f'{endpoint}: {error}')
+    raise RuntimeError(f'All Overpass endpoints failed: {" | ".join(errors)}')
 
 
 def overpass_query_dict_to_text(qd: dict, poly) -> str:
@@ -60,7 +83,7 @@ def get_cities_polygon() -> shpg.Polygon:
             poly = poly.union(city_polygon)
         else:
             cities_list.append(city)
-    return poly
+    return poly.simplify(tolerance, preserve_topology=True) if tolerance else poly
 
 
 @ut.runtime_counter('Retrieving street graph for cities from OSM')
@@ -88,46 +111,44 @@ def gdf_from_osm(qt, poly):
         elem_l.append(data_d)
 
     qd = ut.cf['1']['queries'][qt]
-    query_text = overpass_query_dict_to_text(qd, poly)
+    if qd.get('disabled', False):
+        return gpd.GeoDataFrame(columns=['ID', 'type', 'tag', 'name', 'geometry'],
+                                geometry='geometry', crs='WGS84').set_index('ID')
+    query_text = '[out:json];' + overpass_query_dict_to_text(qd, poly)
     print("Overpass query:", query_text)
-    result = op_query(query_text)
-    rel_l = []
-    way_l = []
-    nod_l = []
-    ways_in_rels = set()
-    nodes_in_ways = set()
-    with tqdm(total=len(result.relations) + len(result.ways) + len(result.nodes),
-              desc=ut.pad_center(qd["type"], 24), colour='green', unit=' geom') as pbar:
-        for rel in result.relations:
-            for member in rel.members:
-                ways_in_rels.add(member.ref)
-            # inner_multi = shpg.MultiPolygon([shpg.Polygon([(point.lon, point.lat) for point in r_m.geometry]) # can create error with ways <4 coordinates
-            #                                  for r_m in rel.members if r_m.role == 'inner'])
-            outer_poly = shpo.polygonize([shpg.LineString([(vertex.lon, vertex.lat) for vertex in r_m.geometry])
-                                          for r_m in rel.members if r_m.role == 'outer'])[0]
-            add_elem_to_list(rel, outer_poly, 'r', rel_l) # - inner_multi
-            pbar.update(1)
-        for wy in result.ways:
-            for node in wy._node_ids:
-                nodes_in_ways.add(node)
-            if wy.id not in ways_in_rels:
-                add_elem_to_list(wy, wy._node_ids, 'w', way_l)
-        for nod in result.nodes:
-            if nod.id not in nodes_in_ways:
-                add_elem_to_list(nod, shpg.Point(nod.lon, nod.lat), 'n', nod_l)
-            pbar.update(1)
-        if way_l:
-            r_ns_d = {node.id: (float(node.lon), float(node.lat)) for node in op_query(
-                f'node(id:{",".join(str(n_id) for geom in [way["geometry"] for way in way_l] for n_id in geom)});out skel;').nodes}
-            for way in way_l:
-                if len(way['geometry']) < 3:
-                    way['geometry'] = shpg.LineString([r_ns_d[n_id] for n_id in way['geometry']])
-                else:
-                    way['geometry'] = shpg.Polygon([r_ns_d[n_id] for n_id in way['geometry']])
-                pbar.update(1)
-    data_gdf = gpd.GeoDataFrame(rel_l + way_l + nod_l, crs="WGS84")
-    data_gdf.set_index('ID', inplace=True)
-    return data_gdf
+    elements = op_query_json(query_text)['elements']
+    rows, relation_way_ids = [], set()
+    for element in elements:
+        if element['type'] == 'relation':
+            relation_way_ids.update(member['ref'] for member in element.get('members', []) if member['type'] == 'way')
+    for element in tqdm(elements, desc=ut.pad_center(qd['type'], 24), colour='green', unit=' geom'):
+        typ = element['type']
+        if typ == 'way' and element['id'] in relation_way_ids:
+            continue
+        if typ == 'node':
+            geometry = shpg.Point(float(element['lon']), float(element['lat']))
+        elif typ == 'way':
+            coords = [(float(point['lon']), float(point['lat'])) for point in element.get('geometry', [])]
+            if len(coords) < 2:
+                continue
+            geometry = shpg.Polygon(coords) if len(coords) >= 3 and coords[0] == coords[-1] else shpg.LineString(coords)
+        elif typ == 'relation':
+            outer_lines = [shpg.LineString([(float(point['lon']), float(point['lat'])) for point in member['geometry']])
+                           for member in element.get('members', [])
+                           if member.get('role') == 'outer' and member.get('geometry')]
+            polygons = list(shpo.polygonize(outer_lines))
+            if not polygons:
+                continue
+            geometry = shpo.unary_union(polygons)
+        else:
+            continue
+        row = {'ID': element['id'], 'type': typ[0], 'tag': element.get('tags', {}).get(qd.get('tag', ''), ''),
+               'name': element.get('tags', {}).get('name', ''), 'geometry': geometry}
+        configured = qd.get('in_nwr', {}).get(typ, {}).get(str(element['id']))
+        if configured:
+            row.update(configured)
+        rows.append(row)
+    return gpd.GeoDataFrame(rows, crs='WGS84').set_index('ID')
 
 
 def get_city_polygon(data):

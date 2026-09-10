@@ -4,3 +4,5 @@
 /cache
 /venv
 ppnet.json
+*.log
+*.err

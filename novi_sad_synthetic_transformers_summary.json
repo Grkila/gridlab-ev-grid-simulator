@@ -1,0 +1,11 @@
+{
+  "point_count": 2648,
+  "annual_consumption_mwh": 1147635.0,
+  "annual_average_mw": 131.0085616438356,
+  "peak_to_mean_ratio": 1.64,
+  "calibrated_peak_demand_mw": 214.85404109588669,
+  "mv_20kv_capacity_mw": 299.0,
+  "capacity_headroom_mw": 84.14595890411331,
+  "seed": 20250910,
+  "provenance": "Synthetic, land-use-weighted allocation calibrated to user-supplied 2025 consumption/capacity figures."
+}
