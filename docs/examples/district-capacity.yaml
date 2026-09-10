@@ -1,0 +1,28 @@
+schema_version: 1
+name: District placement and estimated capacity
+hypothesis: Capacity-aware charging respects estimated district budgets while reporting unmet departure energy.
+case_origin: manual
+metric_boundary: grid_asset
+assumptions:
+  - Districts are electrical delivery groups, not verified municipal boundaries.
+  - The NS5 central capacity is an illustrative 35000 kW study estimate, not a utility limit.
+  - Capacity sensitivity and EV district shares are scenario choices.
+demand:
+  monthly_energy: 76000
+  unit: MWh
+  month: 6
+  days_per_month: 30
+district_capacity:
+  scenario: central
+  overrides:
+    NS5:
+      capacity_kw: 35000
+      provenance: Illustrative central estimate selected for a district-capacity hypothesis.
+fleet:
+  fleet_size: 200
+  district_mix: {NS5: 0.7, TELEP: 0.3}
+strategies: [immediate, capacity_aware]
+seeds: [1]
+stop_on_violation: false
+assertions:
+  - {type: hard, metric: max_district_loading_percent, operator: le, value: 100}

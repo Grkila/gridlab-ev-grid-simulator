@@ -1,0 +1,95 @@
+# Charging strategy development
+
+The primary GUI's **Strategies** workspace combines the existing four baselines,
+four research-inspired continuous controllers, and the learned binary RL policy.
+**Use in experiment** adds a controller to the current draft. An RL selection also
+requires a saved trained model. The RL workspace owns training; all evaluated
+controllers use the same saved experiment machinery and seeded session replays.
+
+## Workflow
+
+Codex and the experiment assistant accept these commands followed by YAML:
+
+| Command | Result |
+| --- | --- |
+| `STRATEGY PROPOSE` | Immutable idea and objective |
+| `STRATEGY SPECIFY` | Required observations, constraints, algorithm, fallback and research basis |
+| `STRATEGY BUILD` | Validated specification and concrete coding handoff |
+| `STRATEGY COMPARE` | Saved full-horizon comparison from an existing scenario |
+| `STRATEGY CHALLENGE` | Bounded scenario revisions with explicit uncertainty patches |
+| `STRATEGY REVISE` | New specification record preserving its parent |
+
+The MCP tools are `ev_get_strategy_catalog`, `ev_get_strategy_record`, and
+`ev_strategy_command`. Commands are validated as typed data; MCP never evaluates
+submitted Python. The GUI command editor exposes templates, saved record/scenario
+selectors, validation feedback and an assistant handoff. See the
+[skill's command examples](../plugins/ev-hypothesis-playground/skills/ev-experiments/strategy-workflow.md).
+
+`Save / prepare` does not start workers or write controller code. When the user
+sends an explicit `STRATEGY BUILD` with a complete saved specification in chat,
+that Codex CLI turn uses workspace-write mode to implement and test it. The next
+ordinary turn returns to read-only mode. Build turns have a 30-minute execution
+limit; ordinary chat turns have three minutes. A successful CLI exit is not proof
+that an algorithm passed tests: read the actual answer and tool evidence. Newly
+changed Python source may require an app/MCP restart before it becomes available.
+Research web search is enabled; experiment operations stay on the local MCP tools.
+
+## Four proof-of-concept implementations
+
+| ID | Implemented method | Research and differences |
+| --- | --- | --- |
+| `least_laxity_first` | Greedy headroom allocation by `(departure-now) - remaining/(charger*efficiency)` | [Chen et al., 2021](https://arxiv.org/abs/2102.08610). Plain LLF; does not reproduce published smoothed LLF. |
+| `valley_filling` | Bounded cyclic coordinate descent; each session water-fills aggregate forecast load | [Gan, Topcu and Low](https://smart.caltech.edu/papers/ContinuousEVCharging.pdf). Centralized online adaptation; no decentralized convergence or exact-optimality claim. |
+| `mpc` | Sparse linear program each interval: minimize horizon-required energy deficit, then minimize peak at that deficit | [Lee et al., 2021](https://ieeexplore.ieee.org/document/9409126). Linear grid-budget approximation with subsequent AC validation; not the full ACN algorithm. |
+| `voltage_responsive` | Previous measured block voltage drives linear power reduction and gradual recovery | [Cardona, López and Rider, 2018](https://www.sciencedirect.com/science/article/pii/S0378779618301020). Simple feedback adaptation using balanced MV block measurements; not the paper's full historical-voltage scheduling scheme or charger-terminal control. |
+
+All implement `actions(sim)` and `observe(sim, interval)`. Power is finite,
+nonnegative and limited by charger and remaining battery energy. The simulator
+records applied per-session kW. Missing external actions cannot silently execute
+a new strategy as immediate charging.
+
+MPC and valley filling only schedule currently connected sessions. Persistence
+forecasts repeat the known current baseline. Optional previous-day forecasts read
+observed history, retain the measured present value and use persistence where
+history is unavailable. Neither reads future arrivals or realized future demand.
+The default planning horizon is 96 intervals; the default variable budget is
+30,000. Exceeding that budget falls back to LLF with a recorded reason. Each MPC
+LP has a three-second default time limit. A failed first LP falls back to LLF; a
+failed peak LP retains the feasible delivery-optimal schedule. Horizon-required
+deficit is not represented as a prediction of final departure shortfall.
+
+LLF, valley filling and MPC allocate current linear headroom themselves. Voltage
+control requests locally and the simulator applies centralized budget checks.
+All four receive continuous AC safety reductions; RL preserves its binary action
+semantics. These differences must accompany algorithm comparisons. A baseline
+overload remains visible even if all EV power is removed.
+
+## Verified evidence, 2026-09-10
+
+- Combined repository suite: 99 tests passed, including independent numerical,
+  workflow, chat-mode and RL checks. Main implementation and independent critique
+  were separate; review findings were fixed and retested.
+- `scripts/verify_strategy_workflow.py`: real stdio MCP proposal/specification/
+  build-handoff/compare lifecycle, then five cases (capacity-aware plus all four
+  new controllers), each completing 132 intervals. Each delivered the requested
+  112 battery kWh with no reported electrical violations or nonconvergence in
+  this lightly loaded eight-vehicle case. This is execution evidence, not a
+  strategy-performance ranking.
+- `artifacts/playground/evidence/strategy_workflow.json`: immutable run/record IDs
+  and summary metrics; corresponding runtime manifests preserve source hashes.
+- `artifacts/playground/evidence/strategy_chat.json`: native Codex CLI actually
+  called the new MCP tools and saved a proposal. It did not claim implementation.
+- `scripts/verify_strategy_gui.cjs`: headless Chromium tested nine cards, MPC
+  selection/settings, draft preservation across refresh, proposal persistence,
+  incomplete-spec rejection and BUILD chat prefill with zero page errors.
+- `artifacts/playground/evidence/strategy_gui.json` and adjacent screenshots:
+  browser evidence. Production TypeScript/Vite build passed.
+- An autonomous code-writing BUILD was not launched as part of acceptance;
+  its validated dispatch, permission scope/reset and failure handling were tested
+  with mocked CLI processes. The four POCs themselves were implemented and tested
+  directly in the workspace.
+
+The reduced synthetic model has no physical LV feeders or phase imbalance. These
+checks do not establish utility performance, hosting capacity or controller
+superiority. RL proof-of-concept training quality is reported separately in the
+RL documentation and must not be inferred from successful pipeline tests.

@@ -57,6 +57,14 @@ Run the original upstream GUI with:
 python scripts/run_legacy_gui.py
 ```
 
+## EV hypothesis playground
+
+The local EV playground runs bounded, reproducible charging-strategy experiments through a Streamlit dashboard or typed stdio MCP interface. See the [implementation and user guide](docs/models/ev-playground.md), [example notebook](docs/examples/ev_playground.ipynb), and [exported JSON schema](docs/examples/ev-playground.schema.json).
+
+```powershell
+.\.venv\Scripts\python.exe scripts/run_playground_dashboard.py
+```
+
 ## Validate
 
 ```powershell
@@ -79,3 +87,13 @@ OpenStreetMap-derived data is attributed to OpenStreetMap contributors and is su
 This work adapts the original “Automated Generation of geo-referenced MV Grid Models based on OSM Data” implementation. Its methodology is described by Tobias Gebhard, Andrea Tundis, and Florian Steinke in [Automated Generation of Urban Medium-voltage Grids using OpenStreetMap Data](https://doi.org/10.1109/ISGTEUROPE62998.2024.10863461). Original attribution is preserved in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
 
 Contributions should follow [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+The primary playground GUI uses a green React interface with a local Codex CLI chat. Build it with `npm --prefix web ci` and `npm --prefix web run build`, then run `python scripts/run_playground_app.py`. See the [playground guide](docs/models/ev-playground.md) for scoped demand, safety stops and chat behavior.
+
+The **RL** workspace trains centralized on/off charging policies on randomized days,
+with editable reward weights and power/energy constraint handling. Saved models
+can be compared with other strategies on held-out seeds and inspected through
+reward charts and charger timelines. See the [RL guide](docs/models/ev-rl.md);
+the included short training demonstration is not a validated control policy.
+
+The **Strategies** workspace provides a research-linked controller library and standardized proposal/specification/build/comparison commands. See [strategy development](docs/strategy-development.md) for the four new controller adaptations, shared RL integration and verified evidence.

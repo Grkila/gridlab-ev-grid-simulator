@@ -1,0 +1,134 @@
+{
+  "status": "passed",
+  "scope": "Workflow/protocol and full-horizon execution; no claim of superior controller performance.",
+  "run_id": "run-380c1eba11d7450d",
+  "experiment_id": "exp-e201b1d830c286c74320",
+  "runtime_root": "C:\\Users\\Dusan\\Documents\\Code\\Schneider challenge\\Automated-Generation-of-MV-Grid-Models-based-on-OSM-Data\\artifacts\\playground\\strategy-poc-runtime",
+  "records": [
+    "strategy-472b93c11967dcd78ebe",
+    "strategy-e0854ed41cea670f92e5",
+    "strategy-8fec5aaf81e3a6fb7c17"
+  ],
+  "cases": [
+    {
+      "strategy": "capacity_aware",
+      "metrics": {
+        "delivered_energy_kwh": 112.0,
+        "district_overload_steps": 0,
+        "energy_excess_kwh": 0.0,
+        "energy_limit_exceeded_steps": 0,
+        "grid_ev_energy_kwh": 124.44444444444446,
+        "max_district_loading_percent": 40.779988803439316,
+        "max_line_loading_percent": 45.3503112438133,
+        "max_network_capacity_loading_percent": 48.26147021235542,
+        "max_transformer_loading_percent": 41.475512018357946,
+        "min_voltage_pu": 0.9675475792010454,
+        "network_capacity_overload_steps": 0,
+        "nonconverged_steps": 0,
+        "overload_steps": 0,
+        "peak_demand_kw": 115797.92850965301,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 112.0,
+        "runtime_seconds": 14.701236499997322,
+        "unmet_energy_kwh": 0,
+        "voltage_violation_steps": 0
+      }
+    },
+    {
+      "strategy": "least_laxity_first",
+      "metrics": {
+        "delivered_energy_kwh": 112.0,
+        "district_overload_steps": 0,
+        "energy_excess_kwh": 0.0,
+        "energy_limit_exceeded_steps": 0,
+        "grid_ev_energy_kwh": 124.44444444444446,
+        "max_district_loading_percent": 40.779988803439316,
+        "max_line_loading_percent": 45.3503112438133,
+        "max_network_capacity_loading_percent": 48.26147021235542,
+        "max_transformer_loading_percent": 41.475512018357946,
+        "min_voltage_pu": 0.9675475792010454,
+        "network_capacity_overload_steps": 0,
+        "nonconverged_steps": 0,
+        "overload_steps": 0,
+        "peak_demand_kw": 115797.92850965301,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 112.0,
+        "runtime_seconds": 14.387155799995526,
+        "unmet_energy_kwh": 0,
+        "voltage_violation_steps": 0
+      }
+    },
+    {
+      "strategy": "valley_filling",
+      "metrics": {
+        "delivered_energy_kwh": 112.0,
+        "district_overload_steps": 0,
+        "energy_excess_kwh": 0.0,
+        "energy_limit_exceeded_steps": 0,
+        "grid_ev_energy_kwh": 124.44444444444447,
+        "max_district_loading_percent": 40.779988803439316,
+        "max_line_loading_percent": 45.350311243813735,
+        "max_network_capacity_loading_percent": 48.24061306949828,
+        "max_transformer_loading_percent": 41.475512018357946,
+        "min_voltage_pu": 0.9675475792010437,
+        "network_capacity_overload_steps": 0,
+        "nonconverged_steps": 0,
+        "overload_steps": 0,
+        "peak_demand_kw": 115772.89993822444,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 112.0,
+        "runtime_seconds": 15.301711799998884,
+        "unmet_energy_kwh": 0,
+        "voltage_violation_steps": 0
+      }
+    },
+    {
+      "strategy": "mpc",
+      "metrics": {
+        "delivered_energy_kwh": 111.99999969999914,
+        "district_overload_steps": 0,
+        "energy_excess_kwh": 0.0,
+        "energy_limit_exceeded_steps": 0,
+        "grid_ev_energy_kwh": 124.44444411111009,
+        "max_district_loading_percent": 40.779988803439316,
+        "max_line_loading_percent": 45.35031124381094,
+        "max_network_capacity_loading_percent": 48.24061306946902,
+        "max_transformer_loading_percent": 41.47551201840571,
+        "min_voltage_pu": 0.967547579201102,
+        "network_capacity_overload_steps": 0,
+        "nonconverged_steps": 0,
+        "overload_steps": 0,
+        "peak_demand_kw": 115772.89993818932,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 112.0,
+        "runtime_seconds": 18.54402580000169,
+        "unmet_energy_kwh": 3.0000087003489995e-07,
+        "voltage_violation_steps": 0
+      }
+    },
+    {
+      "strategy": "voltage_responsive",
+      "metrics": {
+        "delivered_energy_kwh": 112.00000000000001,
+        "district_overload_steps": 0,
+        "energy_excess_kwh": 0.0,
+        "energy_limit_exceeded_steps": 0,
+        "grid_ev_energy_kwh": 124.44444444444446,
+        "max_district_loading_percent": 40.779988803439316,
+        "max_line_loading_percent": 45.350311243813735,
+        "max_network_capacity_loading_percent": 48.25812188776704,
+        "max_transformer_loading_percent": 41.475512018357946,
+        "min_voltage_pu": 0.9675475792010437,
+        "network_capacity_overload_steps": 0,
+        "nonconverged_steps": 0,
+        "overload_steps": 0,
+        "peak_demand_kw": 115793.91052014695,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 112.0,
+        "runtime_seconds": 13.377450300002238,
+        "unmet_energy_kwh": 0,
+        "voltage_violation_steps": 0
+      }
+    }
+  ]
+}

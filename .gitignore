@@ -11,3 +11,8 @@ __pycache__/
 ppnet.json
 *.log
 *.err
+/artifacts/playground/runtime/
+
+/web/node_modules/
+/web/dist/
+/web/*.tsbuildinfo

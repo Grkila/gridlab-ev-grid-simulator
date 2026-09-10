@@ -1,0 +1,86 @@
+/* Shared application foundations and Results workspace components. */
+.app { --ink: #163d38; --muted: #617974; --line: #dce5e3; --accent: #16795e; --wash: #eef3f2; background: #f6f8f8; }
+.app { grid-template-columns: 200px minmax(0, 1fr); }
+.app .chat { position: fixed; right: 16px; bottom: 16px; top: auto; width: min(380px, calc(100vw - 32px)); height: min(600px, 85vh); z-index: 1100; box-shadow: 0 8px 32px #163d3830; }
+.app main { max-width: 1600px; width: 100%; margin-inline: auto; padding-bottom: 90px; }
+.app main > header { margin-bottom: 18px; }
+.app main > header .eyebrow { display: none; }
+.app h1 { font-size: 28px; letter-spacing: -.8px; }
+.app h2 { font-size: 18px; letter-spacing: -.35px; }
+.app .panel { border-radius: 8px; box-shadow: none; padding: 20px; margin-bottom: 16px; border-color: var(--line); }
+.results-workspace .eyebrow { display: none; }
+.app .run-picker { gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.app .run-picker > select { flex: 1 1 280px; min-width: 0; font-weight: 600; padding: 12px; background: white; }
+.app button { cursor: pointer; }
+.app button:disabled { cursor: default; opacity: .45; }
+.app :is(button,input,select,summary):focus-visible { outline: 3px solid #259f83; outline-offset: 3px; }
+.run-management { margin: 0 0 18px; color: var(--muted); font-size: 13px; }
+.run-management summary { cursor: pointer; padding: 5px 0; width: fit-content; }
+.run-management[open] { padding: 12px 16px; background: var(--wash); border-radius: 8px; }
+.run-management .run-picker { align-items: end; padding-top: 8px; }
+.run-management label { flex: 1; min-width: 150px; }
+.run-management button { padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); }
+.run-management button:last-child { color: #a03632; }
+.case-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 16px; }
+.case-toolbar > span:first-child { font-size: 12px; color: var(--muted); }
+.case-toolbar select { flex: 1; min-width: 170px; max-width: 420px; }
+.case-toolbar code { display: none; }
+.interval-metrics { background: white; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; gap: 0 !important; margin-bottom: 18px; }
+.results-workspace .metric { box-shadow: none; border: none; border-radius: 0; background: transparent; padding: 12px 16px; min-width: 0; }
+.interval-metrics .metric + .metric { border-left: 1px solid var(--line); }
+.results-workspace .metric strong { font-size: 25px; font-variant-numeric: tabular-nums; letter-spacing: -.7px; }
+.results-workspace .metric span { font-size: 12px; color: var(--muted); }
+.result-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--line); margin-bottom: 0; overflow-x: auto; }
+.result-tabs button { padding: 12px 1px; border: none; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; color: var(--muted); font-weight: 600; font-size: 14px; }
+.result-tabs button[aria-pressed="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+.time-console { display: flex; align-items: center; gap: 22px; padding: 18px 0 22px; }
+.time-readout { min-width: 95px; display: flex; flex-direction: column; }
+.time-readout span { font-size: 11px; color: var(--muted); }
+.time-readout strong { font-size: 25px; font-variant-numeric: tabular-nums; letter-spacing: -1px; }
+.time-track { flex: 1; min-width: 0; }
+.time-track .slider { margin: 0 0 6px; accent-color: var(--accent); width: 100%; }
+.time-track .ticks { font-size: 10px; color: var(--muted); }
+.time-buttons { display: flex; gap: 4px; }
+.time-buttons button { width: 32px; height: 34px; font-size: 23px; border: 1px solid var(--line); border-radius: 5px; background: white; color: var(--ink); }
+.summary-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr); gap: 18px; }
+.summary-layout > .panel { min-width: 0; }
+.summary-layout .metrics { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px; }
+.summary-layout .metric { padding: 10px 0; }
+.summary-layout .metric > svg { display: none; }
+.summary-layout .panel-head { flex-wrap: wrap; gap: 8px; }
+.summary-layout .state-note { font-size: 12px; line-height: 1.6; }
+.results-workspace .chart { height: 280px; }
+.results-workspace .map { height: 430px; }
+.results-workspace .split { gap: 18px; }
+.results-workspace .district-metrics { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.data-disclosure, .comparison-panel { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; }
+.data-disclosure summary, .comparison-panel > summary, .count-details summary { cursor: pointer; font-size: 13px; font-weight: 600; padding: 8px 0; color: var(--accent); }
+.comparison-panel { padding: 16px 0; }
+.comparison-panel[open] > .panel-head { margin-top: 16px; }
+.comparison-panel .eyebrow { display: none; }
+.app .compare-controls { flex-wrap: wrap; }
+.app .compare-controls select { min-width: 0; width: min(100%, 620px); }
+.results-workspace .table-wrap { max-height: 360px; overflow: auto; }
+.results-workspace th { position: sticky; top: 0; background: #edf4f1; }
+.results-workspace .heat { max-height: 430px; overflow-y: auto; }
+.results-workspace .trip { margin-bottom: 16px; }
+.results-workspace .state-note { max-width: 78ch; }
+@media (max-width: 1200px) { .summary-layout { grid-template-columns: 1fr; } }
+@media (max-width: 650px) {
+  .app main { padding: 18px 16px 90px; }
+  .app .panel { padding: 16px; }
+  .result-tabs { gap: 22px; }
+  .result-tabs button { font-size: 13px; }
+  .time-console { gap: 12px; }
+  .time-readout { min-width: 70px; }
+  .time-readout strong { font-size: 22px; }
+  .time-track .ticks span:nth-child(2) { display: none; }
+  .interval-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .interval-metrics .metric:nth-child(3) { border-left: 0; }
+  .interval-metrics .metric:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .results-workspace .metric strong { font-size: 22px; }
+  .interval-metrics .metric > svg { display: none; }
+  .results-workspace .metric { padding: 12px; }
+  .results-workspace .map { height: 340px; }
+  .results-workspace .district-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}

@@ -1,0 +1,50 @@
+schema_version: 1
+name: Winter base
+hypothesis: Evaluate grid limits on the calibrated seasonal day.
+metric_boundary: city_total
+observation_contract: current_state
+case_origin: manual
+assumptions:
+- Demand shapes are user-supplied seasonal hourly profiles.
+- Land-use and charging-window archetypes are explicit planning assumptions.
+demand:
+  scope: city_total
+  monthly_energy: 120000.0
+  unit: MWh
+  month: 1
+  days_per_month: 31
+  days: 1
+  annual_growth_rate: 0.03
+  years_ahead: 0
+  scenario: base
+  variation: base
+  composition:
+    mode: preserve_city
+    residential: null
+    commercial: null
+    industrial: null
+fleet:
+  fleet_size: 100
+  charger_kw: 7.4
+  energy_kwh: 14.0
+  efficiency: 0.9
+  location_mix:
+    residential: 0.7
+    workplace: 0.2
+    public: 0.1
+strategies:
+- immediate
+- capacity_aware
+seeds:
+- 1
+fleet_sizes: null
+limits:
+  min_voltage_pu: 0.95
+  max_voltage_pu: 1.05
+  max_loading_percent: 100.0
+assertions: []
+max_cases: 100
+max_runtime_seconds: 600.0
+stress_first: true
+stop_on_violation: true
+fixed_start_hour: 23

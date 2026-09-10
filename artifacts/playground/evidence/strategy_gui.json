@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "cards": 9,
+  "draft_preserved_after_refresh": true,
+  "saved": "proposed\n\nstrategy-70db1bf1399526b4e1dc\n\nRecord and evidence",
+  "validation": "Complete the strategy specification: objective, information, constraints, algorithm, fallback",
+  "chat_prefill": "STRATEGY BUILD\nbased_on: strategy-70db1bf1399526b4e1dc",
+  "page_errors": []
+}

@@ -1,0 +1,88 @@
+{
+  "independent_verdict": "API-backed result agreement accepted; independent direct React browser verification unavailable",
+  "browser_attempts": [
+    "getTab 8 browser iab: Browser unavailable",
+    "cua.getState: apps=[] browsers=[]",
+    "createBrowserTab iab URL: Browser unavailable"
+  ],
+  "independent_api_checks": {
+    "completed_run": "run-317691013f494e90",
+    "strategy": "immediate",
+    "step": 78,
+    "time": "19:30",
+    "counts": {
+      "charging": 85,
+      "completed": 13,
+      "connected": 98,
+      "departed_shortfall": 9,
+      "waiting": 0
+    },
+    "NS5-F1": {
+      "charging": 15,
+      "completed": 6,
+      "connected": 21,
+      "departed_shortfall": 0,
+      "waiting": 0
+    },
+    "stopped_run": "run-fd4f280b7d99468b",
+    "stopped_prefix_intervals": 1,
+    "stopped_verdict": "incomplete",
+    "assertion_verdict": "failed",
+    "counterexample_metric": "max_transformer_loading_percent",
+    "counterexample_value": 44.611975505646186,
+    "counterexample_threshold": 1.0
+  },
+  "root_reported_browser_checks": {
+    "provenance": "Parent agent reports actual browser interactions; testing subagent could not independently repeat them.",
+    "checks": [
+      "green GUI on standard OSM with car connections",
+      "time slider and exact counts displayed",
+      "HH:MM demand/district/transformer/heatmap including D2",
+      "Counts by block disclosure",
+      "stopped warning/red map/incomplete status/failed assertion/counterexample",
+      "authoring presets",
+      "invalid JSON disables actions",
+      "actual YAML file picker winter-base import",
+      "save/run/cancel/resume",
+      "incompatible comparison warning",
+      "actual GUI chat ev_get_catalog",
+      "export button clicked; downloaded file contents not verified"
+    ]
+  },
+  "frontend_hashes": {
+    "web\\dist\\index.html": "cca91912c23e61b560d1120bd4229dd5708ff053d575353cdbbd0bf9cff35d19",
+    "web\\dist\\assets\\index-DyoiIJB0.css": "d19c800790a73bdddd7b418b61c071b7ecc200bb0b00ce64efc6f02bff49eddf",
+    "web\\dist\\assets\\index-JBv18-n6.js": "fca15c5325cd4d8c043524112642d5f33003dd297558cd9cb3c99d897fda7e0a"
+  },
+  "limitations": [
+    "No independent screenshots or browser interaction were available to this agent.",
+    "Root-browser evidence must not be described as independently repeated by testing agent.",
+    "Exported download contents were not verified.",
+    "Synthetic model and selected electrical checks do not establish real utility operating limits."
+  ],
+  "acceptance": "Accepted as an MVP on combined independent backend/API evidence and explicitly attributed parent browser observations; no independent React interaction claim.",
+  "root_final_build_regression": {
+    "provenance": "Parent agent actual DOM and screenshot observations; not independently repeated by testing agent.",
+    "build": "index-BU0-sOQ8.js",
+    "checks": [
+      "Reload production build",
+      "Single-interval stopped run renders five 00:00 heat-axis labels",
+      "Switch to completed run resets axis to one row without duplicate-key residue",
+      "Counts by block expands and collapses; All blocks matches 98/85/0/13/9",
+      "Red failure map visible",
+      "Expanded counterexample shows TELEP 44.611975505646186 versus limit 1"
+    ],
+    "completed_heat_axis": [
+      "00:00",
+      "08:15",
+      "16:30",
+      "D2 00:30",
+      "D2 08:45"
+    ],
+    "frontend_hashes": {
+      "web\\dist\\index.html": "1ea66ab994e3e1e7923745e0c2a50c4b913a723d44014551212f41a00d8add18",
+      "web\\dist\\assets\\index-BU0-sOQ8.js": "c131ba26a0b4824ee8a771430446002723fb456a56330bb213da3b7fe0f3c52a",
+      "web\\dist\\assets\\index-DyoiIJB0.css": "d19c800790a73bdddd7b418b61c071b7ecc200bb0b00ce64efc6f02bff49eddf"
+    }
+  }
+}

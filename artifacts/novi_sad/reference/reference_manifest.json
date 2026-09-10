@@ -73,6 +73,11 @@
       "sha256_lf_normalized": "e33db56782f96cbf3ae3d39a7b7f0cf7a23a9052d78b6193acf61460afb0a49d"
     },
     {
+      "path": "data/novi_sad/reference/inputs/capacity_estimate_2025.json",
+      "canonical_size_bytes": 1010,
+      "sha256_lf_normalized": "8356827299099f6b30db8da18d67df25ce5a23e8b55e49d7aad0728be5a2c4f6"
+    },
+    {
       "path": "data/novi_sad/reference/inputs/novi_sad_boundary_raw.json",
       "canonical_size_bytes": 67678,
       "sha256_lf_normalized": "65aa580d3cf68143887cc6fbc980791a4f0df34b120ae1d0033d8d475c7f920e"

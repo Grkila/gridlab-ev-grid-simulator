@@ -1,0 +1,394 @@
+{
+  "review": "independent testing agent",
+  "verdict": "accepted for tested workflows",
+  "implementation_fingerprint": {
+    "source_hashes": {
+      "__init__.py": "b79ccae0045c7851723f420f64d546c60f488eb5538c54ffe3eab1dfe23d1fe4",
+      "dashboard.py": "badebbee5757549ca5468f1751e296307c7c79923650ff9c40f6a4e7d039577d",
+      "demand.py": "c916484e08a035ae2dd2e585663997f071954bcd4df91c3033097c03a5bd7e6d",
+      "detailed.py": "767c5017e6f5c9532e06cafdfe999e9313fa1d95dc8caf537be48fe292070a83",
+      "mcp_server.py": "5377ecd1a0b067d3d84ee9ef2e8a61fced75f54e19cf2411c9c29695e5a12eaf",
+      "network.py": "3e4259b102382026f9b7d15c54ff84ebc12ea5e72fd67a2de6d95241ae8f3fc6",
+      "schema.py": "54665c7f6486de420e03558880e99fd6122600257082c9f7cb968b767437562c",
+      "service.py": "9c5cbc85454f00f58d4cc2518d669a152442515ec1321971dd774d3bc4ae87cd",
+      "simulation.py": "90ab9538cf0a32050c1eb502b69819f440454e2718fb0996470f337f9ba25a1d",
+      "worker.py": "c8b6e67863f32c059fd8dbc794990fc25d4d62714e837c3f7d18e6248be6273a"
+    },
+    "input_hashes": {
+      "novi_sad_synthetic_transformers.csv": "36f571b9e7300390da3c87365a04977821586257a234ceac429813d7a4a8626c",
+      "novi_sad_synthetic_feeder_assignments.csv": "e6a1b97952e29af1ee672a2da0d0910b93491beca70033f02b462ba38963fb2c",
+      "novi_sad_seeded_substations.json": "a074f2851781978072fa69a3274ee2837f9d1e1fe3c8b7417a0072669af96641"
+    },
+    "dependencies": {
+      "pandapower": "2.14.11",
+      "numpy": "1.26.4",
+      "pandas": "2.2.2",
+      "pydantic": "2.12.5",
+      "mcp": "2.2.0"
+    }
+  },
+  "unittest": {
+    "passed": true,
+    "tests": 28,
+    "seconds": 50.041,
+    "command": "python -m unittest discover -s tests -v"
+  },
+  "dashboard": {
+    "passed": true,
+    "checks": [
+      "invalid YAML",
+      "validate",
+      "save",
+      "real background run",
+      "refresh",
+      "time slider",
+      "first violation navigation",
+      "block selection",
+      "exact count table",
+      "map frame totals",
+      "representative cars",
+      "demand chart",
+      "loading heatmap",
+      "second run",
+      "comparison"
+    ],
+    "limitations": [
+      "File uploader cannot be driven through this AppTest API; browser verification required."
+    ],
+    "intervals": 130
+  },
+  "mcp": {
+    "passed": true,
+    "transport": "stdio",
+    "tool_count": 10,
+    "checks": [
+      "discovery",
+      "typed validation",
+      "invalid input",
+      "immutable save",
+      "background run",
+      "cancellation",
+      "server restart",
+      "resume",
+      "results",
+      "interval detail",
+      "revision",
+      "comparison"
+    ],
+    "runs": [
+      "run-3ccd16ce2fcf452b",
+      "run-b9c3043b03fa49a9"
+    ]
+  },
+  "additional_acceptance": [
+    "stress/full completed numerical results equal excluding measured runtime",
+    "overnight pending energy zero after completion tail",
+    "runtime budget terminal state incomplete",
+    "unknown electrical intervals cannot pass hard electrical assertions"
+  ],
+  "remaining_browser_checks": [
+    "visual layout and file-upload widget require browser verification by parent"
+  ],
+  "warnings": [
+    "Streamlit emits use_container_width deprecation warnings.",
+    "Worker terminal status precedes process exit; verification waits before deleting temporary runtime."
+  ],
+  "final_dashboard_retest": {
+    "source_sha256": "d5eb2a147bb2d28bbcf84afbf0a706db8e63027db0955b9c19c999d7b7059f34",
+    "result": {
+      "passed": true,
+      "checks": [
+        "invalid YAML",
+        "validate",
+        "save",
+        "real background run",
+        "refresh",
+        "time slider",
+        "first violation navigation",
+        "block selection",
+        "exact count table",
+        "map frame totals",
+        "representative cars",
+        "OpenStreetMap tiles",
+        "36 representative feeder links",
+        "9 source nodes",
+        "EV association tethers",
+        "red affected connections",
+        "demand chart",
+        "loading heatmap",
+        "second run",
+        "comparison"
+      ],
+      "limitations": [
+        "File uploader cannot be driven through this AppTest API; browser verification required."
+      ],
+      "intervals": 130
+    },
+    "scope": "Dashboard-only user follow-up; original implementation_fingerprint and full-suite/MCP records above remain unchanged."
+  },
+  "electrical_hierarchy_retest": {
+    "verdict": "accepted for tested workflows",
+    "scope": "Supersedes earlier topology evidence. Final electrical hierarchy plus default stop-on-violation behavior.",
+    "fingerprint": {
+      "source_hashes": {
+        "__init__.py": "b79ccae0045c7851723f420f64d546c60f488eb5538c54ffe3eab1dfe23d1fe4",
+        "dashboard.py": "f93d6465ad4ce5257e66ac4c0bfb98be1f4882b391114613a5544fd5703c46e0",
+        "demand.py": "c916484e08a035ae2dd2e585663997f071954bcd4df91c3033097c03a5bd7e6d",
+        "detailed.py": "cd2d058858b2b18a91d65b786e1757f124869827c47468b7ac516384ec48cf8e",
+        "mcp_server.py": "bf15de33487f92b52a79ec94ab79abef7ac0dac4c2e54b79d82406e310f0b6e5",
+        "network.py": "c932bb4256a4e3c4a68ac11ffd63bd305f373891f808782abefe436a79c2bb69",
+        "schema.py": "fa09a519b4cfcb4b89ce2dd96d5187e6a3a7222a42cbe7c9ed24986fa56bf665",
+        "service.py": "10c06b48ff161602db8bbbf411690455dae2a8efdcd1a63727df3820ef0dc65e",
+        "simulation.py": "2829fcdd9ad73f1fe0fcbeac54fcbcb0d3f13e9d57c6f16a7bf54d4fde976591",
+        "worker.py": "36d27d681e58460daa802eed34638e96dcd6e494f7e672088fb76fd5cadd3a83"
+      },
+      "input_hashes": {
+        "novi_sad_synthetic_transformers.csv": "36f571b9e7300390da3c87365a04977821586257a234ceac429813d7a4a8626c",
+        "novi_sad_synthetic_feeder_assignments.csv": "e6a1b97952e29af1ee672a2da0d0910b93491beca70033f02b462ba38963fb2c",
+        "novi_sad_seeded_substations.json": "a074f2851781978072fa69a3274ee2837f9d1e1fe3c8b7417a0072669af96641",
+        "reduced_network.json": "3a196f433ef3bb59ca7f48e54d3c2b812d2796ac73305d82f181dbd86cb4f281"
+      },
+      "dependencies": {
+        "pandapower": "2.14.11",
+        "numpy": "1.26.4",
+        "pandas": "2.2.2",
+        "pydantic": "2.12.5",
+        "mcp": "2.2.0"
+      }
+    },
+    "topology": {
+      "buses": 77,
+      "blocks": 53,
+      "transformers": 12,
+      "sources": 6,
+      "excluded_sources": [
+        "NS1",
+        "NS6",
+        "FUT"
+      ],
+      "retained_demand_fraction": 0.8160733804473949
+    },
+    "unittest": {
+      "passed": true,
+      "tests": 33,
+      "seconds": 82.911
+    },
+    "dashboard": {
+      "passed": true,
+      "checks": [
+        "invalid YAML",
+        "validate",
+        "save",
+        "real background run",
+        "refresh",
+        "time slider",
+        "first violation navigation",
+        "block selection",
+        "exact count table",
+        "map frame totals",
+        "representative cars",
+        "OpenStreetMap tiles",
+        "53 equivalent block links",
+        "6 source nodes",
+        "10 delivery associations",
+        "excluded source absence",
+        "EV association tethers",
+        "red affected connections",
+        "district and transformer charts",
+        "hour-axis 15-minute heatmap",
+        "second run",
+        "comparison",
+        "single-interval stopped run visible with warning"
+      ],
+      "limitations": [
+        "File uploader cannot be driven through this AppTest API; browser verification required."
+      ],
+      "intervals": 130
+    },
+    "mcp": {
+      "passed": true,
+      "transport": "stdio",
+      "tool_count": 10,
+      "checks": [
+        "discovery",
+        "typed validation",
+        "invalid input",
+        "immutable save",
+        "background run",
+        "cancellation",
+        "server restart",
+        "resume",
+        "results",
+        "interval detail",
+        "revision",
+        "comparison"
+      ],
+      "runs": [
+        "run-270fef737dd64c78",
+        "run-e8960ab7482f4dc0"
+      ]
+    },
+    "additional_acceptance": [
+      "default electrical limit stop saves one-interval prefix with incomplete verdict and visible warning",
+      "stop opt-out executes complete suite without hiding violations",
+      "city total scales by retained fraction; active source input is unscaled",
+      "stress/full completed numerical metrics equal",
+      "unknown electrical intervals cannot pass hard assertions",
+      "runtime budget cannot produce pass"
+    ]
+  },
+  "app_api_chat_initial": {
+    "verdict": "passed targeted checks; frontend pending",
+    "tests": 5,
+    "seconds": 6.522,
+    "log": "app-api-chat.log",
+    "source_hashes": {
+      "server.py": "26beab6bd1db698141b32eeed0bd91ad46039011b562cb4aa9e6da123be49fb9",
+      "chat.py": "e1b161ea5223721e3882fceb685a70299007adc28f03393060d655f5992756cd"
+    },
+    "checks": [
+      "loopback Host enforcement",
+      "cross-origin POST rejection",
+      "JSON content type and shape validation",
+      "real save/start/poll/results HTTP flow",
+      "default stop warning and incomplete prefix",
+      "excluded source absence",
+      "mocked JSONL answer and reasoning filtering",
+      "explicit isolated MCP runtime in CLI args",
+      "mock startup failure",
+      "chat cancellation process isolation",
+      "restart interrupted state",
+      "invalid chat inputs"
+    ],
+    "limitations": [
+      "No real paid Codex CLI invocation in these tests; parent running actual CLI workflow.",
+      "React browser/build QA pending frontend completion."
+    ]
+  },
+  "app_broker_targeted": {
+    "verdict": "passed API/chat targeted checks only; React not accepted",
+    "tests": 6,
+    "seconds": 6.275,
+    "log": "app-api-chat-broker.log",
+    "source_hashes": {
+      "src\\mvgrid\\novi_sad\\playground_app\\server.py": "c4183d97b064baaa25f6d1f537c930cff772c150ccfa6a9b83118e4ef9f479eb",
+      "src\\mvgrid\\novi_sad\\playground_app\\chat.py": "146b67b0acb1b71e41c5e56f2b058dfe1e722d4877ab7a9de596956bb99f7667",
+      "src\\mvgrid\\novi_sad\\playground\\service.py": "a7fb9e7c0a82a97e653be56adc585a6372652b3cfab6718da188917b97e29aa0"
+    },
+    "checks": [
+      "matching runtime root permits real HTTP run",
+      "wrong runtime root rejects HTTP run",
+      "broker must be loopback HTTP",
+      "broker forwards experiment/resume/runtime identifiers",
+      "Codex MCP receives broker URL",
+      "mock stream cleanup",
+      "prior API/chat checks"
+    ],
+    "limitations": [
+      "React build and browser UI not covered by historical Streamlit checks.",
+      "Actual paid Codex CLI execution is parent evidence, not these mocks."
+    ]
+  },
+  "final_python_app_freeze": {
+    "verdict": "accepted backend and API; React browser acceptance pending",
+    "implementation_fingerprint": {
+      "source_hashes": {
+        "__init__.py": "b79ccae0045c7851723f420f64d546c60f488eb5538c54ffe3eab1dfe23d1fe4",
+        "dashboard.py": "dcc72b58099db33f414061250a587c51ef72fc928962358766e8501431deef6b",
+        "demand.py": "2ff17e76070f0fb4104011c293bb2216f21c8dc053751d3e2456a85638618b34",
+        "detailed.py": "cd2d058858b2b18a91d65b786e1757f124869827c47468b7ac516384ec48cf8e",
+        "mcp_server.py": "bf15de33487f92b52a79ec94ab79abef7ac0dac4c2e54b79d82406e310f0b6e5",
+        "network.py": "c932bb4256a4e3c4a68ac11ffd63bd305f373891f808782abefe436a79c2bb69",
+        "schema.py": "9c91c06c4c014eeb534e55cce1b0bd6b44af1ae33615f55fe5e3c4ce29786e26",
+        "service.py": "34e89a4a9004b285dafbde351d2db95b640afa0ac71d448815b4dd49c9c2e53d",
+        "simulation.py": "2829fcdd9ad73f1fe0fcbeac54fcbcb0d3f13e9d57c6f16a7bf54d4fde976591",
+        "worker.py": "36d27d681e58460daa802eed34638e96dcd6e494f7e672088fb76fd5cadd3a83"
+      },
+      "input_hashes": {
+        "novi_sad_synthetic_transformers.csv": "36f571b9e7300390da3c87365a04977821586257a234ceac429813d7a4a8626c",
+        "novi_sad_synthetic_feeder_assignments.csv": "e6a1b97952e29af1ee672a2da0d0910b93491beca70033f02b462ba38963fb2c",
+        "novi_sad_seeded_substations.json": "a074f2851781978072fa69a3274ee2837f9d1e1fe3c8b7417a0072669af96641",
+        "reduced_network.json": "3a196f433ef3bb59ca7f48e54d3c2b812d2796ac73305d82f181dbd86cb4f281"
+      },
+      "dependencies": {
+        "pandapower": "2.14.11",
+        "numpy": "1.26.4",
+        "pandas": "2.2.2",
+        "pydantic": "2.12.5",
+        "mcp": "2.2.0"
+      }
+    },
+    "app_source_hashes": {
+      "chat.py": "eebf167d66d5bf9ce9195f22285fa8036a1f4e4f820e79329d9de1520e992050",
+      "server.py": "c4183d97b064baaa25f6d1f537c930cff772c150ccfa6a9b83118e4ef9f479eb",
+      "__init__.py": "3470a600f50e52c16b67caf87176865865bee5c0807b35f51d4845f794d5d7d5"
+    },
+    "unittest": {
+      "passed": true,
+      "tests": 42,
+      "seconds": 101.62,
+      "log": "unittest-final-app.log"
+    },
+    "actual_mcp_protocol": {
+      "passed": true,
+      "transport": "stdio",
+      "tool_count": 10,
+      "checks": [
+        "discovery",
+        "typed validation",
+        "invalid input",
+        "immutable save",
+        "background run",
+        "cancellation",
+        "server restart",
+        "resume",
+        "results",
+        "interval detail",
+        "revision",
+        "comparison"
+      ],
+      "runs": [
+        "run-9ef3fc1a9b0b4ec8",
+        "run-b86d2cd93c5c4584"
+      ]
+    },
+    "legacy_streamlit_diagnostic": {
+      "passed": true,
+      "checks": [
+        "invalid YAML",
+        "validate",
+        "save",
+        "real background run",
+        "refresh",
+        "time slider",
+        "first violation navigation",
+        "block selection",
+        "exact count table",
+        "map frame totals",
+        "representative cars",
+        "OpenStreetMap tiles",
+        "53 equivalent block links",
+        "6 source nodes",
+        "10 delivery associations",
+        "excluded source absence",
+        "EV association tethers",
+        "red affected connections",
+        "district and transformer charts",
+        "hour-axis 15-minute heatmap",
+        "second run",
+        "comparison",
+        "single-interval stopped run visible with warning"
+      ],
+      "limitations": [
+        "File uploader cannot be driven through this AppTest API; browser verification required."
+      ],
+      "intervals": 130
+    },
+    "claim_boundaries": [
+      "React source/build/browser not covered by Streamlit acceptance.",
+      "Real Codex CLI evidence maintained by parent in codex_chat.json.",
+      "API/chat mock tests are included in 42-test suite."
+    ],
+    "minor_legacy_note": "District and transformer Streamlit plots label HH:MM but use elapsed-hour ticks; main demand and heatmap have clock formatting."
+  }
+}

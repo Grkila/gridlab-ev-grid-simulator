@@ -1,0 +1,15 @@
+{
+  "id": "user-capacity-estimate-2025",
+  "source": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified.",
+  "year": 2025,
+  "reported_total_mw": 1178,
+  "transmission_mw": 430,
+  "distribution_mw": 598,
+  "transformer_mw": 150,
+  "distribution_by_voltage_mw": {"20": 299, "10": 179, "0.4": 120},
+  "reported_reserve_fraction": 0.25,
+  "reported_reserve_mw": 295,
+  "model_power_factor": 0.97,
+  "district_planning_factor": 0.8,
+  "interpretation": "Align aggregate MV delivery transformer equivalents to 20/10-kV estimates in proportion to original station MVA. Preserve electrical impedances, feeder ratings and 110/35-kV station ratings. Do not add successive voltage-layer capacities. Transmission, LV, unspecified transformer total and reserve remain reference-only: the image does not provide compatible asset-level constraints or an operating demand snapshot."
+}

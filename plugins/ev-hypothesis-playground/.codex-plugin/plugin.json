@@ -1,0 +1,19 @@
+{
+  "name": "ev-hypothesis-playground",
+  "version": "0.1.0",
+  "description": "Create and test reproducible EV charging hypotheses with a reduced pandapower network.",
+  "author": {"name": "Schneider challenge project"},
+  "license": "MIT",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "EV Hypothesis Playground",
+    "shortDescription": "Reproducible EV charging experiments and counterexamples",
+    "longDescription": "Define charging hypotheses, freeze scenarios, run the small pandapower model and compare electrical and vehicle-service outcomes. Includes an agent workflow skill and a local MCP server backed by your project checkout.",
+    "developerName": "Schneider challenge project",
+    "category": "Developer Tools",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Test whether staggered EV charging reduces the peak.", "Find a counterexample to this charging hypothesis.", "Compare two saved charging experiments."],
+    "brandColor": "#127D68"
+  }
+}

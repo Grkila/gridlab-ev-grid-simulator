@@ -100,7 +100,7 @@ class RepositoryTests(unittest.TestCase):
         pattern = re.compile(r"\[[^]]*\]\(([^)]+)\)")
         missing = []
         for document in ROOT.rglob("*.md"):
-            if any(part in {".git", ".venv", "data"} for part in document.parts[len(ROOT.parts):]):
+            if any(part in {".git", ".venv", "data", "node_modules"} for part in document.parts[len(ROOT.parts):]):
                 continue
             for target in pattern.findall(document.read_text(encoding="utf-8")):
                 if "://" in target or target.startswith("#"):

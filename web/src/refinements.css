@@ -1,0 +1,96 @@
+.field-error {
+  background: #fff0ef;
+  color: #a3261e;
+  border: 1px solid #f2b8b5;
+  border-radius: 8px;
+  padding: 9px;
+  margin: -7px 0 12px;
+}
+.car-icon {
+  background: white;
+  border: 1px solid #168650;
+  border-radius: 12px;
+  display: flex !important;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 4px;
+  white-space: nowrap;
+}
+.car-icon b {
+  font-size: 9px;
+  color: #145c39;
+}
+.heat-axis {
+  display: grid;
+  grid-template-columns: 130px repeat(5, 1fr);
+  font-size: 10px;
+  color: #61786b;
+  margin-bottom: 5px;
+}
+.heat-axis b {
+  text-align: center;
+}
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #667d71;
+  margin-top: 9px;
+}
+.heat-legend i,
+.heat-legend span {
+  width: 12px;
+  height: 12px;
+  background: #cbd5cf;
+  border-radius: 2px;
+}
+.chat-launch {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  border: 0;
+  border-radius: 24px;
+  padding: 12px 17px;
+  background: #168650;
+  color: white;
+  box-shadow: 0 8px 26px #123c2850;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.compare-controls {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.compare-controls select {
+  min-width: 420px;
+  min-height: 90px;
+  border: 1px solid #cdded3;
+  border-radius: 8px;
+  padding: 7px;
+}
+.import-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.import-row label {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 0;
+  cursor: pointer;
+}
+.import-row input {
+  display: none;
+}
+.heat-legend span {
+  margin-left: 10px;
+  background: linear-gradient(90deg, #9bd8ae, #e6b455, #d9534f);
+  width: 60px;
+}

@@ -1,0 +1,771 @@
+{
+  "$defs": {
+    "CompositionConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "default": "preserve_city",
+          "enum": [
+            "preserve_city",
+            "preserve_energy"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "residential": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Residential"
+        },
+        "commercial": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Commercial"
+        },
+        "industrial": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Industrial"
+        }
+      },
+      "title": "CompositionConfig",
+      "type": "object"
+    },
+    "DemandConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "default": "city_total",
+          "enum": [
+            "city_total",
+            "active_sources"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "monthly_energy": {
+          "default": 95636.0,
+          "exclusiveMinimum": 0,
+          "title": "Monthly Energy",
+          "type": "number"
+        },
+        "unit": {
+          "default": "MWh",
+          "enum": [
+            "kWh",
+            "MWh"
+          ],
+          "title": "Unit",
+          "type": "string"
+        },
+        "month": {
+          "default": 1,
+          "maximum": 12,
+          "minimum": 1,
+          "title": "Month",
+          "type": "integer"
+        },
+        "days_per_month": {
+          "default": 30,
+          "maximum": 31,
+          "minimum": 1,
+          "title": "Days Per Month",
+          "type": "integer"
+        },
+        "days": {
+          "default": 1,
+          "maximum": 31,
+          "minimum": 1,
+          "title": "Days",
+          "type": "integer"
+        },
+        "annual_growth_rate": {
+          "default": 0.03,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Annual Growth Rate",
+          "type": "number"
+        },
+        "years_ahead": {
+          "default": 0,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Years Ahead",
+          "type": "integer"
+        },
+        "scenario": {
+          "default": "base",
+          "enum": [
+            "base",
+            "worst_case"
+          ],
+          "title": "Scenario",
+          "type": "string"
+        },
+        "variation": {
+          "default": "base",
+          "enum": [
+            "base",
+            "lower",
+            "upper"
+          ],
+          "title": "Variation",
+          "type": "string"
+        },
+        "composition": {
+          "$ref": "#/$defs/CompositionConfig"
+        },
+        "randomize": {
+          "default": false,
+          "title": "Randomize",
+          "type": "boolean"
+        },
+        "daily_scale_min": {
+          "default": 0.8,
+          "exclusiveMinimum": 0,
+          "maximum": 3,
+          "title": "Daily Scale Min",
+          "type": "number"
+        },
+        "daily_scale_max": {
+          "default": 1.2,
+          "exclusiveMinimum": 0,
+          "maximum": 3,
+          "title": "Daily Scale Max",
+          "type": "number"
+        },
+        "shape_noise": {
+          "default": 0.1,
+          "maximum": 0.5,
+          "minimum": 0,
+          "title": "Shape Noise",
+          "type": "number"
+        }
+      },
+      "title": "DemandConfig",
+      "type": "object"
+    },
+    "DistrictCapacity": {
+      "additionalProperties": false,
+      "properties": {
+        "scenario": {
+          "default": "central",
+          "enum": [
+            "low",
+            "central",
+            "high"
+          ],
+          "title": "Scenario",
+          "type": "string"
+        },
+        "overrides": {
+          "additionalProperties": {
+            "$ref": "#/$defs/DistrictOverride"
+          },
+          "title": "Overrides",
+          "type": "object"
+        }
+      },
+      "title": "DistrictCapacity",
+      "type": "object"
+    },
+    "DistrictOverride": {
+      "additionalProperties": false,
+      "properties": {
+        "capacity_kw": {
+          "exclusiveMinimum": 0,
+          "title": "Capacity Kw",
+          "type": "number"
+        },
+        "provenance": {
+          "minLength": 1,
+          "title": "Provenance",
+          "type": "string"
+        }
+      },
+      "required": [
+        "capacity_kw",
+        "provenance"
+      ],
+      "title": "DistrictOverride",
+      "type": "object"
+    },
+    "FleetConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "fleet_size": {
+          "default": 100,
+          "maximum": 1000000,
+          "minimum": 0,
+          "title": "Fleet Size",
+          "type": "integer"
+        },
+        "charger_kw": {
+          "default": 7.4,
+          "exclusiveMinimum": 0,
+          "title": "Charger Kw",
+          "type": "number"
+        },
+        "energy_kwh": {
+          "default": 14.0,
+          "exclusiveMinimum": 0,
+          "title": "Energy Kwh",
+          "type": "number"
+        },
+        "efficiency": {
+          "default": 0.9,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Efficiency",
+          "type": "number"
+        },
+        "location_mix": {
+          "$ref": "#/$defs/LocationMix"
+        },
+        "district_mix": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "District Mix"
+        }
+      },
+      "title": "FleetConfig",
+      "type": "object"
+    },
+    "HardAssertion": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "hard",
+          "default": "hard",
+          "title": "Type",
+          "type": "string"
+        },
+        "metric": {
+          "enum": [
+            "min_voltage_pu",
+            "max_line_loading_percent",
+            "max_transformer_loading_percent",
+            "unmet_energy_kwh",
+            "nonconverged_steps",
+            "overload_steps",
+            "max_district_loading_percent",
+            "district_overload_steps",
+            "max_network_capacity_loading_percent",
+            "network_capacity_overload_steps",
+            "energy_excess_kwh",
+            "energy_limit_exceeded_steps"
+          ],
+          "title": "Metric",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "le",
+            "ge"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric",
+        "operator",
+        "value"
+      ],
+      "title": "HardAssertion",
+      "type": "object"
+    },
+    "Limits": {
+      "additionalProperties": false,
+      "properties": {
+        "min_voltage_pu": {
+          "default": 0.95,
+          "exclusiveMinimum": 0,
+          "maximum": 2,
+          "title": "Min Voltage Pu",
+          "type": "number"
+        },
+        "max_voltage_pu": {
+          "default": 1.05,
+          "exclusiveMinimum": 0,
+          "maximum": 2,
+          "title": "Max Voltage Pu",
+          "type": "number"
+        },
+        "max_loading_percent": {
+          "default": 100.0,
+          "exclusiveMinimum": 0,
+          "title": "Max Loading Percent",
+          "type": "number"
+        }
+      },
+      "title": "Limits",
+      "type": "object"
+    },
+    "LocationMix": {
+      "additionalProperties": false,
+      "properties": {
+        "residential": {
+          "default": 0.7,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Residential",
+          "type": "number"
+        },
+        "workplace": {
+          "default": 0.2,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Workplace",
+          "type": "number"
+        },
+        "public": {
+          "default": 0.1,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Public",
+          "type": "number"
+        }
+      },
+      "title": "LocationMix",
+      "type": "object"
+    },
+    "NetworkCapacity": {
+      "additionalProperties": false,
+      "properties": {
+        "lv_baseline_fraction": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Lv Baseline Fraction",
+          "type": "number"
+        },
+        "lv_ev_fraction": {
+          "default": 1.0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Lv Ev Fraction",
+          "type": "number"
+        }
+      },
+      "title": "NetworkCapacity",
+      "type": "object"
+    },
+    "PairedAssertion": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "paired",
+          "default": "paired",
+          "title": "Type",
+          "type": "string"
+        },
+        "metric": {
+          "const": "peak_demand_kw",
+          "title": "Metric",
+          "type": "string"
+        },
+        "reduction_fraction": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Reduction Fraction",
+          "type": "number"
+        },
+        "control": {
+          "minLength": 1,
+          "title": "Control",
+          "type": "string"
+        },
+        "candidate": {
+          "minLength": 1,
+          "title": "Candidate",
+          "type": "string"
+        }
+      },
+      "required": [
+        "metric",
+        "reduction_fraction",
+        "control",
+        "candidate"
+      ],
+      "title": "PairedAssertion",
+      "type": "object"
+    },
+    "RLControl": {
+      "additionalProperties": false,
+      "properties": {
+        "model_id": {
+          "pattern": "^model-[a-f0-9]{20}$",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "reward": {
+          "$ref": "#/$defs/RewardWeights"
+        },
+        "safety_shield": {
+          "default": true,
+          "title": "Safety Shield",
+          "type": "boolean"
+        },
+        "daily_energy_limit_kwh": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Daily Energy Limit Kwh"
+        }
+      },
+      "required": [
+        "model_id"
+      ],
+      "title": "RLControl",
+      "type": "object"
+    },
+    "RewardWeights": {
+      "additionalProperties": false,
+      "properties": {
+        "delivery": {
+          "default": 1.0,
+          "maximum": 1000000.0,
+          "minimum": 0,
+          "title": "Delivery",
+          "type": "number"
+        },
+        "shortfall": {
+          "default": 10.0,
+          "maximum": 1000000.0,
+          "minimum": 0,
+          "title": "Shortfall",
+          "type": "number"
+        },
+        "capacity": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "title": "Capacity",
+          "type": "number"
+        },
+        "energy": {
+          "default": 1000.0,
+          "exclusiveMinimum": 0,
+          "maximum": 1000000.0,
+          "title": "Energy",
+          "type": "number"
+        },
+        "switching": {
+          "default": 0.05,
+          "maximum": 1000000.0,
+          "minimum": 0,
+          "title": "Switching",
+          "type": "number"
+        },
+        "peak": {
+          "default": 0.1,
+          "maximum": 1000000.0,
+          "minimum": 0,
+          "title": "Peak",
+          "type": "number"
+        },
+        "intervention": {
+          "default": 10.0,
+          "maximum": 1000000.0,
+          "minimum": 0,
+          "title": "Intervention",
+          "type": "number"
+        }
+      },
+      "title": "RewardWeights",
+      "type": "object"
+    },
+    "StrategyOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "horizon_steps": {
+          "default": 96,
+          "maximum": 192,
+          "minimum": 1,
+          "title": "Horizon Steps",
+          "type": "integer"
+        },
+        "forecast": {
+          "default": "persistence",
+          "enum": [
+            "persistence",
+            "previous_day"
+          ],
+          "title": "Forecast",
+          "type": "string"
+        },
+        "valley_iterations": {
+          "default": 8,
+          "maximum": 50,
+          "minimum": 1,
+          "title": "Valley Iterations",
+          "type": "integer"
+        },
+        "max_variables": {
+          "default": 30000,
+          "maximum": 100000,
+          "minimum": 100,
+          "title": "Max Variables",
+          "type": "integer"
+        },
+        "solver_seconds": {
+          "default": 3.0,
+          "exclusiveMinimum": 0,
+          "maximum": 30,
+          "title": "Solver Seconds",
+          "type": "number"
+        },
+        "voltage_stop_pu": {
+          "default": 0.95,
+          "exclusiveMinimum": 0,
+          "maximum": 1.1,
+          "title": "Voltage Stop Pu",
+          "type": "number"
+        },
+        "voltage_full_pu": {
+          "default": 0.99,
+          "exclusiveMinimum": 0,
+          "maximum": 1.2,
+          "title": "Voltage Full Pu",
+          "type": "number"
+        },
+        "recovery_fraction": {
+          "default": 0.25,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Recovery Fraction",
+          "type": "number"
+        }
+      },
+      "title": "StrategyOptions",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "hypothesis": {
+      "minLength": 1,
+      "title": "Hypothesis",
+      "type": "string"
+    },
+    "metric_boundary": {
+      "default": "city_total",
+      "enum": [
+        "city_total",
+        "grid_asset",
+        "departure"
+      ],
+      "title": "Metric Boundary",
+      "type": "string"
+    },
+    "observation_contract": {
+      "const": "current_state",
+      "default": "current_state",
+      "title": "Observation Contract",
+      "type": "string"
+    },
+    "case_origin": {
+      "default": "manual",
+      "enum": [
+        "manual",
+        "llm",
+        "random",
+        "ga"
+      ],
+      "title": "Case Origin",
+      "type": "string"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "demand": {
+      "$ref": "#/$defs/DemandConfig"
+    },
+    "fleet": {
+      "$ref": "#/$defs/FleetConfig"
+    },
+    "district_capacity": {
+      "$ref": "#/$defs/DistrictCapacity"
+    },
+    "network_capacity": {
+      "$ref": "#/$defs/NetworkCapacity"
+    },
+    "rl": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RLControl"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "strategy_options": {
+      "$ref": "#/$defs/StrategyOptions"
+    },
+    "strategies": {
+      "items": {
+        "enum": [
+          "immediate",
+          "fixed_delay",
+          "randomized_delay",
+          "capacity_aware",
+          "rl",
+          "least_laxity_first",
+          "valley_filling",
+          "mpc",
+          "voltage_responsive"
+        ],
+        "type": "string"
+      },
+      "title": "Strategies",
+      "type": "array"
+    },
+    "seeds": {
+      "items": {
+        "maximum": 4294967295,
+        "minimum": 0,
+        "type": "integer"
+      },
+      "title": "Seeds",
+      "type": "array"
+    },
+    "fleet_sizes": {
+      "anyOf": [
+        {
+          "items": {
+            "maximum": 1000000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Fleet Sizes"
+    },
+    "limits": {
+      "$ref": "#/$defs/Limits"
+    },
+    "assertions": {
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/HardAssertion"
+          },
+          {
+            "$ref": "#/$defs/PairedAssertion"
+          }
+        ]
+      },
+      "title": "Assertions",
+      "type": "array"
+    },
+    "max_cases": {
+      "default": 100,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Max Cases",
+      "type": "integer"
+    },
+    "max_runtime_seconds": {
+      "default": 600.0,
+      "exclusiveMinimum": 0,
+      "maximum": 86400,
+      "title": "Max Runtime Seconds",
+      "type": "number"
+    },
+    "stress_first": {
+      "default": true,
+      "title": "Stress First",
+      "type": "boolean"
+    },
+    "stop_on_violation": {
+      "default": true,
+      "title": "Stop On Violation",
+      "type": "boolean"
+    },
+    "fixed_start_hour": {
+      "default": 23,
+      "maximum": 23,
+      "minimum": 0,
+      "title": "Fixed Start Hour",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "name",
+    "hypothesis"
+  ],
+  "title": "Experiment",
+  "type": "object"
+}
