@@ -53,3 +53,16 @@ For a new area of interest, the config needs to be adjusted accordingly.
 
 Execute ``main.py`` and follow the instructions of the GUI.
 
+## Novi Sad unified workflow
+
+The repository also includes a non-GUI Novi Sad workflow that builds one
+nine-primary pandapower planning model, its interactive map, and a validation
+report:
+
+```powershell
+.\.venv\Scripts\python.exe run_novi_sad.py
+```
+
+See [NOVI_SAD_MODEL.md](NOVI_SAD_MODEL.md) for the model scope, assumptions,
+outputs, validation criteria, and faster development-run options.
+

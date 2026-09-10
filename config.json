@@ -88,7 +88,6 @@
     "std_transfo_capacity": 0.63,
     "peak_to_mean_ratio": 1.64,
     "overdesign_factor": 1.5,
-    "calibration": {"target_peak_mw": 104.1},
     "pandapower": {"HV_kV": 110, "MV_kV": 20, "subst_transf_opt": {"std_type": "63 MVA 110/20 kV", "parallel": 1}, "XG_opt": {"vm_pu": 1.02}, "load_opt": {"q_mvar": 0.20}, "line_opt": {"std_type": "NA2XS2Y 1x150 RM/25 12/20 kV", "parallel": 3}}
   }
 }

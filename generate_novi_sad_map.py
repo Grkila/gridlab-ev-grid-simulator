@@ -1,4 +1,4 @@
-"""Create an interactive map of the simulated Novi Sad MV-grid demonstrator."""
+"""Create an interactive map of the unified Novi Sad planning model."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -20,12 +20,6 @@ LEGACY_ROUTES = Path("novi_sad_legacy_35kv_routes.geojson")
 OSM_SUBSTATION_CACHE = Path("osm_substations_bbox.json")
 
 
-def line_segments(geometry):
-    if geometry.geom_type == "MultiLineString":
-        return geometry.geoms
-    return [geometry]
-
-
 def get_all_osm_substations(poly):
     if OSM_SUBSTATION_CACHE.exists():
         cached = json.loads(OSM_SUBSTATION_CACHE.read_text(encoding="utf-8"))
@@ -35,7 +29,11 @@ def get_all_osm_substations(poly):
         ]
     polygon = " ".join(f"{lat} {lon}" for lon, lat in poly.exterior.coords)
     query = f'[out:json][timeout:90];nwr["power"="substation"](poly:"{polygon}");out center tags;'
-    return osm.op_query_json(query)["elements"]
+    elements = osm.op_query_json(query)["elements"]
+    temporary = OSM_SUBSTATION_CACHE.with_suffix(".tmp")
+    temporary.write_text(json.dumps(elements, separators=(",", ":")), encoding="utf-8")
+    temporary.replace(OSM_SUBSTATION_CACHE)
+    return elements
 
 
 def element_location(element):
@@ -47,10 +45,10 @@ def element_location(element):
 
 def main() -> None:
     data = utils.data_un("data.pkl")
-    if data.get("last_saved", 0) < 7:
-        raise RuntimeError("Run run_novi_sad.py first to generate the complete simulated topology.")
+    if data.get("last_saved", 0) < 3:
+        raise RuntimeError("Run run_novi_sad.py first to generate the OSM study data.")
 
-    poly, substations, transformers, solutions = (data[key] for key in ("poly", "s", "t", "sol_gdfs"))
+    poly = data["poly"]
     center = [poly.centroid.y, poly.centroid.x]
     grid_map = folium.Map(location=center, zoom_start=12, tiles="OpenStreetMap", control_scale=True)
 
@@ -59,19 +57,6 @@ def main() -> None:
         name="Novi Sad study area",
         style_function=lambda _: {"color": "#555555", "weight": 2, "fillOpacity": 0},
     ).add_to(grid_map)
-
-    lines_layer = folium.FeatureGroup(name="Original 3-source demonstrator corridors", show=False)
-    for pair_id, routes in solutions.items():
-        for route_id, route in routes.iterrows():
-            for segment in line_segments(route.geometry):
-                folium.PolyLine(
-                    locations=[(lat, lon) for lon, lat in segment.coords],
-                    color="#d73027",
-                    weight=4,
-                    opacity=0.8,
-                    tooltip=f"Simulated circuit: source pair {pair_id}, route {route_id}",
-                ).add_to(lines_layer)
-    lines_layer.add_to(grid_map)
 
     inferred_edge_count = 0
     if INFERRED_FEEDERS.exists():
@@ -103,35 +88,18 @@ def main() -> None:
         ).add_to(inferred_layer)
         inferred_layer.add_to(grid_map)
 
-    transformer_layer = folium.FeatureGroup(name="OSM substation load proxies (original model)", show=False)
-    for osmid, transformer in transformers.iterrows():
-        point = transformer.geometry.centroid
-        folium.CircleMarker(
-            location=(point.y, point.x),
-            radius=4,
-            color="#1f78b4",
-            fill=True,
-            fill_opacity=0.8,
-            tooltip=f"OSM {osmid} — simulated load point",
-        ).add_to(transformer_layer)
-    transformer_layer.add_to(grid_map)
-
-    source_layer = folium.FeatureGroup(name="Original EINS-TUDa 3-source subset", show=False)
-    for osmid, substation in substations.iterrows():
-        point = substation.geometry.centroid
-        folium.Marker(
-            location=(point.y, point.x),
-            tooltip=substation["name"],
-            popup=folium.Popup(f"<b>{substation['name']}</b><br>OSM way {osmid}<br>Model: 63 MVA, 110/20 kV", max_width=260),
-            icon=folium.Icon(color="red", icon="flash", prefix="glyphicon"),
-        ).add_to(source_layer)
-    source_layer.add_to(grid_map)
-
     primary_count = 0
     secondary_count = 0
+    simulated_primary_ids = set()
+    simulated_delivery_ids = set()
     if SEEDED_STATIONS.exists():
         station_data = json.loads(SEEDED_STATIONS.read_text(encoding="utf-8"))
         primary_count = len(station_data["primary_stations"])
+        simulated_primary_ids = {
+            int(station["osm_id"])
+            for station in station_data["primary_stations"]
+            if station.get("osm_id") is not None
+        }
         verified_primary_layer = folium.FeatureGroup(name="EDS primary stations — name-verified OSM positions (3)", show=True)
         inferred_primary_layer = folium.FeatureGroup(name="EDS primary stations — inferred OSM positions (6)", show=True)
         for station in station_data["primary_stations"]:
@@ -176,6 +144,11 @@ def main() -> None:
         inferred_primary_layer.add_to(grid_map)
 
         secondary_count = len(station_data["legacy_secondary_stations"])
+        simulated_delivery_ids = {
+            int(station["osm_id"])
+            for station in station_data["legacy_secondary_stations"]
+            if station.get("osm_id") is not None
+        }
         legacy_station_layer = folium.FeatureGroup(name="Legacy 35/10 kV stations (6, inferred positions)", show=True)
         for station in station_data["legacy_secondary_stations"]:
             folium.CircleMarker(
@@ -209,7 +182,6 @@ def main() -> None:
         ).add_to(legacy_layer)
         legacy_layer.add_to(grid_map)
 
-    mapped_source_ids = set(substations.index.astype(int))
     all_stations = get_all_osm_substations(poly)
     all_stations_layer = folium.FeatureGroup(name="All OSM-mapped substations", show=True)
     for station in all_stations:
@@ -218,12 +190,26 @@ def main() -> None:
         lat, lon = element_location(station)
         kind = tags.get("substation", "unspecified")
         voltage = tags.get("voltage", "not mapped")
-        is_simulated_source = osmid in mapped_source_ids
-        color = "red" if is_simulated_source else ("orange" if kind == "distribution" else "gray")
+        is_primary_source = osmid in simulated_primary_ids
+        is_delivery_station = osmid in simulated_delivery_ids
+        is_modelled = is_primary_source or is_delivery_station
+        color = (
+            "red" if is_primary_source
+            else "#008c95" if is_delivery_station
+            else "orange" if kind == "distribution"
+            else "gray"
+        )
+        model_status = (
+            "Included as a simulated primary source"
+            if is_primary_source
+            else "Included as a simulated 35/10 kV delivery station"
+            if is_delivery_station
+            else "Mapped for reference only"
+        )
         name = tags.get("name:sr-Latn") or tags.get("name:en") or tags.get("name") or "Unnamed OSM substation"
         folium.CircleMarker(
             location=(lat, lon),
-            radius=6 if is_simulated_source else 4,
+            radius=6 if is_modelled else 4,
             color=color,
             fill=True,
             fill_opacity=0.75,
@@ -231,7 +217,7 @@ def main() -> None:
             popup=folium.Popup(
                 f"<b>{name}</b><br>OSM {station['type']} {osmid}<br>"
                 f"Type: {kind}<br>Voltage: {voltage}<br>"
-                f"{'Included as a simulated source' if is_simulated_source else 'Mapped for reference only'}",
+                f"{model_status}",
                 max_width=280,
             ),
         ).add_to(all_stations_layer)

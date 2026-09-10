@@ -1,0 +1,20 @@
+{
+  "scope": "traceability for the local cached OSM-derived input snapshot",
+  "osm_snapshot": {
+    "path": "data.pkl",
+    "sha256": "7335a7e224d1f355079aaf4512fd9a532f211c1b7d86e53a08f46a0e10599453",
+    "last_modified_utc": "2026-09-10T07:58:07.126570+00:00"
+  },
+  "config": {
+    "path": "config.json",
+    "sha256": "2334ec2d52dd5a9a7873f7907008b906e58e55431d29d55dd0b28dc7b01a20a1"
+  },
+  "package_versions": {
+    "geopandas": "0.14.4",
+    "networkx": "3.2.1",
+    "osmnx": "1.9.4",
+    "pandapower": "2.14.11",
+    "shapely": "2.0.5"
+  },
+  "reproducibility_warning": "data.pkl is local and gitignored; this manifest traces generated artifacts to that snapshot but does not make a fresh clone bit-for-bit reproducible."
+}

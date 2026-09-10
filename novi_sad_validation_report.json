@@ -1,0 +1,127 @@
+{
+  "status": "INTERNAL_CONSISTENCY_PASS",
+  "validation_scope": "Internal topology and power-flow acceptance for a synthetic planning proxy; not independent validation against utility measurements.",
+  "validation_checks": {
+    "power_flow_converged": true,
+    "exactly_2648_loads": true,
+    "unique_traceable_load_ids": true,
+    "nine_expected_primary_sources": true,
+    "all_nine_sources_active": true,
+    "all_loads_electrically_supplied": true,
+    "all_source_connectors_modelled_electrically": true,
+    "all_buses_have_geodata": true,
+    "all_lines_have_valid_geodata": true,
+    "line_geodata_endpoints_match_buses": true,
+    "nine_radial_source_islands": true,
+    "ns2_ns4_have_no_direct_20kv_transformer": true,
+    "six_legacy_transformers_active": true,
+    "voltage_within_095_105": true,
+    "no_line_overload": true,
+    "transformers_within_90pct_planning_margin": true,
+    "losses_nonnegative_below_10pct": true
+  },
+  "calibrated_input_assertions_not_scored": {
+    "annual_energy_matches_calibration_input": true,
+    "derived_peak_matches_assumption": true
+  },
+  "base_case": {
+    "converged": true,
+    "load_mw": 214.85404109588603,
+    "source_mw": 217.67463255942235,
+    "loss_mw": 2.820591463536317,
+    "loss_pct": 1.2957832662316922,
+    "min_voltage_pu": 0.9567924123264973,
+    "max_voltage_pu": 1.02,
+    "max_line_loading_pct": 72.29038783290778,
+    "max_transformer_loading_pct": 88.33249991022608
+  },
+  "peak_by_delivery_voltage_kv": {
+    "10.0": 57.46989859565551,
+    "20.0": 157.38414250023055
+  },
+  "source_injection_mw": {
+    "NS1": 5.083024401997997,
+    "NS2": 22.703556947061156,
+    "NS4": 35.90788368947408,
+    "NS5": 39.18049497042829,
+    "NS6": 16.406077778273048,
+    "NS7": 37.84579763175653,
+    "NS9": 17.32435748868351,
+    "RIM": 24.384555033653,
+    "FUT": 18.83888461809473
+  },
+  "legacy_transformer_loading_pct": {
+    "LIMAN": 71.72588276130799,
+    "CENTAR": 12.885949028941205,
+    "PODBARA": 20.709417640766638,
+    "SEVER": 27.24261271007931,
+    "IND": 24.363933764368337,
+    "TELEP": 88.33249991022608
+  },
+  "comparison_with_supplied_graphic": {
+    "2025_annual_energy": {
+      "image_mwh": 1147635.0,
+      "model_mwh": 1147634.9999999772,
+      "difference_mwh": -2.2817403078079224e-08,
+      "interpretation": "Exact by calibration; this is not independent validation."
+    },
+    "2024_to_2025_growth": {
+      "image_change_mwh": 30831.0,
+      "calculated_pct": 2.7606455564270993,
+      "model_status": "2024 is not simulated; no independent growth prediction."
+    },
+    "delivery_level_capacity_screening": {
+      "20kv": {
+        "image_capacity_mw": 299.0,
+        "model_peak_mw": 157.38414250023055,
+        "model_peak_as_pct_of_reference": 52.63683695659884
+      },
+      "10kv": {
+        "image_capacity_mw": 179.0,
+        "model_peak_mw": 57.46989859565551,
+        "model_peak_as_pct_of_reference": 32.10608860092486
+      },
+      "interpretation": "Screening comparison only: the graphic MW categories are not pandapower equipment-rating sums."
+    },
+    "installed_capacity_categories": {
+      "image": {
+        "annual_2024_mwh": 1116804.0,
+        "annual_2025_mwh": 1147635.0,
+        "annual_change_mwh": 30831.0,
+        "annual_change_pct": 2.76,
+        "installed_total_mw": 1178.0,
+        "transmission_mw": 430.0,
+        "distribution_mw": 598.0,
+        "ts_110_20_mw": 150.0,
+        "distribution_20kv_mw": 299.0,
+        "distribution_10kv_mw": 179.0,
+        "distribution_04kv_mw": 120.0,
+        "stated_reserve_mw": 295.0,
+        "stated_reserve_pct": 25.0
+      },
+      "model_status": "Not scored one-for-one; the graphic uses layered accounting categories that must not be summed against model MVA ratings."
+    }
+  },
+  "uniform_demand_stress_test": {
+    "maximum_acceptable_scale": 1.076171875,
+    "maximum_acceptable_load_mw": 231.21987625748744,
+    "binding_case_metrics": {
+      "converged": true,
+      "load_mw": 231.21987625748673,
+      "source_mw": 234.4294733403571,
+      "loss_mw": 3.209597082870374,
+      "loss_pct": 1.3691098807403415,
+      "min_voltage_pu": 0.9500025335822362,
+      "max_voltage_pu": 1.02,
+      "max_line_loading_pct": 78.35036790759379,
+      "max_transformer_loading_pct": 95.71700897272815
+    },
+    "acceptance_limits": "0.95-1.05 pu, line and transformer loading below 100%, losses 0-10%",
+    "warning": "Synthetic planning-model threshold, not an EDS operational limit."
+  },
+  "honesty_notes": [
+    "The 214.854 MW peak is derived from annual energy using an assumed 1.64 peak-to-mean ratio; it is not a measured peak.",
+    "Matching 1,147,635 MWh is calibration, not independent validation.",
+    "Street feeder routes and cable/impedance parameters are inferred planning assumptions."
+  ]
+}

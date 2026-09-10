@@ -1,0 +1,69 @@
+{
+  "converged": true,
+  "counts": {
+    "primary_stations": 9,
+    "delivery_roots": 13,
+    "buses": 21783,
+    "lines": 21759,
+    "transformers": 15,
+    "loads": 2648,
+    "external_grids": 9
+  },
+  "load_peak_mw": 214.85404109588615,
+  "annual_consumption_mwh": 1147634.9999999772,
+  "source_injection_mw": 217.674632571736,
+  "losses_mw": 2.8205914758498523,
+  "losses_pct_of_injection": 1.2957832718152442,
+  "min_voltage_pu": 0.9567924123338817,
+  "max_voltage_pu": 1.02,
+  "max_line_loading_pct": 72.29038783940705,
+  "max_transformer_loading_pct": 88.33249991382246,
+  "source_results": [
+    {
+      "primary_station_id": "NS1",
+      "p_mw": 5.083024403076985,
+      "q_mvar": 0.05817758285554486
+    },
+    {
+      "primary_station_id": "NS2",
+      "p_mw": 22.703556945134277,
+      "q_mvar": 4.043669367796888
+    },
+    {
+      "primary_station_id": "NS4",
+      "p_mw": 35.90788369084829,
+      "q_mvar": 10.592208277686154
+    },
+    {
+      "primary_station_id": "NS5",
+      "p_mw": 39.18049496995399,
+      "q_mvar": 6.808866010670228
+    },
+    {
+      "primary_station_id": "NS6",
+      "p_mw": 16.406077787480218,
+      "q_mvar": 0.28969178493737857
+    },
+    {
+      "primary_station_id": "NS7",
+      "p_mw": 37.84579763179311,
+      "q_mvar": 6.555152223923249
+    },
+    {
+      "primary_station_id": "NS9",
+      "p_mw": 17.32435748247177,
+      "q_mvar": 2.1720212124361122
+    },
+    {
+      "primary_station_id": "RIM",
+      "p_mw": 24.384555042118507,
+      "q_mvar": 4.134556392328376
+    },
+    {
+      "primary_station_id": "FUT",
+      "p_mw": 18.838884618858895,
+      "q_mvar": 2.271381038861316
+    }
+  ],
+  "provenance_warning": "Planning proxy with inferred routes and generic cable parameters; not an as-built EDS model."
+}

@@ -25,6 +25,9 @@ OUTPUT_GEOJSON = Path("novi_sad_inferred_feeders.geojson")
 OUTPUT_SUMMARY = Path("novi_sad_inferred_feeders_summary.json")
 OUTPUT_STATIONS = Path("novi_sad_seeded_substations.json")
 OUTPUT_LEGACY = Path("novi_sad_legacy_35kv_routes.geojson")
+ROUTING_TARGET_LOADING = 0.86
+ROUTING_POWER_FACTOR = 0.97
+ALLOCATION_BALANCE_DISTANCE_KM = 5.0
 
 # Equipment, 2024 Pmax, and utilization come from EDS's public 2025-2034
 # development plan (base year 2024).  Only three coordinates are named in OSM;
@@ -126,6 +129,43 @@ def road_routing_graph(graph):
     return clean.subgraph(largest).copy()
 
 
+def legacy_connections(graph):
+    """Resolve documented and inferred NS2/NS4-to-secondary associations."""
+    primaries = [station for station in PRIMARY_STATIONS if not station["direct_20kv"]]
+    primary_nodes = nearest_nodes(graph, [(row["lon"], row["lat"]) for row in primaries])
+    secondary_nodes = nearest_nodes(
+        graph, [(row["lon"], row["lat"]) for row in LEGACY_SECONDARY_STATIONS]
+    )
+    connections = []
+    for secondary, target_node in zip(LEGACY_SECONDARY_STATIONS, secondary_nodes):
+        documented_id = DOCUMENTED_LEGACY_UPSTREAM.get(secondary["id"])
+        candidates = []
+        for primary, source_node in zip(primaries, primary_nodes):
+            if documented_id is not None and primary["id"] != documented_id:
+                continue
+            length, path = nx.single_source_dijkstra(
+                graph, source_node, target=target_node, weight="length"
+            )
+            candidates.append((length, path, primary, source_node))
+        length, path, primary, source_node = min(candidates, key=lambda item: item[0])
+        connections.append(
+            {
+                "secondary": secondary,
+                "secondary_node": int(target_node),
+                "primary": primary,
+                "primary_node": int(source_node),
+                "length_m": float(length),
+                "path": path,
+                "association_status": (
+                    "documented in EDS plan"
+                    if documented_id
+                    else "inferred by minimum road-network distance"
+                ),
+            }
+        )
+    return connections
+
+
 def main() -> None:
     if not INVENTORY.exists():
         raise RuntimeError("Run generate_synthetic_transformers.py first.")
@@ -133,8 +173,30 @@ def main() -> None:
     data = utils.data_un("data.pkl")
     graph = road_routing_graph(data["G"].to_undirected())
     direct_sources = [station for station in PRIMARY_STATIONS if station["direct_20kv"]]
+    resolved_legacy = legacy_connections(graph)
     source_rows = []
-    source_items = direct_sources
+    source_items = [
+        {
+            **station,
+            "primary_station_id": station["id"],
+            "primary_station_name": station["name"],
+            "delivery_voltage_kv": 20.0,
+            "delivery_kind": "direct_110_20",
+            "routing_capacity_mva": station.get("direct_20kv_mva", station["installed_mva"]),
+        }
+        for station in direct_sources
+    ] + [
+        {
+            **connection["secondary"],
+            "primary_station_id": connection["primary"]["id"],
+            "primary_station_name": connection["primary"]["name"],
+            "delivery_voltage_kv": 10.0,
+            "delivery_kind": "legacy_35_10",
+            "routing_capacity_mva": connection["secondary"]["installed_mva"],
+            "baseline_pmax_mw": 0.0,
+        }
+        for connection in resolved_legacy
+    ]
     source_nodes = nearest_nodes(
         graph,
         [(row["lon"], row["lat"]) for row in source_items],
@@ -147,8 +209,12 @@ def main() -> None:
                 "name": row["name"],
                 "node": int(node),
                 "installed_mva": row["installed_mva"],
-                "routing_capacity_mva": row.get("direct_20kv_mva", row["installed_mva"]),
+                "routing_capacity_mva": row["routing_capacity_mva"],
                 "baseline_pmax_mw": row["baseline_pmax_mw"],
+                "primary_station_id": row["primary_station_id"],
+                "primary_station_name": row["primary_station_name"],
+                "delivery_voltage_kv": row["delivery_voltage_kv"],
+                "delivery_kind": row["delivery_kind"],
                 "lat": row["lat"],
                 "lon": row["lon"],
             }
@@ -162,53 +228,82 @@ def main() -> None:
         [(float(row["longitude"]), float(row["latitude"])) for row in points],
     )
 
-    # Start with road-nearest territories, then minimally move points away from
-    # any source that exceeds 95% of its direct 20 kV nameplate.  This preserves
-    # geographic plausibility while preventing a visually convenient but
-    # electrically impossible source allocation.
+    # Assign by road proximity while respecting both delivery-transformer and
+    # upstream-primary limits. MW limits include power factor and a 90% planning
+    # loading margin; NS2/NS4 are therefore constrained across all descendants.
     source_distances = {
         node: nx.single_source_dijkstra_path_length(graph, node, weight="length")
         for node in source_by_node
     }
     point_info = []
     assigned_peak = defaultdict(float)
-    for index, (point, target_node) in enumerate(zip(points, target_nodes)):
-        target_node = int(target_node)
-        source_node = min(source_by_node, key=lambda node: source_distances[node][target_node])
-        peak_mw = float(point["peak_demand_mw"])
-        point_info.append({"index": index, "point": point, "target_node": target_node, "source_node": source_node, "peak_mw": peak_mw})
-        assigned_peak[source_node] += peak_mw
-
+    assigned_primary_peak = defaultdict(float)
     capacity_limit = {
-        node: source_by_node[node]["routing_capacity_mva"] * 0.95
+        node: source_by_node[node]["routing_capacity_mva"]
+        * ROUTING_TARGET_LOADING * ROUTING_POWER_FACTOR
         for node in source_by_node
     }
-    for overloaded_node in source_by_node:
-        while assigned_peak[overloaded_node] > capacity_limit[overloaded_node] + 1e-9:
-            moves = []
-            for info in point_info:
-                if info["source_node"] != overloaded_node:
-                    continue
-                alternatives = [
-                    node for node in source_by_node
-                    if node != overloaded_node
-                    and assigned_peak[node] + info["peak_mw"] <= capacity_limit[node] + 1e-9
-                ]
-                if not alternatives:
-                    continue
-                alternate = min(alternatives, key=lambda node: source_distances[node][info["target_node"]])
-                distance_penalty = (
-                    source_distances[alternate][info["target_node"]]
-                    - source_distances[overloaded_node][info["target_node"]]
-                )
-                moves.append((distance_penalty, info["index"], alternate))
-            if not moves:
-                raise RuntimeError("Unable to rebalance synthetic demand within seeded 20 kV source capacities.")
-            _, index, alternate = min(moves)
-            info = point_info[index]
-            assigned_peak[overloaded_node] -= info["peak_mw"]
-            assigned_peak[alternate] += info["peak_mw"]
-            info["source_node"] = alternate
+    delivery_capacity_by_primary = defaultdict(float)
+    for source in source_rows:
+        delivery_capacity_by_primary[source["primary_station_id"]] += source["routing_capacity_mva"]
+    primary_capacity_limit = {}
+    for station in PRIMARY_STATIONS:
+        primary_rating = station.get("direct_20kv_mva", station["installed_mva"])
+        effective_rating = min(primary_rating, delivery_capacity_by_primary[station["id"]])
+        primary_capacity_limit[station["id"]] = (
+            effective_rating * ROUTING_TARGET_LOADING * ROUTING_POWER_FACTOR
+        )
+    total_peak_mw = sum(float(point["peak_demand_mw"]) for point in points)
+    baseline_total = sum(float(station["baseline_pmax_mw"]) for station in PRIMARY_STATIONS)
+    primary_target = {
+        station["id"]: total_peak_mw * float(station["baseline_pmax_mw"]) / baseline_total
+        for station in PRIMARY_STATIONS
+    }
+    delivery_target = {}
+    for source in source_rows:
+        siblings = [
+            item for item in source_rows
+            if item["primary_station_id"] == source["primary_station_id"]
+        ]
+        sibling_capacity = sum(item["routing_capacity_mva"] for item in siblings)
+        delivery_target[source["node"]] = (
+            primary_target[source["primary_station_id"]]
+            * source["routing_capacity_mva"] / sibling_capacity
+        )
+    point_order = sorted(
+        enumerate(zip(points, target_nodes)),
+        key=lambda item: float(item[1][0]["peak_demand_mw"]),
+        reverse=True,
+    )
+    assigned_by_index = {}
+    for index, (point, target_node) in point_order:
+        target_node = int(target_node)
+        peak_mw = float(point["peak_demand_mw"])
+        feasible = [
+            node for node, source in source_by_node.items()
+            if assigned_peak[node] + peak_mw <= capacity_limit[node] + 1e-9
+            and assigned_primary_peak[source["primary_station_id"]] + peak_mw
+            <= primary_capacity_limit[source["primary_station_id"]] + 1e-9
+        ]
+        if not feasible:
+            raise RuntimeError("Unable to allocate synthetic demand within nested station limits.")
+        def allocation_score(node):
+            source = source_by_node[node]
+            distance_km = source_distances[node][target_node] / 1000.0
+            delivery_fill = assigned_peak[node] / max(delivery_target[node], 1e-9)
+            primary_fill = assigned_primary_peak[source["primary_station_id"]] / max(
+                primary_target[source["primary_station_id"]], 1e-9
+            )
+            return distance_km + ALLOCATION_BALANCE_DISTANCE_KM * (delivery_fill + primary_fill)
+
+        source_node = min(feasible, key=allocation_score)
+        assigned_by_index[index] = {
+            "index": index, "point": point, "target_node": target_node,
+            "source_node": source_node, "peak_mw": peak_mw,
+        }
+        assigned_peak[source_node] += peak_mw
+        assigned_primary_peak[source_by_node[source_node]["primary_station_id"]] += peak_mw
+    point_info = [assigned_by_index[index] for index in range(len(points))]
 
     edge_peak_mw = defaultdict(float)
     edge_sources = {}
@@ -236,6 +331,10 @@ def main() -> None:
                     "synthetic_id": point["synthetic_id"],
                     "source_osm_id": source["osmid"],
                     "source_name": source["name"],
+                    "delivery_station_id": source["station_id"],
+                    "primary_station_id": source["primary_station_id"],
+                    "primary_station_name": source["primary_station_name"],
+                    "delivery_voltage_kv": source["delivery_voltage_kv"],
                     "street_graph_node": target_node,
                     "route_distance_km": source_distances[source_node][target_node] / 1000.0,
                     "peak_demand_mw": peak_mw,
@@ -268,6 +367,9 @@ def main() -> None:
                     "kind": "feeder_segment",
                     "source_osm_id": source_id,
                     "source_name": next(row["name"] for row in source_rows if row["osmid"] == source_id),
+                    "delivery_station_id": next(row["station_id"] for row in source_rows if row["osmid"] == source_id),
+                    "primary_station_id": next(row["primary_station_id"] for row in source_rows if row["osmid"] == source_id),
+                    "delivery_voltage_kv": next(row["delivery_voltage_kv"] for row in source_rows if row["osmid"] == source_id),
                     "road_node_u": u,
                     "road_node_v": v,
                     "allocated_peak_mw": peak_mw,
@@ -304,23 +406,13 @@ def main() -> None:
     )
 
     # Route the legacy 35 kV path from NS2/NS4 to the central 35/10 kV stations.
-    legacy_primary = [station for station in PRIMARY_STATIONS if not station["direct_20kv"]]
-    legacy_nodes = nearest_nodes(graph, [(row["lon"], row["lat"]) for row in legacy_primary])
-    secondary_nodes = nearest_nodes(graph, [(row["lon"], row["lat"]) for row in LEGACY_SECONDARY_STATIONS])
     legacy_features = []
-    for secondary, target_node in zip(LEGACY_SECONDARY_STATIONS, secondary_nodes):
-        documented_source_id = DOCUMENTED_LEGACY_UPSTREAM.get(secondary["id"])
-        candidate_sources = [
-            (primary, source_node)
-            for primary, source_node in zip(legacy_primary, legacy_nodes)
-            if documented_source_id is None or primary["id"] == documented_source_id
-        ]
-        candidates = []
-        for primary, source_node in candidate_sources:
-            length, path = nx.single_source_dijkstra(graph, source_node, target=target_node, weight="length")
-            candidates.append((length, path, primary))
-        length, path, primary = min(candidates, key=lambda item: item[0])
-        association_status = "documented in EDS plan" if documented_source_id else "inferred by minimum road-network distance"
+    for connection in resolved_legacy:
+        secondary = connection["secondary"]
+        primary = connection["primary"]
+        length = connection["length_m"]
+        path = connection["path"]
+        association_status = connection["association_status"]
         coordinates = []
         for u, v in zip(path, path[1:]):
             record = edge_record(graph, u, v)
@@ -362,19 +454,25 @@ def main() -> None:
             {
                 "source_osm_id": source_id,
                 "source_name": source["name"],
+                "delivery_station_id": source["station_id"],
+                "primary_station_id": source["primary_station_id"],
+                "primary_station_name": source["primary_station_name"],
+                "delivery_voltage_kv": source["delivery_voltage_kv"],
+                "delivery_kind": source["delivery_kind"],
+                "street_graph_root_node": source["node"],
                 "installed_mva": source["installed_mva"],
                 "routing_capacity_mva": source["routing_capacity_mva"],
-                "routing_limit_mw_at_95pct": source["routing_capacity_mva"] * 0.95,
+                "routing_limit_mw": source["routing_capacity_mva"] * ROUTING_TARGET_LOADING * ROUTING_POWER_FACTOR,
                 "baseline_pmax_mw": source["baseline_pmax_mw"],
                 "assigned_points": source_point_counts[source_id],
                 "allocated_peak_mw": source_peak_mw[source_id],
-                "synthetic_peak_within_routing_limit": source_peak_mw[source_id] <= source["routing_capacity_mva"] * 0.95 + 1e-9,
+                "synthetic_peak_within_routing_limit": source_peak_mw[source_id] <= source["routing_capacity_mva"] * ROUTING_TARGET_LOADING * ROUTING_POWER_FACTOR + 1e-9,
                 "unique_route_edges": source_edge_counts[source_id],
                 "unique_route_length_km": source_lengths[source_id] / 1000.0,
             }
         )
     summary = {
-        "method": "multi-source shortest-path forest on the OSM street graph, rooted at seven EDS-listed stations with direct 110/20 kV function",
+        "method": "multi-source shortest-path forest on the OSM street graph, rooted at seven direct 110/20 kV stations and six legacy 35/10 kV delivery stations",
         "provenance": "Synthetic planning proxy; not an as-built electrical topology.",
         "point_count": len(assignments),
         "connected_point_count": len(assignments),
@@ -383,6 +481,14 @@ def main() -> None:
         "source_connector_features": len(features) - len(edge_peak_mw),
         "unique_route_length_km": total_length_m / 1000.0,
         "sources": source_summary,
+        "primary_station_count": 9,
+        "delivery_root_count": len(source_rows),
+        "routing_target_loading": ROUTING_TARGET_LOADING,
+        "routing_power_factor": ROUTING_POWER_FACTOR,
+        "primary_allocated_peak_mw": dict(assigned_primary_peak),
+        "primary_routing_limit_mw": primary_capacity_limit,
+        "primary_soft_target_mw": primary_target,
+        "allocation_basis": "road distance balanced toward EDS 2024 Pmax proportions; targets are scenario priors, not measured coincident loads",
         "legacy_path": "NS2/NS4 (110/35 kV) are shown separately feeding six EDS-listed 35/10 kV stations; they are not treated as direct 20 kV roots.",
     }
     OUTPUT_SUMMARY.write_text(json.dumps(summary, indent=2), encoding="utf-8")
