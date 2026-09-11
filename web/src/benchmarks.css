@@ -40,3 +40,23 @@
 .benchmark-scope { color: #617066; font-size: 12px; line-height: 1.6; }
 @media (max-width: 1050px) { .benchmark-setup { grid-template-columns: 1fr; } .benchmark-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .benchmark-intro { align-items: flex-start; } .benchmark-badge { display: none; } .benchmark-fields, .benchmark-fixtures ol, .benchmark-algorithms, .benchmark-metrics { grid-template-columns: 1fr; } }
+
+/* Grid children must shrink around wide evidence tables and native selects. */
+.benchmark-workspace > *, .benchmark-workspace .panel,
+.benchmark-setup > *, .benchmark-toolbar > *, .benchmark-intro > div { min-width: 0; }
+.benchmark-setup { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.benchmark-workspace .table-wrap { width:100%; max-width:100%; overflow-x:auto; }
+.benchmark-workspace select { max-width:100%; text-overflow:ellipsis; }
+.benchmark-workspace .section-selector { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); overflow:visible; width:100%; }
+.benchmark-workspace .section-selector button { min-width:0; white-space:normal; overflow-wrap:anywhere; padding:10px 8px; }
+.benchmark-toolbar label { min-width:0; flex:1 1 240px; max-width:100%; }
+.benchmark-run-state { overflow-wrap:anywhere; }
+@media (max-width:1050px) { .benchmark-setup { grid-template-columns:minmax(0,1fr); } }
+@media (max-width:620px) {
+  .benchmark-workspace { gap:12px; }
+  .benchmark-workspace .section-selector { gap:4px; margin-bottom:0; }
+  .benchmark-workspace .section-selector button { font-size:12px; padding:10px 4px; }
+  .benchmark-toolbar { align-items:stretch; }
+  .benchmark-toolbar > label { flex-basis:100%; }
+  .benchmark-intro { gap:0; }
+}

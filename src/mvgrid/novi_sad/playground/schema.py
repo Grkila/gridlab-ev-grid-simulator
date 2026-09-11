@@ -71,6 +71,8 @@ class LocationMix(StrictModel):
 
 
 class FleetConfig(StrictModel):
+    # Missing on historical definitions: preserve their original session generator.
+    charging_profile: Literal['legacy_mix','home_only','whole_day'] = 'legacy_mix'
     fleet_size: Annotated[int, Field(ge=0, le=1_000_000)] = 100
     charger_kw: FinitePositive = 7.4
     energy_kwh: FinitePositive = 14.0

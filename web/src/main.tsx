@@ -6,4 +6,7 @@ import './refinements.css';
 import './results.css';
 import './system.css';
 import App from './App';
+import { installPresentationBridge } from './presentation/bridge';
+import './presentation/embedded.css';
+installPresentationBridge();
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);

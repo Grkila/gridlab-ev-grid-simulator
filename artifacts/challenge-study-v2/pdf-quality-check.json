@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "pdf_sha256": "fcaa7381c27a56796ba34bb27533e5351fa4df178ecb31d039e20e01bae528aa",
+  "pages": 17,
+  "visual_review": "All 17 pages inspected as rendered PNGs. Latest changed pages 2, 8, 16 re-inspected at full page scale. No clipping, overlap, table truncation, broken glyphs or misleading zero-headroom connections observed.",
+  "text_checks": "All pages contain body text and correct footer numbers; expected result counts and narrowed sensitivity scope present; no Unicode dash/replacement glyphs. Footer extraction precedes body text in this ReportLab PDF.",
+  "page_text_lengths": [
+    1995,
+    1370,
+    2094,
+    2363,
+    1051,
+    2175,
+    1909,
+    1893,
+    1813,
+    1393,
+    1045,
+    2197,
+    1724,
+    1466,
+    1392,
+    2259,
+    2892
+  ]
+}

@@ -70,6 +70,15 @@
           "title": "Scope",
           "type": "string"
         },
+        "measurement": {
+          "default": "supply_including_losses",
+          "enum": [
+            "load",
+            "supply_including_losses"
+          ],
+          "title": "Measurement",
+          "type": "string"
+        },
         "monthly_energy": {
           "default": 95636.0,
           "exclusiveMinimum": 0,
@@ -220,6 +229,16 @@
     "FleetConfig": {
       "additionalProperties": false,
       "properties": {
+        "charging_profile": {
+          "default": "legacy_mix",
+          "enum": [
+            "legacy_mix",
+            "home_only",
+            "whole_day"
+          ],
+          "title": "Charging Profile",
+          "type": "string"
+        },
         "fleet_size": {
           "default": 100,
           "maximum": 1000000,
@@ -593,6 +612,15 @@
   },
   "additionalProperties": false,
   "properties": {
+    "operating_mode": {
+      "default": "as_supplied",
+      "enum": [
+        "as_supplied",
+        "regulated"
+      ],
+      "title": "Operating Mode",
+      "type": "string"
+    },
     "schema_version": {
       "const": 1,
       "default": 1,

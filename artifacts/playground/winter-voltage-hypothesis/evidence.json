@@ -1,0 +1,50 @@
+{
+  "case_origin": "llm",
+  "hypothesis": "A 1% source-voltage setpoint increase resolves normal winter baseline undervoltage.",
+  "source_setpoints_before": [
+    1.02,
+    1.02,
+    1.02,
+    1.02,
+    1.02,
+    1.02
+  ],
+  "source_setpoints_after": [
+    1.03,
+    1.03,
+    1.03,
+    1.03,
+    1.03,
+    1.03
+  ],
+  "passed": true,
+  "metrics": {
+    "peak_demand_kw": 224067.72908164497,
+    "max_line_loading_percent": 87.74015624685254,
+    "max_transformer_loading_percent": 80.87542820189978,
+    "min_voltage_pu": 0.9512870025678323,
+    "nonconverged_steps": 0,
+    "overload_steps": 0,
+    "voltage_violation_steps": 0,
+    "unmet_energy_kwh": 0,
+    "pending_energy_kwh": 0,
+    "requested_energy_kwh": 0,
+    "delivered_energy_kwh": 0,
+    "grid_ev_energy_kwh": 0.0,
+    "runtime_seconds": 36.412485599998035,
+    "max_district_loading_percent": 77.57820969136823,
+    "district_overload_steps": 0,
+    "max_network_capacity_loading_percent": 91.76375399085869,
+    "network_capacity_overload_steps": 0,
+    "energy_excess_kwh": 0.0,
+    "energy_limit_exceeded_steps": 0,
+    "supply_peak_kw": 224067.72908164497,
+    "load_peak_kw": 220233.00957806085,
+    "network_losses_kwh": 65831.84726701323,
+    "baseline_input_energy_kwh": 4990387.090454304,
+    "baseline_loss_reconciliation_max_error_kw": 0.009880053243250586,
+    "incremental_ev_supply_energy_kwh": -4.756276757689193e-05
+  },
+  "max_voltage_pu": 1.03,
+  "limitation": "Synthetic sensitivity test; no evidence the real sources can or should use this setpoint. Demand, capacities and acceptance limits unchanged."
+}

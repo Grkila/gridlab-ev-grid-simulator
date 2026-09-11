@@ -144,6 +144,12 @@ def generate_sessions(
     validate_district_mix(blocks, exp.fleet.district_mix)
     if not 0 <= fleet_size <= 1_000_000:
         raise ValueError("fleet_size must be between 0 and 1,000,000")
+    if exp.fleet.charging_profile != 'legacy_mix':
+        from .charging_profiles import visits
+        return visits(blocks,seed,fleet_size,exp.fleet.charging_profile,
+                      mix=exp.fleet.location_mix.model_dump(),district_mix=exp.fleet.district_mix,
+                      days=exp.demand.days,charger_kw=exp.fleet.charger_kw,
+                      energy_kwh=exp.fleet.energy_kwh,efficiency=exp.fleet.efficiency)
     rng = random.Random(seed)
     mix = exp.fleet.location_mix
     locations = ("residential", "workplace", "public")

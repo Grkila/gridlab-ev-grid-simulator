@@ -1,0 +1,22 @@
+[
+  {
+    "name": "01 \u00b7 Voltage-regulated summer baseline",
+    "experiment_id": "exp-3a75799fbe97efb218bc"
+  },
+  {
+    "name": "02 \u00b7 Voltage-regulated winter baseline",
+    "experiment_id": "exp-b6d95842efab949ac5fe"
+  },
+  {
+    "name": "03 \u00b7 Voltage-regulated worst winter",
+    "experiment_id": "exp-ed55414ac9601958b087"
+  },
+  {
+    "name": "04 \u00b7 Voltage-regulated worst summer",
+    "experiment_id": "exp-c283b30b2091c354c98d"
+  },
+  {
+    "name": "05 \u00b7 Voltage-regulated charging comparison",
+    "experiment_id": "exp-75431f3eae2dc17a84e6"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "case": "unknown_node",
+    "rejected": true,
+    "error": "Unknown node in placement or committed charging"
+  },
+  {
+    "case": "negative_commitment",
+    "rejected": true,
+    "error": "Committed charging must be finite and nonnegative"
+  },
+  {
+    "case": "nan_commitment",
+    "rejected": true,
+    "error": "Committed charging must be finite and nonnegative"
+  },
+  {
+    "case": "bad_weights",
+    "rejected": true,
+    "error": "Placement must have nonnegative weights summing to one"
+  }
+]

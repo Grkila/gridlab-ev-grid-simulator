@@ -1,0 +1,17 @@
+[
+  {
+    "case": "zero_gross",
+    "rejected": true,
+    "error": "ValueError: Gross supply demand must be positive and exceed no-load losses"
+  },
+  {
+    "case": "negative_gross",
+    "rejected": true,
+    "error": "ValueError: Demand must be finite and nonnegative"
+  },
+  {
+    "case": "nan_gross",
+    "rejected": true,
+    "error": "ValueError: Demand must be finite and nonnegative"
+  }
+]

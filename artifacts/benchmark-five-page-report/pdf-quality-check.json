@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "pages": 5,
+  "pdf_sha256": "6d8907dcedf4d666873dee3ec1a0032919192fdb05de937c974f02a3363ad65b",
+  "text_checks": "One question per page; all seven city benchmark counts present; evidence status and failure distinction retained.",
+  "visual_review": "All five110dpi page PNGs inspected: no clipped text, overlapping elements or truncated tables. Latest revised pages1,4,5 re-inspected clean."
+}

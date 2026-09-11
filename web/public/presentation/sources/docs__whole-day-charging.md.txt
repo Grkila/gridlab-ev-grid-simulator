@@ -1,0 +1,43 @@
+Source: docs/whole-day-charging.md
+
+# Home-only and whole-day charging
+
+In Experiments, open **Vehicles → Charging schedule**. Choose Home only or Whole day. Whole-day home/workplace/public percentages use linked sliders: moving one redistributes the remainder between the other two, and the displayed total always equals 100%. A zero remainder is split evenly when another category is reopened. Keyboard arrow, Home and End keys work normally.
+
+The standard benchmark setup has the same schedule choice. Each frozen suite runs the ten standard tests for its selected schedule. Whole-day benchmark shares are fixed at 70% home, 20% workplace and 10% public for comparability. Experiments allow other shares, including 100% workplace. These are planning assumptions, not measured mobility statistics.
+
+| Schedule | Arrival | Departure |
+| --- | --- | --- |
+| Home | 17:00 through 21:00 | 09:00 next day |
+| Workplace | 07:00 through 10:00 | 15:00 through 19:00 |
+| Public | Any quarter-hour from 00:00 through 23:45 | 3–4 hours after arrival |
+
+Each vehicle makes one charging visit per simulated day. This model does not simulate the same car driving between work, public charging and home within a day. Multiday public visits cannot overlap for the same vehicle. Public sessions use public hubs; home/work use ordinary demand nodes. Unsupported district/location combinations are rejected, not silently moved elsewhere. Defaults request 14 battery kWh at 7.4 kW and 90% efficiency. Changing energy or power can make a session impossible; the requested energy is not silently reduced.
+
+Whole-day benchmark synchronized arrivals occur at 18:00 for home, 08:00 for work and 12:00 for public, retaining the appropriate departure rules. Its 132 quarter-hour intervals cover every departure. Ordinary experiments extend their demand horizon through the latest departure, without generating extra completion-day sessions.
+
+## Strategies and interpretation
+
+Charging algorithms are unchanged. In particular, fixed and randomized 23:00 release remain night-delay policies: they can miss workplace/public departures. That failure measures policy applicability, not a low electrical hosting limit. Managed strategies can change charging power each quarter-hour while cars are connected. Energy service and grid validity remain joint acceptance requirements.
+
+Daily participating vehicles, concurrent connected vehicles, actual charging vehicles and full-power charger equivalents are different quantities. Whole-day results are never substituted into older home-only benchmark rows. Profile choice, version, session pools, network, source settings and seeds are frozen with each suite. Expanded fleets must reproduce the frozen prefix. Unsupported profile versions require a new suite.
+
+Missing `fleet.charging_profile` in historical experiment definitions means `legacy_mix`, preserving the original generator and its old timing. New UI experiments explicitly choose `home_only`. Historical benchmarks retain their original home-only generator. Whole-day benchmark and experiment sessions share `charging_profiles.visits`; home benchmark sequences remain unchanged for compatibility.
+
+## Local execution and evidence
+
+`scripts/run_whole_day_benchmark.py` creates and executes the full seven-algorithm, ten-test whole-day benchmark locally, with regulated operation, one seed 41001, 500 reference vehicles and uncapped doubling with adjacent-integer refinement. No RL algorithm is selected. Results live under `artifacts/playground/whole-day-study/runtime`; execution is isolated from unrelated active workers. A runtime ceiling still exists; interrupted or unknown results are not passes.
+
+`scripts/verify_charging_profiles_workflow.py` checks real saved home-only and whole-day experiments through the ordinary worker. `scripts/publish_whole_day_results.py` copies completed immutable evidence into the main app store and never overwrites differing existing files. The study's launch, software-test logs, GUI screenshots and execution records remain together under `artifacts/playground/whole-day-study`.
+
+Validation: 281 repository unittests passed; 14 dedicated profile checks cover nested pools, geographic placement, all-day public arrivals, multiday non-overlap and complete departures. Slider checks exercise 303 changes plus proportional redistribution and 0/100% edges. Browser checks exercise saving both schedules, linked sliders, restoring frozen suites and desktop/mobile layout. Two real 100-car experiments, each with immediate and capacity-aware charging, completed all 132 intervals and delivered 1,400 battery kWh per case with zero unmet energy. Benchmark capacity findings are reported only after the new job finishes and its final fingerprint check passes.
+
+The full whole-day benchmark was cancelled at the user's request after 42 of 70 rows. Its partial results are retained as incomplete evidence, not published as a capacity ranking. The MVP keeps the profile controls and frozen-suite support; no replacement benchmark is required.
+
+## Frontend/backend acceptance
+
+Run `scripts/run_api_e2e.py` with Playwright available to Node. It serves the production build against a real loopback backend with isolated copies of saved evidence. The browser validates and saves a 12-car whole-day experiment, starts the ordinary worker, checks all 132 intervals and 168 battery kWh, then exercises rename, deletion with undo, comparison, benchmark freezing, strategy proposal storage, page navigation and linked sliders. It never starts benchmark or training jobs or an external assistant conversation. Reports and screenshots are saved under `artifacts/playground/whole-day-study/e2e`.
+
+`tests/test_api_contract_review.py` separately checks HTTP chat and training lifecycle contracts with worker entry points stubbed. It also checks that the optional campaign episode factory preserves the frozen charging profile and fingerprints its generator. These offline contract checks do not establish that an external Codex login or a trained policy works.
+
+Final MVP acceptance passed 286 repository tests, the production build, 303 slider transitions, the browser recovery checks, and a real backend/browser workflow with 84 check entries and 242 successful API responses. The live read-only smoke test additionally verified all ten catalog/read routes and the presentation iframe bridge. Details and limits are in the study's `e2e/report.md`.

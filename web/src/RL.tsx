@@ -2,6 +2,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from "recharts";
 import { Bot, Play, RefreshCw, Save, Square } from "lucide-react";
 import "./rl.css";
+import { ContinuousRL } from "./ContinuousRL";
+import { PPODemo } from "./PPODemo";
+import { usePresentationCue } from './presentation/bridge';
 
 type J = Record<string, any>;
 export const rewardDefaults = { delivery: 1, shortfall: 10, capacity: 1000, energy: 1000, switching: 0.05, peak: 0.1, intervention: 10 };
@@ -86,6 +89,9 @@ function RLChart({ rows, series, episode = false, selectedStep }: { rows: J[]; s
 }
 
 export function RLWorkspace({ experiments, draft, onSaved, onModels, onUseModel }: { experiments: J[]; draft: J; onSaved: (experiment: J) => void; onModels: (models: J[]) => void; onUseModel: (model: J) => void }) {
+  const [trainingSection, setTrainingSection] = useState("demo");
+  const cue=usePresentationCue();
+  useEffect(()=>{if(cue?.view==='rl'&&['demo','campaign','legacy'].includes(cue.section||''))setTrainingSection(cue.section!);},[cue]);
   const [stored] = useState<J | null>(readTrainingDraft);
   const [config, setConfig] = useState<J>(() => ({ ...trainingDefaults, ...stored?.config, reward: { ...rewardDefaults, ...stored?.config?.reward } }));
   const configEdited = useRef(false);
@@ -102,7 +108,7 @@ export function RLWorkspace({ experiments, draft, onSaved, onModels, onUseModel 
       setModels(data.models || []); onModels(data.models || []); setJobs(data.jobs || []);
       if (initial) {
         if (!stored && !configEdited.current) setConfig({ ...trainingDefaults, ...data.defaults, reward: { ...rewardDefaults, ...data.defaults?.reward } });
-        const latest = (data.jobs || []).find((row: J) => active(row.status)) || data.jobs?.[0];
+        const latest = (data.jobs || []).find((row: J) => active(row.status)) || (data.jobs || []).find((row:J)=>row.status==='completed') || data.jobs?.[0];
         if (latest) setJob(await request(`/api/rl/jobs/${encodeURIComponent(latest.job_id)}`));
       }
       setError("");
@@ -171,7 +177,11 @@ export function RLWorkspace({ experiments, draft, onSaved, onModels, onUseModel 
   const running = !!job && active(job.status);
   const workerActive = running || jobs.some(row => active(row.job_id === job?.job_id ? job?.status : row.status));
   return <div className="rl-workspace">
-    <section className="panel rl-intro"><div><p className="eyebrow">Centralized reinforcement learning</p><h2>Learn when each charger should switch on</h2><p>A shared Bernoulli policy observes connected EVs and grid state. REINFORCE learns from randomized daily demand and charging sessions. Saved models can be tested alongside the existing strategies.</p></div><Bot size={38} /></section>
+<nav className="section-selector setup-steps" aria-label="Training sections">{[["demo", "PPO demo"], ["campaign", "PPO campaigns"], ["legacy", "Binary training"]].map(([id, label]) => <button type="button" key={id} aria-current={trainingSection === id ? 'step' : undefined} onClick={() => setTrainingSection(id)}>{label}</button>)}</nav>
+    <div hidden={trainingSection !== "demo"}><PPODemo /></div>
+    <div hidden={trainingSection !== "campaign"}><ContinuousRL /></div>
+    <div hidden={trainingSection !== "legacy"}>
+    <section className="panel rl-intro"><div><p className="eyebrow">Historical binary controller</p><h2>Learn when each charger should switch on</h2><p>A shared Bernoulli policy observes connected EVs and grid state. REINFORCE learns from randomized daily demand and charging sessions. Saved models can be tested alongside the existing strategies.</p></div><Bot size={38} /></section>
     {error && <div className="rl-error" role="alert">{error}</div>}
     {notice && <div className="notice" role="status">{notice}</div>}
     <div className="rl-workspace-grid">
@@ -211,6 +221,7 @@ export function RLWorkspace({ experiments, draft, onSaved, onModels, onUseModel 
         </section>
         <section className="panel"><p className="eyebrow">3 · Evaluate in experiments</p><h2>Saved policies</h2><p>Select a policy to add RL to your current experiment draft. Then save the experiment and run the strategy comparison.</p>{!models.length && <p>No trained policy yet.</p>}<div className="rl-models">{models.map(model => <article key={model.model_id}><b>{model.name || model.model_id}</b><code>{model.model_id}</code><span>{model.completed_episodes} episodes · {model.created_at}</span><small>Training experiment: {model.training_experiment_id}</small><button type="button" onClick={() => onUseModel(model)}>Use in experiment <Play size={14} /></button></article>)}</div></section>
       </div>
+    </div>
     </div>
   </div>;
 }

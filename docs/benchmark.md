@@ -60,3 +60,7 @@ Doubling mode freezes a zero-car control followed by powers of two starting at 2
 Uncapped hosting-capacity workflow (2026-09-10): until_failure=true uses a lazy 0,2,4,8,... sequence with no fleet maximum. New larger session pools are reproduced from the frozen blocks, district and per-vehicle seed mechanism, with each trial retaining its replay hash. The first failed doubling is preserved before local integer refinement. Nonconvergence is incomplete electrical evidence, never a measured grid failure. Per-case and total wall-clock budgets remain resource safeguards and cannot establish a capacity boundary. Original capped suites retain their protocol.
 
 Engineering reference: NREL, EV Hosting Capacity Analysis on Distribution Grids (2021), https://www.nrel.gov/docs/fy21osti/75639.pdf: incremental EV loading assessed against voltage and thermal criteria. Doubling plus local integer refinement is our numerical search choice, not a mandated industry standard. The synthetic model, source-voltage support and baseline demand shifting remain explicit assumptions; this is not utility certification.
+
+## Charging schedule controls
+
+Experiments now expose **Home only** and **Whole day** in Vehicles. Whole-day home/workplace/public shares use linked sliders that keep their total at100%. Benchmark setup freezes either schedule across the ten standard tests. See [whole-day charging](whole-day-charging.md) for timing, compatibility and reproducibility.

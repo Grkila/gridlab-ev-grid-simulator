@@ -29,6 +29,7 @@ from .districts import resolve_districts, district_id
 from .demand import generate_demand, allocate_block_demand
 from .simulation import simulate_case
 from .operating_scenario import apply_network_scenario, apply_demand_scenario
+from .charging_profiles import visits, PROFILE_VERSION, PROFILE_DESCRIPTIONS
 
 PROTOCOL = 'novi-sad-benchmark-v1'
 TESTS = [
@@ -56,6 +57,7 @@ class BenchmarkConfig(BaseModel):
     search_mode: Literal['refined','doubling'] = 'refined'
     until_failure: bool = False
     aggregate_ev_nodes: bool = False
+    charging_profile: Literal['home_only','whole_day'] = 'home_only'
 
     @model_validator(mode='after')
     def bounds(self):
@@ -116,13 +118,16 @@ def common_ladder(config):
     return sorted(values, reverse=True)
 
 
-def session_pool(blocks, seed, size, district=None, synchronized=False):
+def session_pool(blocks, seed, size, district=None, synchronized=False, charging_profile='home_only'):
     """Nested fleets: each vehicle has its own seed; IDs sort in vehicle order.
 
     Overnight residential benchmark, 14 battery kWh at 7.4 kW / 90% efficiency.
     All depart at 09:00, allowing even the latest delayed release to meet demand
     when unconstrained. No charging model is given realized future arrivals.
     """
+    if charging_profile == 'whole_day':
+        return visits(blocks,seed,size,'whole_day',district_mix={district:1.} if district else None,synchronized=synchronized)
+    if charging_profile != 'home_only': raise ValueError('Unknown benchmark charging profile')
     candidates = sorted((b for b in blocks if b.get('kind') != 'public_hub' and
                          (district is None or district_id(b) == district)), key=lambda b: b['id'])
     if not candidates:
@@ -230,7 +235,7 @@ class BenchmarkService:
 
     def catalog(self):
         _, blocks = build_network()
-        return dict(protocol=PROTOCOL, tests=TESTS, defaults=BenchmarkConfig().model_dump(),
+        return dict(protocol=PROTOCOL, tests=TESTS, defaults=BenchmarkConfig().model_dump(), charging_profiles=PROFILE_DESCRIPTIONS,
                     run_defaults=BenchmarkRunConfig(strategies=['immediate', 'capacity_aware']).model_dump(),
                     strategies=strategy_catalog(), districts=resolve_districts(blocks),
                     suites=[read_json(p) for p in sorted((self.root/'benchmark-suites').glob('*/summary.json'))],
@@ -255,17 +260,26 @@ class BenchmarkService:
         if cfg['district'] not in {d['id'] for d in districts}:
             raise ValueError('Unknown benchmark district.')
         pools = {f'{mode}-{seed}': session_pool(blocks, seed, cfg['standard_fleet'] if cfg.get('until_failure') else cfg['max_fleet'],
-                    cfg['district'] if mode == 'district' else None, mode == 'synchronized')
+                    cfg['district'] if mode == 'district' else None, mode == 'synchronized',cfg['charging_profile'])
                  for mode in ('city', 'district', 'synchronized') for seed in cfg['seeds']}
+        tests=copy.deepcopy(TESTS)
+        if cfg['charging_profile']=='whole_day':
+            for test in tests:
+                test['description']='Whole-day mixed charging. '+test['description']
+                if test['id']=='synchronized':
+                    test.update(title='Synchronized by location',description='Whole-day mix: home arrivals 18:00, workplace 08:00, public 12:00; normal departure rules retained.')
         network_text = pp.to_json(net)
-        frozen = dict(protocol=PROTOCOL, config=cfg, tests=TESTS, blocks=blocks, districts=districts,
+        frozen = dict(protocol=PROTOCOL, config=cfg, tests=tests, blocks=blocks, districts=districts,
+                      charging_profile_version=PROFILE_VERSION if cfg['charging_profile']=='whole_day' else 'overnight-v1',
+                      charging_profile_description=PROFILE_DESCRIPTIONS[cfg['charging_profile']],
                       demand_measurement='supply_including_losses',
                       demand=profiles, pools=pools, network_hash=hashlib.sha256(network_text.encode()).hexdigest(),
                       limits=Limits().model_dump(), network_capacity=NetworkCapacity().model_dump(),
                       ladder=fleet_ladder(cfg), common_ladder=common_ladder(cfg))
         suite_id = 'suite-'+digest(frozen)[:20]
         folder = self.path('benchmark-suites', suite_id)
-        summary = dict(suite_id=suite_id, protocol=PROTOCOL, config=cfg, tests=TESTS, ladder=frozen['ladder'],
+        summary = dict(suite_id=suite_id, protocol=PROTOCOL, config=cfg, tests=tests, ladder=frozen['ladder'],
+                       charging_profile_description=frozen['charging_profile_description'],
                        demand_measurement=frozen['demand_measurement'],
                        common_ladder=frozen['common_ladder'], fixture_hash=digest(frozen))
         if not (folder/'summary.json').exists():
@@ -281,6 +295,8 @@ class BenchmarkService:
         fixtures = read_json(folder/'fixtures.json')
         if digest(fixtures) != summary['fixture_hash'] or hashlib.sha256((folder/'network.json').read_bytes()).hexdigest() != fixtures['network_hash']:
             raise ValueError('Frozen benchmark fixtures changed; create a new suite.')
+        if fixtures['config'].get('charging_profile') == 'whole_day' and fixtures.get('charging_profile_version') != PROFILE_VERSION:
+            raise ValueError('Charging profile version changed; create a new benchmark suite.')
         return fixtures
 
     def start(self, suite_id, config):
@@ -328,7 +344,7 @@ class BenchmarkService:
                            implementation_id=digest(fingerprint)[:12])
             write_json(folder/'request.json', request)
             state = dict(job_id=job_id, suite_id=suite_id, status='starting', pid=None, completed_rows=0,
-                         total_rows=10*len(cfg['strategies']), strategies=cfg['strategies'],
+                         total_rows=len(fixtures['tests'])*len(cfg['strategies']), strategies=cfg['strategies'],
                          created_at=datetime.now(timezone.utc).isoformat(), elapsed_seconds=0.,
                          implementation_id=request['implementation_id'])
             write_json(folder/'state.json', state)
@@ -429,7 +445,10 @@ def run_benchmark(root, job_id):
                     if not fixture['config'].get('until_failure'):
                         raise ValueError('Requested fleet exceeds frozen pool.')
                     sessions = session_pool(fixture['blocks'], seed, count,
-                        fixture['config']['district'] if mode == 'district' else None, mode == 'synchronized')
+                        fixture['config']['district'] if mode == 'district' else None, mode == 'synchronized',fixture['config'].get('charging_profile','home_only'))
+                    prefix=fixture['pools'][f'{mode}-{seed}']
+                    if sessions[:len(prefix)] != prefix:
+                        raise ValueError('Charging session generator changed; create a new benchmark suite.')
                 options = dict(strategy=strategy, seed=seed, limits=fixture['limits'], stop_on_violation=False,
                                aggregate_ev_nodes=fixture['config'].get('aggregate_ev_nodes',False),
                                demand_measurement=fixture.get('demand_measurement','load'),

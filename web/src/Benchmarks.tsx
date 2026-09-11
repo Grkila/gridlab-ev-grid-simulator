@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import './benchmarks.css';
 import { visibleControllers } from './visibleControllers';
+import { usePresentationCue } from './presentation/bridge';
 
 type J = Record<string, any>;
 const request = async (path: string, payload?: J) => {
@@ -23,11 +24,14 @@ function download(data: J) {
 export function BenchmarksWorkspace() {
   const [catalog, setCatalog] = useState<J>({}), [models, setModels] = useState<J[]>([]);
   const [suiteId, setSuiteId] = useState(''), [jobId, setJobId] = useState('');
-  const [draft, setDraft] = useState<J>({ name: 'Novi Sad · doubling test', standard_fleet: 500, max_fleet: 32768, district: '', operating_mode: 'regulated', search_mode: 'doubling', until_failure: true, aggregate_ev_nodes: true });
+  const [draft, setDraft] = useState<J>({ name: 'Novi Sad · doubling test', standard_fleet: 500, max_fleet: 32768, district: '', operating_mode: 'regulated', search_mode: 'doubling', until_failure: true, aggregate_ev_nodes: true, charging_profile: 'whole_day' });
   const [seeds, setSeeds] = useState('41001, 41002, 41003'), [selected, setSelected] = useState<string[]>([]);
   const [modelId, setModelId] = useState(''), [runtime, setRuntime] = useState(3600), [caseRuntime, setCaseRuntime] = useState(120);
   const [data, setData] = useState<J | null>(null), [cell, setCell] = useState<J | null>(null), [comparison, setComparison] = useState<J | null>(null);
   const [busy, setBusy] = useState(false), [error, setError] = useState('');
+  const [section, setSection] = useState("setup");
+  const cue=usePresentationCue();
+  useEffect(()=>{if(cue?.view==='benchmarks'&&['setup','results','compare'].includes(cue.section||''))setSection(cue.section!);},[cue]);
   const [chartTest, setChartTest] = useState('city_max');
   const refresh = async () => {
     const [c, r] = await Promise.all([request('/api/benchmarks'), request('/api/rl/catalog')]);
@@ -64,7 +68,7 @@ export function BenchmarksWorkspace() {
   });
   const start = () => perform(async () => {
     const job = await request('/api/benchmarks/jobs', { suite_id: suiteId, config: { strategies: selected, model_id: modelId || null, max_runtime_seconds: runtime, case_runtime_seconds: caseRuntime } });
-    setJobId(job.job_id); setComparison(null); await refresh();
+    setJobId(job.job_id); setComparison(null); setSection("results"); await refresh();
   });
   const suite = (catalog.suites || []).find((s: J) => s.suite_id === suiteId);
   const evaluatedSuite = (catalog.suites || []).find((s: J) => s.suite_id === data?.job.suite_id);
@@ -74,13 +78,15 @@ export function BenchmarksWorkspace() {
   const chartRows = rows.filter(r => r.test_id === chartTest).map(r => ({ algorithm: label(r.strategy), cars: r.fleet_size, status: statusLabel(r.status) }));
   const running = active(data?.job.status);
 
-  return <div className="benchmark-workspace">
+  return <div className="benchmark-workspace" data-section={section}>
+<nav className="section-selector setup-steps" aria-label="Benchmark sections">{[["setup", "Setup"], ["results", "Results"], ["compare", "Compare implementations"]].map(([id, label]) => <button type="button" key={id} aria-current={section === id ? 'step' : undefined} onClick={() => setSection(id)}>{label}</button>)}</nav>
     <section className="panel benchmark-intro">
       <div><p className="eyebrow">One protocol · ten tests</p><h2>Compare service, stress and spare capacity</h2>
         <p>Every algorithm gets identical vehicles, demand and seeds. Passing means all requested energy delivered by departure with no electrical violations.</p></div>
       <div className="benchmark-badge">10<span>standard fixtures</span></div>
     </section>
     {error && <p className="error" role="alert">{error}</p>}
+    <div hidden={section !== "setup"}>
     <div className="benchmark-setup">
       <section className="panel">
         <h3>1. Freeze the benchmark</h3>
@@ -90,11 +96,13 @@ export function BenchmarksWorkspace() {
         {suite && <div className="benchmark-frozen"><strong>Frozen: {suite.config.name}</strong><p>{suite.config.seeds.length} seed(s) · reference {number(suite.config.standard_fleet, 0)} cars · {suite.config.until_failure ? "no car-count ceiling" : `ceiling ${number(suite.config.max_fleet, 0)}`} · district {suite.config.district}</p>
           <small>Search ladder: {suite.config.until_failure ? '0-car control → 2 → 4 → 8 → 16 → … until failure (no car-count ceiling)' : `${suite.ladder.join(' → ')} cars`}</small></div>}
         {suite?.config.operating_mode === 'regulated' && <p>Voltage-regulated grid · source voltage 1.04 pu · baseline demand shifted to a 220 MW peak, preserving daily energy.</p>}
+        {suite && <p><strong>Charging schedule: {suite.config.charging_profile === 'whole_day' ? 'Whole day' : 'Home only'}</strong> · {suite.charging_profile_description || (suite.config.charging_profile === 'whole_day' ? 'Home, workplace and public visits throughout the day.' : 'Home arrivals 17:00-21:00; departure 09:00 next day.')}</p>}
         {suite?.config.aggregate_ev_nodes && <p>EV control: adjustable load at each node, grouped by matching arrival, departure, charger power and energy need. Continuous power is shared equally within each group.</p>}
         <details open={!suiteId}><summary>Create a new standard benchmark</summary>
           <div className="benchmark-fields">
             <label><input type="checkbox" checked={draft.aggregate_ev_nodes} onChange={e=>setDraft({...draft,aggregate_ev_nodes:e.target.checked})}/>Aggregate EV control at each node</label>
             <label>Name<input aria-label="Benchmark name" value={draft.name} onChange={e => setDraft({ ...draft, name: e.target.value })} /></label>
+            <label>Charging schedule<select aria-label="Benchmark charging schedule" value={draft.charging_profile} onChange={e=>setDraft({...draft,charging_profile:e.target.value})}><option value="home_only">Home only</option><option value="whole_day">Whole day: 70% home / 20% work / 10% public</option></select></label>
             <label>Grid operation<select aria-label="Benchmark grid operation" value={draft.operating_mode} onChange={e => setDraft({...draft,operating_mode:e.target.value})}><option value="regulated">Voltage-regulated grid</option><option value="as_supplied">Original operating assumptions</option></select></label>
             <label>Reference cars<input aria-label="Reference cars" type="number" min={1} max={50000} value={draft.standard_fleet} onChange={e => setDraft({ ...draft, standard_fleet: +e.target.value })} /></label>
             <label>Capacity search<select aria-label="Capacity search" value={draft.search_mode} onChange={e => setDraft({...draft,search_mode:e.target.value,until_failure:e.target.value==='doubling'})}><option value="doubling">Double from 2 cars until first failure</option><option value="refined">Reference ladder with one-car refinement</option></select></label>
@@ -120,24 +128,29 @@ export function BenchmarksWorkspace() {
         <small>Each case covers 33 hours at 15-minute resolution. Large fleets and multiple seeds can take substantial time; unfinished cases remain unknown.</small>
       </section>
     </div>
-    <details className="panel benchmark-fixtures"><summary>The ten standard tests</summary><ol>{(catalog.tests || []).map((t: J) => <li key={t.id}><strong>{t.title}</strong><span>{t.description}</span></li>)}</ol>
-      <p>Overnight residential visits: 14 kWh per EV, 7.4 kW chargers, 90% efficiency, departures at 09:00. Normal day is June; worst winter uses January +20%. New suites treat supplied consumption as grid input including network losses. Historical suites keep their original measurement boundary.</p></details>
+    <details className="panel benchmark-fixtures"><summary>The ten standard tests</summary><ol>{(suite?.tests || catalog.tests || []).map((t: J) => <li key={t.id}><strong>{t.title}</strong><span>{t.description}</span></li>)}</ol>
+      <p>Each schedule uses all ten tests, 14 kWh per EV, 7.4 kW chargers and 90% efficiency. Whole day adds workplace and public visits; public arrivals span 24 hours and stay 3-4 hours. Fixed 23:00 delay can miss daytime departures; failures remain visible. Normal day is June; worst winter uses January +20%. Both profiles include every departure through 09:00 next day.</p></details>
+    </div>
+    <div hidden={section !== "results"}>
     <section className="panel">
       <div className="benchmark-toolbar"><h3>Benchmark results</h3><label>Saved run<select aria-label="Saved benchmark run" value={jobId} onChange={e => setJobId(e.target.value)}><option value="">Select a run</option>{(catalog.jobs || []).map((j: J) => <option key={j.job_id} value={j.job_id}>{j.created_at.slice(0, 16).replace('T', ' ')} · {j.strategies.length} algorithms · {j.job_id.slice(-6)}</option>)}</select></label>
-        <button onClick={() => perform(async () => { await refresh(); })}>Refresh benchmarks</button>
+        <button onClick={() => perform(async () => { await refresh(); if (jobId) setData(await request(`/api/benchmarks/jobs/${jobId}`)); })}>Refresh benchmarks</button>
         {data && <button onClick={() => download(data)}>Export results JSON</button>}
       </div>
       {!data && <p>{jobId ? 'Loading saved results…' : 'Run the benchmark to populate measured results. No scores are estimated in advance.'}</p>}
       {data && <>
+        <p><strong>{evaluatedSuite?.config.charging_profile === 'whole_day' ? 'Whole-day charging benchmark' : 'Home-only charging benchmark'}</strong> · {evaluatedSuite?.config.charging_profile === 'whole_day' ? '70% home, 20% workplace, 10% public; one visit per car.' : 'Residential overnight visits.'}</p>
         <div className="benchmark-run-state" aria-live="polite"><strong>{statusLabel(data.job.status)}</strong><span>{data.job.completed_rows} / {data.job.total_rows} cells · {number(data.job.elapsed_seconds, 0)} seconds</span>
           {running && <><span>{data.job.current_test} · {label(data.job.current_strategy || '')} · {number(data.job.current_fleet, 0)} cars · interval {data.job.current_step || 0}/132</span><button disabled={busy} onClick={() => perform(async () => { await request(`/api/benchmarks/jobs/${jobId}/cancel`, {}); })}>Cancel benchmark</button></>}
         </div>
         <progress aria-label="Benchmark progress" max={data.job.total_rows} value={data.job.completed_rows} />
         {data.job.error && <p role="alert">{data.job.error}</p>}
+        <details open={!cue}><summary>Assumptions and evidence identity</summary>
         <p className="muted">{evaluatedSuite?.config.name} · fixture {data.job.suite_id} · implementation {data.job.implementation_id}. Status “completed” means evaluation finished, not that every algorithm passed.</p>
         {evaluatedSuite?.config.operating_mode === 'regulated' && <p className="muted">Operating assumptions: 1.04 pu source voltage and energy-preserving baseline peak shifting to 220 MW. Grid limits remain 0.95–1.05 pu and 100% loading.</p>}
         {evaluatedSuite?.config.max_fleet <= 10 && <p role="note">This run searched only up to {number(evaluatedSuite.config.max_fleet, 0)} cars. It is a small verification run and cannot establish maximum car capacity.</p>}
         <p className="muted">Each car requests 14 kWh of energy and charges at up to 7.4 kW of power. Ten simultaneous chargers draw at most 74 kW. A zero-car grid failure comes from baseline demand or network assumptions.</p>
+        </details>
         <div className="benchmark-metrics">
           <div><span>Shared passing fleet</span><strong>{number(data.common_fleet, 0)} <small>cars</small></strong><small>{data.common_fleet == null ? 'No verified common fleet yet' : 'All selected algorithms, every seed'}</small></div>
           <div><span>Fixed tests passed</span><strong>{rows.filter(r => r.kind === 'fixed' && r.status === 'passed').length} <small>/ {algorithms.length * 5}</small></strong><small>Full energy + grid compliance</small></div>
@@ -181,7 +194,8 @@ export function BenchmarksWorkspace() {
       <p>Metrics show the worst seed: lowest delivery/headroom/voltage and highest unmet energy/peak/loading/runtime. Headroom is the minimum across intervals and modeled capacity stages; it is not a claim of extra physical parking or charger slots.</p>
       {chosen.attempts && <div className="table-wrap"><table><caption>Every tested fleet, including failures and unknowns</caption><thead><tr><th>Cars</th><th>Status</th><th>Delivered kWh</th><th>Unmet kWh</th><th>Peak MW</th><th>Spare capacity %</th><th>Seed results</th></tr></thead><tbody>{chosen.attempts.map((a: J) => <tr key={a.fleet_size}><td>{number(a.fleet_size, 0)}</td><td title={a.reasons?.join('; ')}>{statusLabel(a.status)}</td><td>{number(a.metrics.delivered_energy_kwh, 3)}</td><td>{number(a.metrics.unmet_energy_kwh, 3)}</td><td>{number(a.metrics.peak_demand_kw == null ? null : a.metrics.peak_demand_kw / 1000, 3)}</td><td>{number(a.metrics.spare_stage_percent)}</td><td>{a.trials?.map((t: J) => `${t.seed}: ${t.status}`).join(' · ')}</td></tr>)}</tbody></table></div>}
     </section>}
-    <section className="panel"><h3>Compare new algorithms with saved implementations</h3><p>Run a new registered algorithm on the same frozen benchmark, then load the saved comparison. Implementation versions and settings remain separate; changing the fixture creates a different benchmark.</p>
+    </div>
+    <section hidden={section !== "compare"} className="panel"><label>Benchmark to compare<select aria-label="Benchmark to compare" value={suiteId} onChange={e => { setSuiteId(e.target.value); setComparison(null); }}><option value="">Select a saved benchmark</option>{(catalog.suites || []).map((s: J) => <option key={s.suite_id} value={s.suite_id}>{s.config.name} - {s.suite_id.slice(-6)}</option>)}</select></label><h3>Compare new algorithms with saved implementations</h3><p>Run a new registered algorithm on the same frozen benchmark, then load the saved comparison. Implementation versions and settings remain separate; changing the fixture creates a different benchmark.</p>
       <button disabled={!suiteId || busy} onClick={() => perform(async () => setComparison(await request(`/api/benchmarks/suites/${suiteId}/compare`)))}>Compare saved implementations</button>
       {comparison && <><p>{comparison.note}</p><div className="table-wrap"><table><caption>Completed runs on {comparison.suite_id}; shared-fleet test excluded because its cohort changes</caption><thead><tr><th>Algorithm</th><th>Implementation / settings</th><th>Test</th><th>Status</th><th>Cars</th><th>Unmet kWh</th></tr></thead><tbody>{comparison.rows.map((r: J) => <tr key={`${r.strategy}-${r.candidate_id}-${r.test_id}`}><td>{label(r.strategy)}</td><td>{r.implementation_id} / {r.candidate_id}</td><td>{r.test_id}</td><td>{statusLabel(r.status)}</td><td>{number(r.fleet_size, 0)}</td><td>{number(r.metrics.unmet_energy_kwh, 3)}</td></tr>)}</tbody></table></div>{!comparison.rows.length && <p>No completed implementations yet.</p>}</>}
     </section>

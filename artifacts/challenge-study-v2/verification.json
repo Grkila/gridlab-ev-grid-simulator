@@ -1,0 +1,16 @@
+{
+  "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+  "frozen_source_errors": [],
+  "fixture_count": 43,
+  "run_count": 487,
+  "historical_nonfinal_runs": 11,
+  "passed": 246,
+  "failed": 226,
+  "unknown": 15,
+  "violations": [],
+  "monthly_row_sums": {
+    "2024": 1119805,
+    "2025": 1151640
+  },
+  "maximum_reconciliation_error_kw": 0.009992216277169064
+}

@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "algorithms": 8,
+  "tests": 10,
+  "refresh_preserves_selection": true,
+  "network_excluded_sources": 3,
+  "network_retained_demand_percent": 100,
+  "matrix_vertically_clipped": false,
+  "detail_metrics_visible": true,
+  "comparison_loaded": true,
+  "mobile_overflow": false,
+  "page_errors": [],
+  "job_id": "bench-c0c965da89ab4b2d"
+}

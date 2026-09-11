@@ -1,0 +1,174 @@
+[
+  {
+    "id": "CENTAR",
+    "source_id": "NS2",
+    "block_ids": [
+      "CENTAR-F1",
+      "CENTAR-F2",
+      "CENTAR-F3",
+      "CENTAR-F4",
+      "CENTAR-F5",
+      "CENTAR-HUB"
+    ],
+    "capacity_kw": 35800.00000000001,
+    "central_capacity_kw": 35800.00000000001,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "IND",
+    "source_id": "NS2",
+    "block_ids": [
+      "IND-F1",
+      "IND-F2",
+      "IND-F3",
+      "IND-F4",
+      "IND-HUB"
+    ],
+    "capacity_kw": 35800.00000000001,
+    "central_capacity_kw": 35800.00000000001,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "LIMAN",
+    "source_id": "NS4",
+    "block_ids": [
+      "LIMAN-F1",
+      "LIMAN-F2",
+      "LIMAN-F3",
+      "LIMAN-F4",
+      "LIMAN-HUB"
+    ],
+    "capacity_kw": 35800.00000000001,
+    "central_capacity_kw": 35800.00000000001,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "NS5",
+    "source_id": "NS5",
+    "block_ids": [
+      "NS5-F1",
+      "NS5-F2",
+      "NS5-F3",
+      "NS5-F4",
+      "NS5-HUB"
+    ],
+    "capacity_kw": 74750.0,
+    "central_capacity_kw": 74750.0,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "NS7",
+    "source_id": "NS7",
+    "block_ids": [
+      "NS7-F1",
+      "NS7-F2",
+      "NS7-F3",
+      "NS7-F4",
+      "NS7-HUB"
+    ],
+    "capacity_kw": 74750.0,
+    "central_capacity_kw": 74750.0,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "NS9",
+    "source_id": "NS9",
+    "block_ids": [
+      "NS9-F1",
+      "NS9-F2",
+      "NS9-F3",
+      "NS9-F4",
+      "NS9-HUB"
+    ],
+    "capacity_kw": 74750.0,
+    "central_capacity_kw": 74750.0,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "PODBARA",
+    "source_id": "NS2",
+    "block_ids": [
+      "PODBARA-F1",
+      "PODBARA-F2",
+      "PODBARA-F3",
+      "PODBARA-F4",
+      "PODBARA-HUB"
+    ],
+    "capacity_kw": 35800.00000000001,
+    "central_capacity_kw": 35800.00000000001,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "RIM",
+    "source_id": "RIM",
+    "block_ids": [
+      "RIM-F1",
+      "RIM-F2",
+      "RIM-F3",
+      "RIM-F4",
+      "RIM-HUB"
+    ],
+    "capacity_kw": 74750.0,
+    "central_capacity_kw": 74750.0,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "SEVER",
+    "source_id": "NS2",
+    "block_ids": [
+      "SEVER-F1",
+      "SEVER-F2",
+      "SEVER-F3",
+      "SEVER-F4",
+      "SEVER-HUB"
+    ],
+    "capacity_kw": 17900.000000000004,
+    "central_capacity_kw": 17900.000000000004,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  },
+  {
+    "id": "TELEP",
+    "source_id": "NS4",
+    "block_ids": [
+      "TELEP-F1",
+      "TELEP-F2",
+      "TELEP-F3",
+      "TELEP-F4",
+      "TELEP-F5",
+      "TELEP-HUB"
+    ],
+    "capacity_kw": 17900.000000000004,
+    "central_capacity_kw": 17900.000000000004,
+    "scenario": "central",
+    "scenario_factor": 1.0,
+    "provenance": "User-supplied photograph: PROCENA KAPACITETA ELEKTRICNE MREZE NOVOG SADA (2025), supplied 2026-09-10. Estimates transcribed from image; underlying utility sources not independently verified. MV delivery equivalents allocated by original station MVA; full rating is usable, with the last 25% reported as reserve.",
+    "uncertainty": "Low/central/high factors 0.8/1/1.2 are engineering uncertainty assumptions, including for overrides."
+  }
+]

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Bot, Minus, Send, Square } from 'lucide-react';
+import { usePresentationCue } from './presentation/bridge';
 
 type Row = Record<string, any>;
 async function request(path: string, init?: RequestInit) {
@@ -18,6 +19,12 @@ function merge(old: Row[], incoming: Row[]) {
 
 export function Chat() {
   const [open,setOpen]=useState(false), [id,setId]=useState<string>(), [message,setMessage]=useState('');
+  const presentationCue = usePresentationCue();
+  const t = (english: string, serbian: string) => presentationCue ? serbian : english;
+  useEffect(() => {
+    if (presentationCue) setOpen(!!presentationCue.chat);
+    if (typeof presentationCue?.chatPrompt === 'string' && presentationCue.chatPrompt.length <= 4000) setMessage(presentationCue.chatPrompt);
+  }, [presentationCue]);
   const [messages,setMessages]=useState<Row[]>([]), [events,setEvents]=useState<Row[]>([]);
   const [status,setStatus]=useState('reconnecting'), [canSend,setCanSend]=useState(false);
   const [error,setError]=useState(''), [actionError,setActionError]=useState(''), [constraints,setConstraints]=useState('');
@@ -149,43 +156,43 @@ export function Chat() {
     latest.set(item.id?`${event.turn_id}:${item.id}`:event.event_id,event);
   }
   const feed=[...messages,...latest.values()].sort((a,b)=>a.seq-b.seq);
-  if(!open) return <button className="chat-launch" onClick={()=>setOpen(true)}><Bot size={19}/> Codex CLI chat</button>;
+  if(!open) return <button className="chat-launch" onClick={()=>setOpen(true)}><Bot size={19}/> {t('Codex CLI chat','AI asistent')}</button>;
   return <aside className="chat" aria-label="Experiment assistant">
-    <div className="chat-head"><Bot/><div><b>Codex experiment assistant</b><small role="status">{status==='completed'||status==='ready'?'Ready to send':status}</small></div>
+    <div className="chat-head"><Bot/><div><b>{t('Codex experiment assistant', 'AI asistent za eksperimente')}</b><small role="status">{status==='completed'||status==='ready'?t('Ready to send','Spreman za poruku'):status}</small></div>
       {!canSend && id && <button title="Cancel chat response" aria-label="Cancel chat response" onClick={()=>void cancel()}><Square size={14}/></button>}
       <button title="Minimize chat" aria-label="Minimize chat" onClick={()=>setOpen(false)}><Minus size={16}/></button>
     </div>
     <div className="chat-controls">
-      <button disabled={!canSend} onClick={()=>attach()}>New conversation</button>
+      <button disabled={!canSend} onClick={()=>attach()}>{t('New conversation', 'Novi razgovor')}</button>
       <select aria-label="Open conversation" value={id || ''} disabled={!canSend} onFocus={()=>void loadChats()} onChange={e=>attach(e.target.value || undefined)}>
-        <option value="">Open conversation…</option>
+        <option value="">{t('Open conversation…', 'Otvori razgovor…')}</option>
         {id && !chats.some(c=>c.chat_id===id) && <option value={id}>{id}</option>}
         {chats.map(c=><option key={c.chat_id} value={c.chat_id}>{c.started_at?new Date(c.started_at*1000).toLocaleString():c.chat_id} · {c.status}</option>)}
       </select>
-      {nextChats && <button onClick={()=>void loadChats(true)}>More conversations</button>}
+      {nextChats && <button onClick={()=>void loadChats(true)}>{t('More conversations', 'Još razgovora')}</button>}
     </div>
     <div className="chat-controls"><select aria-label="Chat workflow" disabled={!canSend} value={action} onChange={e=>setAction(e.target.value)}>
-      <option value="auto">Focus from my message</option><option value="explain">Explain / plan only</option><option value="algorithm">Develop algorithm</option><option value="scenario">Create scenario</option><option value="run">Run experiment</option><option value="compare">Compare results</option><option value="diagnose">Diagnose failure</option><option value="training">Train RL policy</option><option value="benchmark">Benchmark algorithms</option><option value="implement">Implement saved strategy</option>
+      <option value="auto">{t('Focus from my message', 'Prepoznaj zadatak iz poruke')}</option><option value="explain">{t('Explain / plan only', 'Objasni ili napravi plan')}</option><option value="algorithm">{t('Develop algorithm', 'Razvoj algoritma')}</option><option value="scenario">{t('Create scenario', 'Priprema scenarija')}</option><option value="run">{t('Run experiment', 'Pokretanje eksperimenta')}</option><option value="compare">{t('Compare results', 'Poređenje rezultata')}</option><option value="diagnose">{t('Diagnose failure', 'Analiza neuspeha')}</option><option value="training">{t('Train RL policy', 'RL obuka')}</option><option value="benchmark">{t('Benchmark algorithms', 'Poređenje algoritama')}</option><option value="implement">{t('Implement saved strategy', 'Implementacija sačuvane strategije')}</option>
     </select>{action==='implement' && <input aria-label="Saved specification ID" placeholder="strategy-..." value={specification} onChange={e=>setSpecification(e.target.value)}/>}</div>
-    {action==='implement' && <small className="chat-notes">Sending this request enables workspace edits and tests for the saved specification.</small>}
+    {action==='implement' && <small className="chat-notes">{t('Sending this request enables workspace edits and tests for the saved specification.', 'Ovaj zahtev omogućava izmenu koda i testove za sačuvanu specifikaciju.')}</small>}
     <div className="feed" aria-live="polite">
-      {history!==null && <button onClick={()=>void loadHistory()}>Load earlier messages</button>}
-      {!feed.length && <p>Draft an experiment, inspect a stopped run, or compare evidence.</p>}
+      {history!==null && <button onClick={()=>void loadHistory()}>{t('Load earlier messages', 'Ranije poruke')}</button>}
+      {!feed.length && <p>{t('Draft an experiment, inspect a stopped run, or compare evidence.', 'Pripremi eksperiment, proveri rezultat ili razvij novu strategiju.')}</p>}
       {feed.map(e=> {
         const item=e.item || {}, tool=item.type==='mcp_tool_call';
         const diagnostic=!e.role && item.type!=='agent_message';
         return <div key={e.event_id} className={`event ${e.role || 'tool'}`} data-turn={e.turn_id}>
           <small>{e.role || (tool?`${item.tool} · ${item.status || e.type}`:item.type==='agent_message'?'assistant':e.type)}</small>
           {diagnostic?<details><summary>{tool?'Tool activity':'Diagnostic event'}</summary><pre>{e.preview || JSON.stringify(item.id?item:e,null,2)}</pre></details>:<p>{e.content || item.text || e.preview}</p>}
-          {e.full_url && <a href={e.full_url} target="_blank" rel="noreferrer">Open full evidence</a>}
+          {e.full_url && <a href={e.full_url} target="_blank" rel="noreferrer">{t('Open full evidence', 'Otvori ceo zapis')}</a>}
         </div>;
       })}
       {(actionError || error) && <p role="alert">{actionError || error}</p>}
     </div>
-    {references.filter(r=>r.startsWith('run-')).length>0 && <details className="chat-notes"><summary>Referenced runs</summary>{references.filter(r=>r.startsWith('run-')).map(r=><div key={r}><a href={`/api/runs/${r}`} target="_blank" rel="noreferrer">{r}</a></div>)}</details>}
-    <details className="chat-notes"><summary>Constraints to keep across turns</summary><textarea aria-label="Pinned constraints" maxLength={4000} value={constraints} onChange={e=>{constraintsDirty.current=true;setConstraints(e.target.value);}}/><small>Saved verbatim with your next message. Edit or clear these when assumptions change.</small></details>
-    {id && <a className="chat-notes" href={`/api/chat/${id}/outputs`} target="_blank" rel="noreferrer">All saved tool evidence</a>}
-    <small className="chat-notes">Cancel stops this response. Started experiments continue; cancel them in Runs.</small>
-    <div className="composer"><textarea aria-label="Message to Codex" maxLength={20000} placeholder="Ask about experiments or paste a STRATEGY command…" value={message} onChange={e=>setMessage(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void send();}}}/><button aria-label="Send message" disabled={!canSend||!message.trim()} onClick={()=>void send()}><Send size={17}/></button></div>
+    {references.filter(r=>r.startsWith('run-')).length>0 && <details className="chat-notes"><summary>{t('Referenced runs', 'Povezani eksperimenti')}</summary>{references.filter(r=>r.startsWith('run-')).map(r=><div key={r}><a href={`/api/runs/${r}`} target="_blank" rel="noreferrer">{r}</a></div>)}</details>}
+    <details className="chat-notes"><summary>{t('Constraints to keep across turns', 'Ograničenja za ovaj razgovor')}</summary><textarea aria-label="Pinned constraints" maxLength={4000} value={constraints} onChange={e=>{constraintsDirty.current=true;setConstraints(e.target.value);}}/><small>{t('Saved verbatim with your next message. Edit or clear these when assumptions change.', 'Čuva se uz sledeću poruku. Izmeni kada se promene pretpostavke.')}</small></details>
+    {id && <a className="chat-notes" href={`/api/chat/${id}/outputs`} target="_blank" rel="noreferrer">{t('All saved tool evidence', 'Svi sačuvani pozivi alata')}</a>}
+    <small className="chat-notes">{t('Cancel stops this response. Started experiments continue; cancel them in Runs.', 'Prekid odgovora ne zaustavlja već pokrenut eksperiment.')}</small>
+    <div className="composer"><textarea aria-label="Message to Codex" maxLength={20000} placeholder={t('Ask about experiments or paste a STRATEGY command…','Opiši eksperiment ili ideju za algoritam…')} value={message} onChange={e=>setMessage(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();void send();}}}/><button aria-label="Send message" disabled={!canSend||!message.trim()} onClick={()=>void send()}><Send size={17}/></button></div>
   </aside>;
 }

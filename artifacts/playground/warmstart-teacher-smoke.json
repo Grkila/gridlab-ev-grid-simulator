@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "binding": {
+      "smoke": "teacher-v1"
+    },
+    "episodes": 1,
+    "seed_start": 50000
+  },
+  "sha256": "370570db80a2735d72c965fa85b682d289209b3abd200c15bdc53bf99b1ebffb",
+  "evidence": [
+    {
+      "metadata": {
+        "seed": 150000,
+        "split": "train",
+        "family": "normal",
+        "fleet_size": 500,
+        "demand_hash": "d5bdd372fd81b49673521dabb165312e5b9881dd0fd904d76f34b2ad732a1f3a",
+        "replay_hash": "632f58f92db6dd1f710591a022e48b1ce337af106ea08dfc44fcfd6d93d699e8",
+        "horizon_steps": 132
+      },
+      "metrics": {
+        "complete": true,
+        "passed": true,
+        "episode_metadata": {
+          "seed": 150000,
+          "split": "train",
+          "family": "normal",
+          "fleet_size": 500,
+          "demand_hash": "d5bdd372fd81b49673521dabb165312e5b9881dd0fd904d76f34b2ad732a1f3a",
+          "replay_hash": "632f58f92db6dd1f710591a022e48b1ce337af106ea08dfc44fcfd6d93d699e8",
+          "horizon_steps": 132
+        },
+        "numerical_invalid": false,
+        "truncated": false,
+        "violation_intervals": 0,
+        "nonconverged_steps": 0,
+        "unmet_energy_kwh": 8.881784197001252e-16,
+        "pending_energy_kwh": 0,
+        "requested_energy_kwh": 7000.0,
+        "delivered_energy_kwh": 7000.0,
+        "peak_demand_kw": 145142.03101623213,
+        "supply_peak_kw": 145142.03101623213,
+        "load_peak_kw": 143344.56175077043,
+        "min_voltage_pu": 0.9936527692425511,
+        "max_line_loading_percent": 54.87655612148276,
+        "max_transformer_loading_percent": 50.47773292433953,
+        "max_voltage_pu": 1.04,
+        "max_network_capacity_loading_percent": 60.36397480356176,
+        "max_district_loading_percent": 50.36400404150514,
+        "voltage_violation_steps": 0,
+        "overload_steps": 0,
+        "network_capacity_overload_steps": 0,
+        "district_overload_steps": 0,
+        "physical_cap_kwh": 0.0,
+        "grid_ev_energy_kwh": 7777.777777777788,
+        "reward_components": {
+          "delivery": 1.0000000000000002,
+          "shortfall": -2.5376526277146435e-18,
+          "grid": 0.0,
+          "physical_cap": 0.0,
+          "peak": -0.015182220817597502,
+          "numerical_failure": 0.0
+        },
+        "reward": 0.9848177791824025,
+        "steps": 132,
+        "vehicle_count": 500,
+        "runtime_seconds": 11.716018200007966
+      },
+      "safety_intervals": 0
+    }
+  ],
+  "teacher": "least_laxity_first with existing AC protection",
+  "limitation": "Executed cohort powers aggregated to nodes; PPO uses earliest-departure allocation."
+}

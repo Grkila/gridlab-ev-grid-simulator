@@ -1,0 +1,74 @@
+{
+  "monthly_mwh": {
+    "2024": [
+      113883,
+      105207,
+      100219,
+      88797,
+      76792,
+      74739,
+      78034,
+      76245,
+      82901,
+      95688,
+      106247,
+      120553
+    ],
+    "2025": [
+      116985,
+      108060,
+      102944,
+      91743,
+      79361,
+      76965,
+      80282,
+      78409,
+      84928,
+      98283,
+      109459,
+      124221
+    ]
+  },
+  "seeds": [
+    61001,
+    61002,
+    61003
+  ],
+  "limits": {
+    "min_voltage_pu": 0.95,
+    "max_voltage_pu": 1.05,
+    "max_loading_percent": 100
+  },
+  "fleet_resolution": 500,
+  "capacity_ladder": [
+    0,
+    1000,
+    5000,
+    10000,
+    20000,
+    40000,
+    80000
+  ],
+  "primary_strategies": [
+    "immediate",
+    "fixed_delay",
+    "randomized_delay",
+    "capacity_aware",
+    "least_laxity_first",
+    "valley_filling"
+  ],
+  "assumptions": {
+    "efficiency": 0.9,
+    "battery_kwh": 14,
+    "charger_kw": 7.4,
+    "lv_baseline_fraction": 0.5,
+    "lv_ev_fraction": 1.0,
+    "dt_hours": 0.25,
+    "horizon_steps": 132,
+    "home_window": "17:00-21:00 arrival; next-day09:00 departure",
+    "work_window": "08:00-10:00 arrival;17:00 departure",
+    "public_window": "08:00-20:00 arrival;3hour dwell",
+    "public_hubs": "ten illustrative hubs; no verified socket inventory",
+    "reserve": "last25percent usable;100percent rating is limit"
+  }
+}

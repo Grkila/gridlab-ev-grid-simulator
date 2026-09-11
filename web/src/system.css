@@ -89,3 +89,54 @@
 }
 @media(max-width:420px) { .app .form .fields { grid-template-columns: 1fr; } .app .cards { grid-template-columns: 1fr; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+
+/* Task navigation and progressive experiment setup. */
+.app [hidden] { display: none !important; }
+.app .nav a { display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 6px; color: #c5dcd0; text-decoration: none; font-size: 14px; }
+.app .nav a.active, .app .nav a:hover { background: #24533f; color: white; }
+.app :is(a,textarea):focus-visible { outline: 3px solid #259f83; outline-offset: 3px; }
+.research-nav { margin-top: 24px; border-top: 1px solid #315b49; padding-top: 12px; }
+.research-nav > summary { padding: 12px; color: #c5dcd0; cursor: pointer; font-size: 13px; }
+.app .nav .overview-link { margin-top: 18px; font-size: 13px; }
+.setup-steps { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; padding: 0 0 20px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+.setup-steps button { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; border: 1px solid var(--line); background: white; color: var(--ink); border-radius: 6px; font-size: 13px; }
+.setup-steps button:hover { background: var(--wash); }
+.setup-steps button[aria-current=step] { background: var(--accent); border-color: var(--accent); color: white; font-weight: 700; }
+.setup-steps button span { font-variant-numeric: tabular-nums; }
+.setup-advanced { border: 1px solid var(--line); border-radius: 6px; padding: 4px 14px; margin-block: 18px; min-width: 0; }
+.setup-advanced > summary { padding: 12px 0; cursor: pointer; font-weight: 600; color: var(--accent); }
+.setup-advanced[open] > summary { margin-bottom: 12px; }
+.setup-review { margin: 20px 0; }
+.setup-review > div { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.setup-review dt { color: var(--muted); }
+.setup-review dd { margin: 0; overflow-wrap: anywhere; }
+.review-json { max-height: 360px; overflow: auto; font-size: 12px; }
+.setup-actions { justify-content: flex-end; }
+.app .form .field-error { margin: 12px 0; }
+@media(max-width:760px) {
+  .app { grid-template-columns: minmax(0,1fr); }
+  .app .nav { position: static; width: 100%; height: auto; padding: 12px 16px; }
+  .app .nav .brand { display: none; }
+  .app .nav nav { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .app .nav a { justify-content: center; padding: 12px 6px; font-size: 13px; }
+  .app .nav .model { display: none; }
+  .research-nav { margin-top: 8px; padding-top: 0; }
+  .research-nav > summary { min-height: 44px; padding: 12px 6px; }
+  .app .nav .overview-link { margin-top: 0; justify-content: flex-start; padding: 10px 6px; }
+  .setup-steps { gap: 4px; }
+  .setup-steps button { flex-direction: column; gap: 3px; font-size: 12px; padding: 8px 2px; }
+  .setup-review > div { grid-template-columns: 1fr; gap: 5px; }
+  .app .form .fields { grid-template-columns: minmax(0,1fr); }
+}
+
+.workspace-selector { display:flex; overflow-x:auto; position:sticky; top:0; z-index:10; background:var(--wash, #f5f8f6); padding:10px 0; }
+.workspace-selector button { flex:1 0 auto; padding:10px 16px; }
+.workspace-selector button[aria-current=page] { background:var(--accent); border-color:var(--accent); color:white; font-weight:700; }
+
+.section-selector { display:flex; overflow-x:auto; gap:8px; }
+.section-selector button { flex:1 0 auto; padding:10px 18px; }
+[hidden] { display:none !important; }
+.app .charging-mix .mix-label { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.app .charging-mix output { font-weight:700; font-variant-numeric:tabular-nums; color:#086f50; }
+.app .charging-mix input[type=range] { width:100%; height:26px; margin:6px 0 14px; accent-color:#087e59; cursor:pointer; }
+.app .charging-mix .mix-total { margin-left:12px; font-size:12px; color:#086f50; font-weight:600; }

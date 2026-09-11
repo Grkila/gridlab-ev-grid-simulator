@@ -1,0 +1,1733 @@
+{
+  "error": "TimeoutError: locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Benchmark charging schedule')\u001b[22m\n\u001b[2m    - locator resolved to <select aria-label=\"Benchmark charging schedule\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    59 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying select option action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+  "checks": [
+    {
+      "route": "/api/catalog",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/network",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/experiments",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/strategies",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/benchmarks",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/rl/catalog",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/continuous-rl/catalog",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/agent-contract",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/chat/current",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/experiments",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-acb9643529ac47f1",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-acb9643529ac47f1/results",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-6d8e671e90044ff5",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-6d8e671e90044ff5/results",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/benchmarks",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/benchmarks/jobs/bench-1682223431ba4678",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/benchmarks/suites/suite-cefacfbc402247c613cd/compare",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/unknown",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/runs/run-missing",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/runs/run-missing/results",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/strategies/strategy-00000000000000000000",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/rl/jobs/rl-missing",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/continuous-rl/campaigns/ppo-00000000000000000000",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/continuous-rl/campaigns/ppo-00000000000000000000/results",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/benchmarks/jobs/bench-missing",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/chat/chat-missing",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "route": "/api/validate",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/experiments",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/strategies/command",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/chat",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/runs",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/benchmarks/jobs",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/rl/train",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/continuous-rl/campaigns",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "method": "GET",
+      "status": 200
+    }
+  ],
+  "traffic": [
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/strategies",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/benchmarks",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/benchmarks/jobs/bench-1682223431ba4678",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/continuous-rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/benchmarks",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/validate",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/results",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/rename",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/delete",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/runs/run-05d8a14b04e04d2f/restore",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/compare",
+      "status": 200,
+      "method": "POST"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/network",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/rl/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/experiments",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/runs",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/catalog",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/benchmarks",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/benchmarks/jobs/bench-1682223431ba4678",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/chat/current",
+      "status": 200,
+      "method": "GET"
+    },
+    {
+      "route": "/api/agent-contract",
+      "status": 200,
+      "method": "GET"
+    }
+  ],
+  "errors": []
+}

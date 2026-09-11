@@ -1,6 +1,10 @@
+import { pageHref, pageLabels, useNavigation } from "./navigation";
+import { chargingKinds, mixPercentages, redistributeMix } from './chargingMix';
 import { Chat } from './Chat';
 import { visibleControllers } from './visibleControllers';
 import { useEffect, useMemo, useState } from "react";
+import { usePresentationCue } from "./presentation/bridge";
+import { preferredDemoRun } from './presentation/demoDefaults';
 import {
   MapContainer,
   TileLayer,
@@ -8,6 +12,7 @@ import {
   Polyline,
   Popup,
   Marker,
+  useMap,
 } from "react-leaflet";
 import L from "leaflet";
 import YAML from "yaml";
@@ -107,6 +112,7 @@ const defaultDefinition: J = {
     },
   },
   fleet: {
+    charging_profile: "home_only",
     fleet_size: 100,
     charger_kw: 7.4,
     energy_kwh: 14,
@@ -157,6 +163,18 @@ function Metric({
   );
 }
 
+function FrameNetwork({nodes}:{nodes:J[]}) {
+  const map=useMap();
+  useEffect(()=>{
+    const points=nodes.filter(n=>Number.isFinite(n.lat)&&Number.isFinite(n.lon)).map(n=>[n.lat,n.lon] as [number,number]);
+    if(!points.length)return;
+    const frame=()=>{map.invalidateSize();map.fitBounds(L.latLngBounds(points),{padding:[35,35],maxZoom:14,animate:false});};
+    frame();const observer=new ResizeObserver(frame);observer.observe(map.getContainer());
+    return()=>observer.disconnect();
+  },[map,nodes]);
+  return null;
+}
+
 function NetworkMap({
   network,
   blocks,
@@ -199,6 +217,7 @@ function NetworkMap({
     blockBuses = new Set(blocks.map((b) => String(b.bus_index)));
   return (
     <MapContainer center={[45.2671, 19.8335]} zoom={11} className="map">
+      <FrameNetwork nodes={nodes}/>
       <TileLayer
         attribution="&copy; OpenStreetMap contributors"
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -380,6 +399,7 @@ function ExperimentForm({
   definition,
   setDefinition,
   onSave,
+  onSaveAndRun,
   onValidate,
   busy,
   catalog,
@@ -388,11 +408,18 @@ function ExperimentForm({
   definition: J;
   setDefinition: (x: J) => void;
   onSave: () => void;
+  onSaveAndRun: () => void;
   onValidate: () => void;
   busy: boolean;
   catalog: J;
   rlModels: J[];
 }) {
+  const [setupStep, setSetupStep] = useState(0);
+  const presentationCue = usePresentationCue();
+  useEffect(() => {
+    if (presentationCue?.view === 'experiments' && Number.isInteger(presentationCue.step)) setSetupStep(Math.max(0, Math.min(3, presentationCue.step!)));
+  }, [presentationCue]);
+  const steps = ["Scenario", "Vehicles", "Strategies", "Review"];
   const [advanced, setAdvanced] = useState(false),
     [raw, setRaw] = useState(JSON.stringify(definition, null, 2)),
     [rawError, setRawError] = useState("");
@@ -430,6 +457,11 @@ function ExperimentForm({
     let x = d;
     keys.slice(0, -1).forEach((k) => (x = x[k] ||= {}));
     x[keys.at(-1)!] = value;
+    if (path === 'fleet.charging_profile') {
+      const mix = d.fleet.location_mix;
+      if (!mix || Math.abs(Object.values(mix).reduce((a: number, b: any) => a + Number(b), 0) - 1) > 1e-9)
+        d.fleet.location_mix = { residential: .7, workplace: .2, public: .1 };
+    }
     setDefinition(d);
   };
   useEffect(() => setRaw(JSON.stringify(definition, null, 2)), [definition]);
@@ -439,7 +471,7 @@ function ExperimentForm({
         <div className="panel-head">
           <div>
             <p className="eyebrow">Guided setup</p>
-            <h2>Experiment definition</h2>
+            <h2>Set up an experiment</h2>
           </div>
           <button className="ghost" onClick={() => setAdvanced(!advanced)}>
             <Settings2 size={16} />
@@ -486,15 +518,19 @@ function ExperimentForm({
             Export YAML
           </button>
         </div>
+        {rawError && !advanced && <p className="field-error" role="alert">{rawError}</p>}
         {advanced ? (
           <>
             <textarea
               className="json"
+              aria-label="Experiment JSON"
               value={raw}
               onChange={(e) => {
                 setRaw(e.target.value);
                 try {
-                  setDefinition(JSON.parse(e.target.value));
+                  const parsed = JSON.parse(e.target.value);
+                  if (!parsed || typeof parsed !== "object" || !parsed.demand || !parsed.fleet || !parsed.limits || !Array.isArray(parsed.strategies)) throw new Error("Include demand, fleet, limits, and a strategies array. Use the guided form for a complete definition.");
+                  setDefinition(parsed);
                   setRawError("");
                 } catch (err: any) {
                   setRawError(err.message);
@@ -507,6 +543,10 @@ function ExperimentForm({
           </>
         ) : (
           <>
+            <nav className="setup-steps" aria-label="Experiment setup">
+              {steps.map((label, index) => <button key={label} type="button" aria-current={setupStep === index ? "step" : undefined} onClick={() => setSetupStep(index)}><span>{index + 1}</span>{label}</button>)}
+            </nav>
+<section hidden={setupStep !== 0} aria-label="Scenario settings"><h3>Set the demand scenario</h3>
             <label>
               Name
               <input
@@ -578,31 +618,8 @@ function ExperimentForm({
                   onChange={(e) => set("demand.years_ahead", +e.target.value)}
                 />
               </label>
-              <label>
-                Annual growth (%)
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={(definition.demand.annual_growth_rate ?? 0.03) * 100}
-                  onChange={(e) =>
-                    set("demand.annual_growth_rate", +e.target.value / 100)
-                  }
-                />
-              </label>
-              <label>
-                Days in calibration month
-                <input
-                  type="number"
-                  min="1"
-                  max="31"
-                  value={definition.demand.days_per_month}
-                  onChange={(e) =>
-                    set("demand.days_per_month", +e.target.value)
-                  }
-                />
-              </label>
+
+
             </div>
             <p>
               Daily baseline:{" "}
@@ -634,6 +651,55 @@ function ExperimentForm({
                   }
                 />
               </label>
+
+
+              <label>
+                Days
+                <input
+                  type="number"
+                  min="1"
+                  max="31"
+                  value={definition.demand.days}
+                  onChange={(e) => set("demand.days", +e.target.value)}
+                />
+              </label>
+
+
+              <label>
+                Grid operation
+                <select value={definition.operating_mode || 'as_supplied'} onChange={e => set('operating_mode', e.target.value)}>
+                  <option value="regulated">Voltage-regulated grid</option>
+                  <option value="as_supplied">Original operating assumptions</option>
+                </select>
+                {definition.operating_mode === 'regulated' && <small>Source voltage 1.04 pu. Baseline peak limited to 220 MW by shifting demand to other hours; daily input energy is preserved.</small>}
+              </label>
+
+            </div>
+<details className="setup-advanced"><summary>Advanced demand & capacity settings</summary><fieldset><legend>Custom demand calibration & limits</legend><div className="fields">              <label>
+                Annual growth (%)
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value={(definition.demand.annual_growth_rate ?? 0.03) * 100}
+                  onChange={(e) =>
+                    set("demand.annual_growth_rate", +e.target.value / 100)
+                  }
+                />
+              </label>
+              <label>
+                Days in calibration month
+                <input
+                  type="number"
+                  min="1"
+                  max="31"
+                  value={definition.demand.days_per_month}
+                  onChange={(e) =>
+                    set("demand.days_per_month", +e.target.value)
+                  }
+                />
+              </label>
               <label>
                 Unit
                 <select
@@ -655,33 +721,6 @@ function ExperimentForm({
                 />
               </label>
               <label>
-                Days
-                <input
-                  type="number"
-                  min="1"
-                  max="31"
-                  value={definition.demand.days}
-                  onChange={(e) => set("demand.days", +e.target.value)}
-                />
-              </label>
-              <label>
-                Fleet size
-                <input
-                  type="number"
-                  min="0"
-                  value={definition.fleet.fleet_size}
-                  onChange={(e) => set("fleet.fleet_size", +e.target.value)}
-                />
-              </label>
-              <label>
-                Charger kW
-                <input
-                  type="number"
-                  value={definition.fleet.charger_kw}
-                  onChange={(e) => set("fleet.charger_kw", +e.target.value)}
-                />
-              </label>
-              <label>
                 Scope
                 <select
                   value={definition.demand.scope}
@@ -700,14 +739,6 @@ function ExperimentForm({
                 <small>The supplied consumption charts include losses. Grid-input mode reconciles baseline loads plus modeled losses to that consumption before adding EVs.</small>
               </label>
               <label>
-                Grid operation
-                <select value={definition.operating_mode || 'as_supplied'} onChange={e => set('operating_mode', e.target.value)}>
-                  <option value="regulated">Voltage-regulated grid</option>
-                  <option value="as_supplied">Original operating assumptions</option>
-                </select>
-                {definition.operating_mode === 'regulated' && <small>Source voltage 1.04 pu. Baseline peak limited to 220 MW by shifting demand to other hours; daily input energy is preserved.</small>}
-              </label>
-              <label>
                 Loading limit %
                 <input
                   type="number"
@@ -716,30 +747,7 @@ function ExperimentForm({
                     set("limits.max_loading_percent", +e.target.value)
                   }
                 />
-              </label>
-            </div>
-            <fieldset>
-              <legend>Strategies to compare — each runs separately</legend>
-              <p>Every selected strategy gets its own case. A failed or stopped case does not cancel the others.</p>
-              <div className="checks">
-                {(catalog.strategies || ["immediate", "fixed_delay", "randomized_delay", "capacity_aware", "rl"]).map((s: string) => (
-                  <label key={s}>
-                    <input
-                      type="checkbox"
-                      checked={definition.strategies.includes(s)}
-                      onChange={(e) => {
-                        const strategies = e.target.checked ? [...definition.strategies, s] : definition.strategies.filter((x: string) => x !== s);
-                        setDefinition({ ...definition, strategies, stop_on_violation: strategies.length > 1 ? false : definition.stop_on_violation });
-                      }}
-                    />
-                    {s.replaceAll("_", " ")}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            {definition.strategies.includes("valley_filling") && <StrategyOptionsEditor value={definition.strategy_options || {}} onChange={strategy_options => setDefinition({ ...definition, strategy_options })} />}
-            {definition.strategies.includes("rl") && <RLExperimentSettings value={definition.rl} models={rlModels} onChange={rl => setDefinition({ ...definition, rl })} />}
-            <fieldset>
+              </label></div></fieldset>            <fieldset>
               <legend>Reproducible randomized demand days</legend>
               <label className="rl-check"><input type="checkbox" checked={definition.demand.randomize ?? false} onChange={event => set("demand.randomize", event.target.checked)} /> Randomize demand curves using each experiment seed</label>
               {definition.demand.randomize && <div className="rl-fields">{[["daily_scale_min", "Minimum daily scale", 0.8], ["daily_scale_max", "Maximum daily scale", 1.2], ["shape_noise", "Shape noise", 0.1]].map(([key, label, fallback]) => <label key={key}>{label}<input type="number" min={key === "shape_noise" ? 0 : 0.01} step="any" value={definition.demand[String(key)] ?? fallback} onChange={event => set(`demand.${key}`, +event.target.value)} /></label>)}</div>}
@@ -790,7 +798,29 @@ function ExperimentForm({
                 </table>
               </div>
             </fieldset>
-            <fieldset className="capacity-editor">
+</details></section>
+<section hidden={setupStep !== 1} aria-label="Vehicle settings"><h3>Configure the vehicles</h3><div className="fields">              <label>
+                Fleet size
+                <input
+                  type="number"
+                  min="0"
+                  value={definition.fleet.fleet_size}
+                  onChange={(e) => set("fleet.fleet_size", +e.target.value)}
+                />
+              </label>
+              <label>
+                Charger kW
+                <input
+                  type="number"
+                  value={definition.fleet.charger_kw}
+                  onChange={(e) => set("fleet.charger_kw", +e.target.value)}
+                />
+              </label>
+<label>Energy per vehicle (kWh)<input type="number" min="0" step="any" value={definition.fleet.energy_kwh} onChange={e => set("fleet.energy_kwh", +e.target.value)} /></label>
+<label>Charging schedule<select aria-label="Charging schedule" value={definition.fleet.charging_profile || 'legacy_mix'} onChange={e => set('fleet.charging_profile', e.target.value)}><option value="home_only">Home only</option><option value="whole_day">Whole day: home, workplace and public</option><option value="legacy_mix">Saved legacy mixed schedule</option></select></label></div>
+<p className="state-note">{definition.fleet.charging_profile === 'home_only' ? 'Plug in 17:00-21:00; unplug 09:00 next day. One home visit per vehicle per day.' : definition.fleet.charging_profile === 'whole_day' ? 'Home 17:00-21:00 to 09:00; workplace 07:00-10:00 to 15:00-19:00; public arrivals throughout 24 hours, stays 3-4 hours. All departures are simulated.' : 'Historical mixed timing retained. Select Whole day to use the new standardized schedule.'}</p>
+{definition.fleet.charging_profile === 'whole_day' && <fieldset className="capacity-editor charging-mix"><legend>Daily charging mix <span className="mix-total">Total 100%</span></legend>{chargingKinds.map(kind => <label key={kind}><span className="mix-label">{kind === 'residential' ? 'Home' : kind === 'workplace' ? 'Workplace' : 'Public'}<output>{mixPercentages(definition.fleet.location_mix)[kind]}%</output></span><input aria-label={`${kind} charging percent`} aria-valuetext={`${mixPercentages(definition.fleet.location_mix)[kind]} percent`} type="range" min="0" max="100" step="1" value={mixPercentages(definition.fleet.location_mix)[kind]} onChange={e=>set('fleet.location_mix', redistributeMix(definition.fleet.location_mix,kind,+e.target.value))}/></label>)}<p>Moving a slider adjusts the other two shares proportionally. One visit per vehicle per day. Fixed 23:00 delay may miss daytime departures.</p></fieldset>}
+<details className="setup-advanced"><summary>Advanced vehicle placement</summary>            <fieldset className="capacity-editor">
               <legend>EV placement by district</legend>
               <label className="toggle">
                 <input type="checkbox" checked={districtMix !== null} onChange={(e) => set("fleet.district_mix", e.target.checked ? Object.fromEntries(catalogDistricts.map((d) => [d.id, 1 / Math.max(1, catalogDistricts.length)])) : null)} />
@@ -812,8 +842,44 @@ function ExperimentForm({
                   {mixTotal > 0 && Math.abs(mixTotal - 1) >= 1e-8 && <button type="button" className="ghost" onClick={() => set("fleet.district_mix", Object.fromEntries(Object.entries(districtMix).map(([id, value]) => [id, Number(value) / mixTotal])))}>Normalize explicitly</button>}
                 </div>
               </>}
-              <p className="state-note">This controls geographic placement. Residential, workplace, and public usage categories remain separate in <code>fleet.location_mix</code>.</p>
+              <p className="state-note">District placement is separate from the charging schedule. Public visits need a public hub in each selected district.</p>
             </fieldset>
+</details></section>
+<section hidden={setupStep !== 2} aria-label="Strategy settings"><h3>Choose charging strategies</h3>            <fieldset>
+              <legend>Strategies to compare — each runs separately</legend>
+              <p>Every selected strategy gets its own case. A failed or stopped case does not cancel the others.</p>
+              <div className="checks">
+                {(catalog.strategies || ["immediate", "fixed_delay", "randomized_delay", "capacity_aware", "rl"]).map((s: string) => (
+                  <label key={s}>
+                    <input
+                      type="checkbox"
+                      checked={definition.strategies.includes(s)}
+                      onChange={(e) => {
+                        const strategies = e.target.checked ? [...definition.strategies, s] : definition.strategies.filter((x: string) => x !== s);
+                        setDefinition({ ...definition, strategies, stop_on_violation: strategies.length > 1 ? false : definition.stop_on_violation });
+                      }}
+                    />
+                    {s.replaceAll("_", " ")}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            {definition.strategies.includes("valley_filling") && <details className="setup-advanced"><summary>Advanced controller settings</summary><StrategyOptionsEditor value={definition.strategy_options || {}} onChange={strategy_options => setDefinition({ ...definition, strategy_options })} /></details>}
+            {definition.strategies.includes("rl") && <RLExperimentSettings value={definition.rl} models={rlModels} onChange={rl => setDefinition({ ...definition, rl })} />}
+</section>
+<section hidden={setupStep !== 3} aria-label="Review settings"><h3>Review your experiment</h3>
+              <p>Check the settings below. Saving creates a fixed revision so each result can be traced back to its inputs.</p>
+              <dl className="setup-review">
+                <div><dt>Name</dt><dd>{definition.name || "Untitled experiment"}</dd></div>
+                <div><dt>Hypothesis</dt><dd>{definition.hypothesis || "No hypothesis entered"}</dd></div>
+                <div><dt>Demand</dt><dd>{fmt(definition.demand.monthly_energy)} {definition.demand.unit} / month · {definition.demand.days} {definition.demand.days === 1 ? "day" : "days"} · {definition.demand.scenario?.replaceAll("_", " ")}</dd></div>
+                <div><dt>Grid operation</dt><dd>{definition.operating_mode === "regulated" ? "Voltage-regulated grid" : "Original operating assumptions"}</dd></div>
+                <div><dt>Vehicles</dt><dd>{fmt(definition.fleet.fleet_size, 0)} vehicles · {fmt(definition.fleet.charger_kw)} kW per charger · {fmt(definition.fleet.energy_kwh)} kWh per vehicle · {definition.fleet.charging_profile === 'home_only' ? 'Home only' : definition.fleet.charging_profile === 'whole_day' ? 'Whole day' : 'Legacy mixed schedule'}</dd></div>
+                <div><dt>Strategies</dt><dd>{definition.strategies.map((id: string) => id.replaceAll("_", " ")).join(", ") || "Choose at least one strategy"}</dd></div>
+                <div><dt>District capacity</dt><dd>{definition.district_capacity?.scenario || "central"} · {Object.keys(definition.district_capacity?.overrides || {}).length} overrides</dd></div>
+                <div><dt>Demand randomization</dt><dd>{definition.demand.randomize ? "Enabled" : "Disabled"} · seeds: {definition.seeds?.join(", ")}</dd></div>
+              </dl>
+              <details className="setup-advanced"><summary>All experiment settings</summary><pre className="review-json">{JSON.stringify(definition, null, 2)}</pre></details>
             <label className="toggle">
               <input
                 type="checkbox"
@@ -823,9 +889,13 @@ function ExperimentForm({
               <span />
               Stop the current case when a grid limit is crossed
             </label>
+</section>
           </>
         )}
-        <div className="actions">
+        <div className="actions setup-actions">
+          {!advanced && setupStep > 0 && <button className="ghost" onClick={() => setSetupStep(setupStep - 1)}>Back</button>}
+          {!advanced && setupStep < 3 && <button className="primary" onClick={() => setSetupStep(setupStep + 1)}>Next: {steps[setupStep + 1]} <ChevronRight size={17} /></button>}
+          {(advanced || setupStep === 3) && <>
           <button
             className="secondary"
             onClick={onValidate}
@@ -835,14 +905,17 @@ function ExperimentForm({
             Validate
           </button>
           <button
-            className="primary"
+            className="secondary"
             onClick={onSave}
             disabled={busy || !!rawError || (districtMix !== null && Math.abs(mixTotal - 1) >= 1e-8)}
           >
             <Save size={17} />
-            Save immutable experiment
+            {busy ? "Working…" : "Save only"}
           </button>
+          <button className="primary" onClick={onSaveAndRun} disabled={busy || !!rawError || !definition.strategies.length || (districtMix !== null && Math.abs(mixTotal - 1) >= 1e-8)}><Play size={17} />{busy ? "Working…" : "Save & run"}</button>
+          </>}
         </div>
+        {districtMix !== null && Math.abs(mixTotal - 1) >= 1e-8 && <p className="field-error" role="alert">District percentages must total 100%. Open Vehicles → Advanced vehicle placement to correct them.</p>}
       </section>
       <aside className="panel guidance">
         <p className="eyebrow">Study boundary</p>
@@ -909,10 +982,14 @@ function CapacityOverview({ alignment, layers }: { alignment?: J; layers?: J[] }
 }
 
 function Results({ result, network, loading }: { result: J | null; network: J; loading: boolean }) {
+  const presentationCue = usePresentationCue();
   const cases: J[] = result?.cases || [];
   const [caseIdx, setCaseIdx] = useState(0),
     [step, setStep] = useState(0),
     [section, setSection] = useState("Summary");
+  useEffect(() => {
+    if (presentationCue?.section && ['Summary', 'Network', 'Districts', 'Evidence'].includes(presentationCue.section)) setSection(presentationCue.section);
+  }, [presentationCue]);
   useEffect(() => {
     setCaseIdx(0);
     setStep(0);
@@ -933,6 +1010,12 @@ function Results({ result, network, loading }: { result: J | null; network: J; l
   useEffect(() => {
     if (step >= ints.length) setStep(Math.max(0, ints.length - 1));
   }, [ints.length, step]);
+  useEffect(()=>{
+    if(presentationCue?.view==='results'&&ints.length){
+      const peak=ints.reduce((best,row,i)=>Number(row.ev_kw)>Number(ints[best]?.ev_kw||0)?i:best,0);
+      setStep(peak);
+    }
+  },[presentationCue,c?.case_id,ints.length]);
   const data = ints.map((x, i) => ({ ...x, step: i, label: clock(i) }));
   const districts = it.districts || [],
     trafos = it.transformers || [];
@@ -1090,13 +1173,20 @@ function Results({ result, network, loading }: { result: J | null; network: J; l
               <h2>City demand</h2>
             </div>
           </div>
-          <Chart selectedStep={step}
-            data={data}
+          <Chart selectedStep={step} unit="MW"
+            data={data.map((x: J) => ({ ...x, baseline_mw: x.baseline_kw / 1000, total_mw: x.total_kw / 1000 }))}
             lines={[
-              ["baseline_kw", "#7a9b87", "Baseline"],
-              ["ev_kw", "#17a05d", "EV"],
-              ["total_kw", "#154c33", "Total"],
+              ["total_mw", "#154c33", "Total"],
+              ["baseline_mw", "#7a9b87", "Baseline", "5 4"],
             ]}
+          />
+          <h3>EV charging demand · kW</h3>
+          <p className="state-note">
+            Separate scale to keep small fleets visible. At {clock(step)}: {fmt(it.ev_kw, 2)} kW EV + {fmt(it.baseline_kw / 1000, 3)} MW baseline = {fmt(it.total_kw / 1000, 3)} MW total. Demand excludes network losses.
+          </p>
+          <Chart selectedStep={step} unit="kW" height={180}
+            data={data}
+            lines={[["ev_kw", "#17a05d", "EV"]]}
           />
         </section>
       <section className="panel">
@@ -1117,8 +1207,10 @@ function Results({ result, network, loading }: { result: J | null; network: J; l
           />
         </div>
         <p className="state-note">
-          Completed means fully charged while still connected. Departed
-          shortfall is cumulative through this interval.
+          Charging means drawing power during this 15-minute interval, including
+          vehicles that finish within it. Completed means the requested energy
+          has been delivered and the vehicle is still connected without charging.
+          Departed shortfall is cumulative through the end of this interval.
         </p>
         <details className="count-details">
           <summary>Counts by block</summary>
@@ -1358,7 +1450,7 @@ function Results({ result, network, loading }: { result: J | null; network: J; l
   );
 }
 
-function Chart({ data, lines, selectedStep }: { data: J[]; lines: any[]; selectedStep?: number }) {
+function Chart({ data, lines, selectedStep, unit, height }: { data: J[]; lines: any[]; selectedStep?: number; unit?: string; height?: number }) {
   const max = Math.max(0, data.length - 1),
     ticks = [
       ...new Set(
@@ -1368,7 +1460,7 @@ function Chart({ data, lines, selectedStep }: { data: J[]; lines: any[]; selecte
       ),
     ];
   return (
-    <div className="chart">
+    <div className="chart" style={height ? { height } : undefined}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={data}
@@ -1383,19 +1475,20 @@ function Chart({ data, lines, selectedStep }: { data: J[]; lines: any[]; selecte
             ticks={ticks}
             tick={{ fontSize: 11 }}
           />
-          <YAxis domain={[0, "auto"]} tick={{ fontSize: 11 }} />
+          <YAxis domain={[0, "auto"]} tick={{ fontSize: 11 }} label={unit ? { value: unit, angle: -90, position: "insideLeft" } : undefined} />
           <Tooltip
             labelFormatter={(v) => clock(Number(v))}
-            formatter={(v: any, n: any) => [fmt(v, 2), n]}
+            formatter={(v: any, n: any) => [`${fmt(v, 2)}${unit ? ` ${unit}` : ""}`, n]}
           />
           <Legend />
           {selectedStep != null && <ReferenceLine x={selectedStep} stroke="#16795e" strokeDasharray="4 4" />}
-          {lines.map(([key, color, name]) => (
+          {lines.map(([key, color, name, dash]) => (
             <Line
               key={key}
               dataKey={key}
               name={name}
               stroke={color}
+              strokeDasharray={dash}
               strokeWidth={2}
               dot={false}
               isAnimationActive={false}
@@ -1500,16 +1593,19 @@ function Heatmap({ intervals }: { intervals: J[] }) {
 
 
 export default function App() {
-  const [view, setView] = useState("overview"),
-    [catalog, setCatalog] = useState<J>({}),
+  const { view, runId, navigate } = useNavigation();
+  const setView = (page: string) => navigate(page, runId);
+  const setRunId = (id: string | undefined) => navigate(view, id);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [catalog, setCatalog] = useState<J>({}),
     [network, setNetwork] = useState<J>({}),
     [experiments, setExperiments] = useState<J[]>([]),
     [rlModels, setRLModels] = useState<J[]>([]),
     [runs, setRuns] = useState<J[]>([]),
     [definition, setDefinition] = useState<J>(defaultDefinition),
-    [runId, setRunId] = useState<string>(),
     [result, setResult] = useState<J | null>(null),
     [loadingResults, setLoadingResults] = useState(false),
+    [resultsRevision, setResultsRevision] = useState(0),
     [compareIds, setCompareIds] = useState<string[]>([]),
     [comparison, setComparison] = useState<J | null>(null),
     [comparing, setComparing] = useState(false),
@@ -1539,31 +1635,42 @@ export default function App() {
     load();
     api("/api/rl/catalog").then(data => setRLModels(data.models || [])).catch(() => {});
   }, []);
-  const openRun = async (id: string) => {
-    setRunId(id);
-    setRunName(runs.find((r) => r.run_id === id)?.name || id);
+  const openRun = (id: string) => navigate("results", id || undefined);
+  useEffect(()=>{
+    if(view==='results'&&!runId&&runs.length){const preferred=preferredDemoRun(runs as {run_id:string;status:string}[]);if(preferred)navigate('results',preferred.run_id);}
+  },[view,runId,runs]);
+  useEffect(() => {
+    let active = true;
     setResult(null);
-    setLoadingResults(!!id);
-    setView("results");
-    if (!id) return;
-    try {
-      setResult(await api(`/api/runs/${id}/results`));
-    } catch (e: any) {
-      setNotice(e.message);
-    } finally { setLoadingResults(false); }
-  };
+    setLoadingResults(!!runId);
+    if (runId) api(`/api/runs/${encodeURIComponent(runId)}/results?detail=charts`)
+      .then(value => { if (active) setResult(value); })
+      .catch(error => { if (active) setNotice(`Could not load this run: ${error.message}. Choose another run or refresh.`); })
+      .finally(() => { if (active) setLoadingResults(false); });
+    return () => { active = false; };
+  }, [runId, resultsRevision]);
+  const selectedRunName = runs.find(run => run.run_id === runId)?.name;
+  useEffect(() => {
+    setRunName(selectedRunName || runId || "");
+  }, [runId, selectedRunName]);
   useEffect(() => {
     if (!runId) return;
     const run = runs.find((r) => r.run_id === runId);
     if (!run || !["running", "starting"].includes(run.status)) return;
+    let active = true;
     const t = setInterval(async () => {
-      const s = await api(`/api/runs/${runId}`);
-      setRuns((x) => x.map((r) => (r.run_id === runId ? s : r)));
       try {
-        setResult(await api(`/api/runs/${runId}/results`));
-      } catch {}
+        const [status, evidence] = await Promise.all([
+          api(`/api/runs/${encodeURIComponent(runId)}`),
+          api(`/api/runs/${encodeURIComponent(runId)}/results?detail=charts`),
+        ]);
+        if (active) {
+          setRuns(items => items.map(item => item.run_id === runId ? status : item));
+          setResult(evidence);
+        }
+      } catch { /* A later poll retries transient failures. */ }
     }, 1500);
-    return () => clearInterval(t);
+    return () => { active = false; clearInterval(t); };
   }, [runId, runs]);
   const validate = async () => {
     setBusy(true);
@@ -1582,7 +1689,9 @@ export default function App() {
       setBusy(false);
     }
   };
-  const save = async () => {
+  const save = async (runAfterSave = false) => {
+    if (busy) return;
+    let savedId: string | undefined;
     setBusy(true);
     try {
       const x = await api("/api/experiments", {
@@ -1593,14 +1702,23 @@ export default function App() {
         x,
         ...v.filter((e) => e.experiment_id !== x.experiment_id),
       ]);
-      setNotice(`Saved immutable ${x.experiment_id}`);
+      savedId = x.experiment_id;
+      setNotice(`Experiment saved. You can run it from Saved experiments.`);
+      if (runAfterSave) {
+        const run = await api("/api/runs", { method: "POST", body: JSON.stringify({ experiment_id: x.experiment_id }) });
+        setRuns(items => [run, ...items.filter(item => item.run_id !== run.run_id)]);
+        setNotice("Experiment saved. Run started.");
+        openRun(run.run_id);
+      }
     } catch (e: any) {
-      setNotice(e.message);
+      setNotice(savedId ? `Experiment ${savedId} was saved, but the run could not start: ${e.message}. Use Run in Saved experiments to retry.` : e.message);
     } finally {
       setBusy(false);
     }
   };
   const start = async (id: string) => {
+    if (busy) return;
+    setBusy(true);
     try {
       const x = await api("/api/runs", {
         method: "POST",
@@ -1610,7 +1728,7 @@ export default function App() {
       openRun(x.run_id);
     } catch (e: any) {
       setNotice(e.message);
-    }
+    } finally { setBusy(false); }
   };
   const current = runs.find((r) => r.run_id === runId);
   const manageRun = async (action: "rename" | "delete" | "restore", id: string) => {
@@ -1653,26 +1771,19 @@ export default function App() {
             <small>EV hypothesis studio</small>
           </div>
         </div>
-        <nav>
-          {[
-            ["overview", LayoutDashboard],
-            ["experiments", FlaskConical],
-            ["strategies", BatteryCharging],
-            ["benchmarks", Activity],
-            ["rl", Bot],
-            ["network", GitBranch],
-            ["results", Activity],
-          ].map(([v, I]: any) => (
-            <button
-              className={view === v ? "active" : ""}
-              onClick={() => { setView(v); window.scrollTo(0, 0); if (v === "results" && !runId && runs.length) openRun(runs[0].run_id); }}
-              key={v}
-            >
-              <I size={19} />
-              {v === "rl" ? "RL workspace" : v}
-            </button>
+        <nav aria-label="Main navigation">
+          {([['experiments', FlaskConical], ['results', Activity], ['network', GitBranch]] as const).map(([page, Icon]) => (
+            <a key={page} className={view === page ? "active" : ""} aria-current={view === page ? "page" : undefined} href={pageHref(page, runId)} onClick={event => { if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) { event.preventDefault(); setView(page); } }}><Icon size={19} aria-hidden="true" />{pageLabels[page]}</a>
           ))}
         </nav>
+        <details className="research-nav" open={['strategies', 'benchmarks', 'rl'].includes(view) || undefined}>
+          <summary>Research tools</summary>
+          <nav aria-label="Research tools">
+            {([['strategies', BatteryCharging], ['benchmarks', Activity], ['rl', Bot]] as const).map(([page, Icon]) => <a key={page} className={view === page ? "active" : ""} aria-current={view === page ? "page" : undefined} href={pageHref(page, runId)} onClick={event => { if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) { event.preventDefault(); setView(page); } }}><Icon size={19} aria-hidden="true" />{pageLabels[page]}</a>)}
+          </nav>
+        </details>
+        <a className={`overview-link ${view === "overview" ? "active" : ""}`} aria-current={view === "overview" ? "page" : undefined} href={pageHref("overview", runId)} onClick={event => { if (event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) { event.preventDefault(); setView("overview"); } }}><LayoutDashboard size={17} aria-hidden="true" />Overview</a>
+        <a className="overview-link presentation-link" href="/presentation.html" target="_blank" rel="noreferrer">Open presentation ↗</a>
         <div className="model">
           <i />
           <span>
@@ -1684,7 +1795,7 @@ export default function App() {
         <header>
           <div>
             <p className="eyebrow">Novi Sad planning proxy</p>
-            <h1>{view === "rl" ? "RL workspace" : view[0].toUpperCase() + view.slice(1)}</h1>
+            <h1>{pageLabels[view]}</h1>
           </div>
           <div className="header-actions">
             <button className="ghost" onClick={load}>
@@ -1698,6 +1809,7 @@ export default function App() {
             )}
           </div>
         </header>
+
         {notice && (
           <div className="notice" role="status" aria-live="polite">
             {notice}
@@ -1796,7 +1908,8 @@ export default function App() {
               {...{
                 definition,
                 setDefinition,
-                onSave: save,
+                onSave: () => save(false),
+                onSaveAndRun: () => save(true),
                 onValidate: validate,
                 busy,
                 catalog,
@@ -1806,10 +1919,11 @@ export default function App() {
             <section className="panel">
               <div className="panel-head">
                 <div>
-                  <p className="eyebrow">Immutable catalog</p>
+                  <p className="eyebrow">Experiment library</p>
                   <h2>Saved experiments</h2>
                 </div>
               </div>
+              {!experiments.length && <p>No saved experiments yet. Complete the setup above, then choose Save only or Save & run.</p>}
               <div className="cards">
                 {experiments.map((e) => (
                   <article key={e.experiment_id}>
@@ -1818,6 +1932,7 @@ export default function App() {
                     <p>{e.definition?.hypothesis}</p>
                     <button
                       className="primary"
+                      disabled={busy}
                       onClick={() => start(e.experiment_id)}
                     >
                       <Play size={15} />
@@ -1867,6 +1982,7 @@ export default function App() {
         {view === "results" && (
           <>
             <div className="run-picker">
+              <nav className="section-selector setup-steps" aria-label="Results sections"><button type="button" aria-current={!compareOpen ? "step" : undefined} onClick={() => setCompareOpen(false)}>Run evidence</button><button type="button" aria-current={compareOpen ? "step" : undefined} onClick={() => setCompareOpen(true)}>Compare runs</button></nav>
               <select
                 aria-label="Choose a run"
                 value={runId || ""}
@@ -1880,7 +1996,7 @@ export default function App() {
                 ))}
               </select>
               {runId && (
-                <button className="ghost" onClick={() => openRun(runId)}>
+                <button className="ghost" onClick={() => setResultsRevision(revision => revision + 1)}>
                   <RefreshCw size={16} />
                   Refresh evidence
                 </button>
@@ -1938,9 +2054,8 @@ export default function App() {
                   onClick={() => manageRun("delete", current.run_id)}>Delete run</button>
               </form>
             </details>}
-            <Results result={result} network={network} loading={loadingResults} />
-            {runs.length > 1 && (
-              <details className="comparison-panel"><summary>Compare runs</summary>
+            <section id="run-comparison" hidden={!compareOpen} className="panel comparison-panel" aria-label="Compare runs">
+                {runs.length < 2 && <p>Complete at least two runs to compare their evidence. You can start a run from Experiments.</p>}
                 <div className="panel-head">
                   <div>
                     <p className="eyebrow">Controlled comparison</p>
@@ -2011,8 +2126,8 @@ export default function App() {
                     />
                   </>
                 )}
-              </details>
-            )}
+            </section>
+            <div hidden={compareOpen}><Results result={result} network={network} loading={loadingResults} /></div>
           </>
         )}
       </main>

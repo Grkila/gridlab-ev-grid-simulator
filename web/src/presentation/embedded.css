@@ -1,0 +1,41 @@
+/* Scope presentation framing to the explicitly embedded app only. */
+.presentation-embedded body{zoom:.8}
+.presentation-embedded .app .presentation-link{display:none}
+.presentation-embedded .app{--accent:#126047;--muted:#405e51}
+.presentation-embedded .app .nav{height:125dvh;overflow-y:auto}
+.presentation-embedded .app .chat{height:min(720px,calc(125dvh - 28px));width:min(440px,calc(125vw - 32px));bottom:14px}
+.presentation-embedded .app .chat .feed{min-height:40px}
+.presentation-embedded .app .chat .composer{flex-shrink:0}
+.presentation-embedded .app .composer button{background:#126047;color:#fff}
+.presentation-embedded .app .primary,.presentation-embedded .app .chat-launch,.presentation-embedded .app .setup-steps button[aria-current=step]{background:#126047;color:#fff}
+.presentation-embedded .app button:disabled{opacity:1;background:#d5e5dc;color:#254b3c;border-color:#98b4a5}
+.presentation-embedded .app>main{padding-top:15px}
+.presentation-embedded .app>main>header{margin-bottom:14px}
+.presentation-embedded .app>main>header h1{font-size:27px}
+.presentation-embedded .full-map .map,.presentation-embedded .map-panel .map{height:calc(125dvh - 175px);min-height:390px}
+.presentation-embedded .full-map{padding:14px;background:#e8f0ec}
+.presentation-embedded .leaflet-tile-pane{filter:saturate(.55) contrast(.92)}
+.presentation-embedded .leaflet-overlay-pane path{filter:drop-shadow(0 1px 2px #fff9)}
+@media(min-width:1000px){
+  .presentation-embedded .benchmark-workspace[data-section=results] .benchmark-intro{display:none}
+  .presentation-embedded .benchmark-matrix .benchmark-cell small:nth-child(n+3){display:none}
+  .presentation-embedded .benchmark-matrix .benchmark-cell{min-height:0;padding:6px}
+  .presentation-embedded .benchmark-matrix td,.presentation-embedded .benchmark-matrix th{padding:5px;font-size:11px}
+  .presentation-embedded body{zoom:.72}
+  .presentation-embedded .app .nav{height:138.889dvh}
+  .presentation-embedded .app .chat{height:min(780px,calc(138.889dvh - 28px))}
+  .presentation-embedded .full-map .map,.presentation-embedded .map-panel .map{height:calc(138.889dvh - 175px)}
+  .presentation-embedded .rl-intro{display:none}
+  .presentation-embedded .ppo-showcase{grid-template-columns:minmax(250px,.65fr) minmax(0,1.35fr);gap:8px 24px}
+  .presentation-embedded .ppo-showcase>h2,.presentation-embedded .ppo-showcase>p{grid-column:1/-1;margin:3px 0}
+  .presentation-embedded .ppo-controls{grid-column:1;font-size:12px}
+  .presentation-embedded .ppo-evidence{grid-column:2;min-width:0}
+  .presentation-embedded .ppo-evidence>.rl-fields{grid-template-columns:repeat(4,1fr)}
+  .presentation-embedded .ppo-evidence>.rl-fields b{font-size:20px;color:#126047}
+  .presentation-embedded .ppo-evidence .rl-chart{height:245px}
+  .presentation-embedded .rl-workspace-grid{grid-template-columns:minmax(0,1.4fr) minmax(260px,.8fr)}
+  .presentation-embedded .rl-training-evidence{grid-column:1;grid-row:1}
+  .presentation-embedded .rl-workspace-grid>form{grid-column:2;grid-row:1}
+  .presentation-embedded .rl-intro{padding:12px 18px}
+  .presentation-embedded .rl-intro p{margin:4px 0}
+}

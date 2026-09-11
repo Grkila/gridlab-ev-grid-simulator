@@ -1,0 +1,838 @@
+{
+  "original_network_sha256": "49105463356411e3d8af6f3eb14caf3f9c78e51e5d4b834130382e150e2424e6",
+  "hypotheses": [
+    "H1 demand/units error",
+    "H2 reduction exaggerates branch voltage drop",
+    "H3 assumed downstream share already exceeds LV capacity"
+  ],
+  "corrections": [
+    {
+      "block": "CENTAR-F1",
+      "old_r": 0.269509706788864,
+      "loss_r": 0.12836418177310074,
+      "worst_r": 0.1889832040019852,
+      "worst_member": "SYN-0457"
+    },
+    {
+      "block": "CENTAR-F2",
+      "old_r": 0.25106786974479,
+      "loss_r": 0.14270514991752178,
+      "worst_r": 0.20426065811908742,
+      "worst_member": "SYN-1692"
+    },
+    {
+      "block": "CENTAR-F3",
+      "old_r": 0.140333721741726,
+      "loss_r": 0.08848035678553363,
+      "worst_r": 0.11420658582984564,
+      "worst_member": "SYN-2242"
+    },
+    {
+      "block": "CENTAR-F4",
+      "old_r": 0.035670544163575,
+      "loss_r": 0.035670544163574965,
+      "worst_r": 0.035670544163574965,
+      "worst_member": "SYN-1932"
+    },
+    {
+      "block": "CENTAR-F5",
+      "old_r": 0.16578935215362,
+      "loss_r": 0.12545844714047233,
+      "worst_r": 0.1324431796170579,
+      "worst_member": "SYN-1632"
+    },
+    {
+      "block": "IND-F1",
+      "old_r": 0.17374377231343,
+      "loss_r": 0.05702517116575089,
+      "worst_r": 0.10151919845061383,
+      "worst_member": "SYN-1486"
+    },
+    {
+      "block": "IND-F2",
+      "old_r": 0.072502999418162,
+      "loss_r": 0.06849563635566225,
+      "worst_r": 0.07104075991816225,
+      "worst_member": "SYN-0808"
+    },
+    {
+      "block": "IND-F3",
+      "old_r": 0.037765554168162,
+      "loss_r": 0.030527280668162238,
+      "worst_r": 0.034055082168162235,
+      "worst_member": "SYN-1904"
+    },
+    {
+      "block": "IND-F4",
+      "old_r": 0.002787269168162,
+      "loss_r": 0.0027872691681622387,
+      "worst_r": 0.0027872691681622387,
+      "worst_member": "SYN-2186"
+    },
+    {
+      "block": "LIMAN-F1",
+      "old_r": 0.129352836744713,
+      "loss_r": 0.03142417600652577,
+      "worst_r": 0.0678303603139524,
+      "worst_member": "SYN-0393"
+    },
+    {
+      "block": "LIMAN-F2",
+      "old_r": 0.236639730748283,
+      "loss_r": 0.05607071910726689,
+      "worst_r": 0.0946967652392832,
+      "worst_member": "SYN-1728"
+    },
+    {
+      "block": "LIMAN-F3",
+      "old_r": 0.028272576439361,
+      "loss_r": 0.021681210251298634,
+      "worst_r": 0.02355241810835823,
+      "worst_member": "SYN-0987"
+    },
+    {
+      "block": "LIMAN-F4",
+      "old_r": 0.00103339695672,
+      "loss_r": 0.0010333969567199214,
+      "worst_r": 0.0010333969567199214,
+      "worst_member": "SYN-0988"
+    },
+    {
+      "block": "NS5-F1",
+      "old_r": 0.245537947503795,
+      "loss_r": 0.052758665366417414,
+      "worst_r": 0.09851841023513838,
+      "worst_member": "SYN-1673"
+    },
+    {
+      "block": "NS5-F2",
+      "old_r": 0.006732397606015,
+      "loss_r": 0.006732397606015409,
+      "worst_r": 0.006732397606015409,
+      "worst_member": "SYN-0639"
+    },
+    {
+      "block": "NS5-F3",
+      "old_r": 0.172820717784539,
+      "loss_r": 0.06744809501131313,
+      "worst_r": 0.11780333935135431,
+      "worst_member": "SYN-2624"
+    },
+    {
+      "block": "NS5-F4",
+      "old_r": 0.063631054585796,
+      "loss_r": 0.03819158653894961,
+      "worst_r": 0.04833768948472164,
+      "worst_member": "SYN-0652"
+    },
+    {
+      "block": "NS7-F1",
+      "old_r": 0.222233895647253,
+      "loss_r": 0.05596361035629696,
+      "worst_r": 0.11347063467822549,
+      "worst_member": "SYN-1739"
+    },
+    {
+      "block": "NS7-F2",
+      "old_r": 0.229629842087778,
+      "loss_r": 0.07662335679124914,
+      "worst_r": 0.09706426067690906,
+      "worst_member": "SYN-2447"
+    },
+    {
+      "block": "NS7-F3",
+      "old_r": 0.001368441172289,
+      "loss_r": 0.001368441172288521,
+      "worst_r": 0.001368441172288521,
+      "worst_member": "SYN-0157"
+    },
+    {
+      "block": "NS7-F4",
+      "old_r": 0.001574441172289,
+      "loss_r": 0.0015744411722885211,
+      "worst_r": 0.0015744411722885211,
+      "worst_member": "SYN-0158"
+    },
+    {
+      "block": "NS9-F1",
+      "old_r": 0.322990783479331,
+      "loss_r": 0.16942203351427143,
+      "worst_r": 0.23636651547364929,
+      "worst_member": "SYN-2538"
+    },
+    {
+      "block": "NS9-F2",
+      "old_r": 0.263504704008668,
+      "loss_r": 0.06757580220152679,
+      "worst_r": 0.12453597091171403,
+      "worst_member": "SYN-1699"
+    },
+    {
+      "block": "NS9-F3",
+      "old_r": 0.4590711805826,
+      "loss_r": 0.4504658138326004,
+      "worst_r": 0.45907118058260044,
+      "worst_member": "SYN-0167"
+    },
+    {
+      "block": "NS9-F4",
+      "old_r": 0.761496014839476,
+      "loss_r": 0.5936056588828857,
+      "worst_r": 0.6914902125107842,
+      "worst_member": "SYN-1794"
+    },
+    {
+      "block": "PODBARA-F1",
+      "old_r": 0.073232023977926,
+      "loss_r": 0.022952858656391687,
+      "worst_r": 0.040415919815757394,
+      "worst_member": "SYN-0094"
+    },
+    {
+      "block": "PODBARA-F2",
+      "old_r": 0.257217203401467,
+      "loss_r": 0.13546857940986595,
+      "worst_r": 0.18963743523927493,
+      "worst_member": "SYN-1426"
+    },
+    {
+      "block": "PODBARA-F3",
+      "old_r": 0.057957735639826,
+      "loss_r": 0.041282214776385724,
+      "worst_r": 0.053233835505705304,
+      "worst_member": "SYN-0209"
+    },
+    {
+      "block": "PODBARA-F4",
+      "old_r": 0.046068778429879,
+      "loss_r": 0.0332648392728064,
+      "worst_r": 0.04003184634018043,
+      "worst_member": "SYN-1968"
+    },
+    {
+      "block": "RIM-F1",
+      "old_r": 0.435304446317652,
+      "loss_r": 0.21283433504421959,
+      "worst_r": 0.25401473058263324,
+      "worst_member": "SYN-0608"
+    },
+    {
+      "block": "RIM-F2",
+      "old_r": 0.221406873777582,
+      "loss_r": 0.08480468013694675,
+      "worst_r": 0.10552535227654321,
+      "worst_member": "SYN-1821"
+    },
+    {
+      "block": "RIM-F3",
+      "old_r": 0.01897411521742,
+      "loss_r": 0.018974115217420304,
+      "worst_r": 0.018974115217420304,
+      "worst_member": "SYN-0785"
+    },
+    {
+      "block": "RIM-F4",
+      "old_r": 0.075282432699475,
+      "loss_r": 0.028492199430453904,
+      "worst_r": 0.04225428751310756,
+      "worst_member": "SYN-1511"
+    },
+    {
+      "block": "SEVER-F1",
+      "old_r": 0.072427645608599,
+      "loss_r": 0.04248904839907059,
+      "worst_r": 0.052510272044276704,
+      "worst_member": "SYN-0897"
+    },
+    {
+      "block": "SEVER-F2",
+      "old_r": 0.130040430991601,
+      "loss_r": 0.09014723183747746,
+      "worst_r": 0.11617383360295326,
+      "worst_member": "SYN-0963"
+    },
+    {
+      "block": "SEVER-F3",
+      "old_r": 0.187607563139235,
+      "loss_r": 0.12081190687551266,
+      "worst_r": 0.1555990219475324,
+      "worst_member": "SYN-1444"
+    },
+    {
+      "block": "SEVER-F4",
+      "old_r": 0.032478177945216,
+      "loss_r": 0.03247817794521622,
+      "worst_r": 0.03247817794521622,
+      "worst_member": "SYN-0855"
+    },
+    {
+      "block": "TELEP-F1",
+      "old_r": 0.226327443805481,
+      "loss_r": 0.06413582203116522,
+      "worst_r": 0.10874197079647557,
+      "worst_member": "SYN-0065"
+    },
+    {
+      "block": "TELEP-F2",
+      "old_r": 0.20890366631959,
+      "loss_r": 0.10466740600665146,
+      "worst_r": 0.16526227615526679,
+      "worst_member": "SYN-2531"
+    },
+    {
+      "block": "TELEP-F3",
+      "old_r": 0.05991290578588,
+      "loss_r": 0.04718161814525492,
+      "worst_r": 0.05482424228587994,
+      "worst_member": "SYN-0667"
+    },
+    {
+      "block": "TELEP-F4",
+      "old_r": 0.03213981841088,
+      "loss_r": 0.025544797077546606,
+      "worst_r": 0.03213981841087994,
+      "worst_member": "SYN-0690"
+    },
+    {
+      "block": "TELEP-F5",
+      "old_r": 0.006398195744213,
+      "loss_r": 0.0063981957442132715,
+      "worst_r": 0.0063981957442132715,
+      "worst_member": "SYN-0752"
+    }
+  ],
+  "cases": [
+    {
+      "scenario": "normal",
+      "daily_kwh": 2533333.333333334,
+      "expected_daily_kwh": 2533333.3333333335,
+      "allocation_max_error_kw": 7.275957614183426e-11,
+      "peak_kw": 143583.6572639429,
+      "lv_share_threshold": 0.8357497105635762,
+      "models": {
+        "original": {
+          "metrics": {
+            "peak_demand_kw": 143583.65726394294,
+            "max_line_loading_percent": 57.43102987881568,
+            "max_transformer_loading_percent": 51.966067655316216,
+            "min_voltage_pu": 0.9522635266686432,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 0,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 8.919328900010441,
+            "max_district_loading_percent": 50.581018226065744,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 59.82652385997622,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        },
+        "loss_weighted": {
+          "metrics": {
+            "peak_demand_kw": 143583.65726394294,
+            "max_line_loading_percent": 55.94375324497486,
+            "max_transformer_loading_percent": 51.61626929736565,
+            "min_voltage_pu": 0.9775796562051937,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 0,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 9.627588400006061,
+            "max_district_loading_percent": 50.581018226065744,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 59.82652385997622,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        },
+        "worst_path": {
+          "metrics": {
+            "peak_demand_kw": 143583.65726394294,
+            "max_line_loading_percent": 56.25000073487346,
+            "max_transformer_loading_percent": 51.79851540249616,
+            "min_voltage_pu": 0.9722573217412179,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 0,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.698649800004205,
+            "max_district_loading_percent": 50.581018226065744,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 59.82652385997622,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        }
+      },
+      "detailed": {
+        "snapshots": [
+          {
+            "step": 80,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9789904039695622,
+              "max_line_loading_percent": 54.862865015755844,
+              "max_transformer_loading_percent": 50.63189131389174,
+              "losses_kw": 1501.0604550183177
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.9522635266686432,
+              "max_line_loading_percent": 57.43102987881568,
+              "max_transformer_loading_percent": 51.966067655316216,
+              "losses_kw": 2638.097502176799
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.02672687730091894,
+              "max_line_loading_percent": -2.5681648630598346,
+              "max_transformer_loading_percent": -1.3341763414244738,
+              "losses_kw": -1137.0370471584813
+            },
+            "runtime_seconds": 36.45028610000736
+          }
+        ],
+        "assumptions": [
+          "Block charging distributed by member baseline demand shares.",
+          "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+          "Selected snapshots only; no full-year electrical feasibility claim."
+        ]
+      }
+    },
+    {
+      "scenario": "winter",
+      "daily_kwh": 3870967.741935486,
+      "expected_daily_kwh": 3870967.7419354836,
+      "allocation_max_error_kw": 1.4551915228366852e-10,
+      "peak_kw": 224067.73259932848,
+      "lv_share_threshold": 0.5355523466405606,
+      "models": {
+        "original": {
+          "metrics": {
+            "peak_demand_kw": 224067.73259932848,
+            "max_line_loading_percent": 93.95059596883941,
+            "max_transformer_loading_percent": 83.88455799450473,
+            "min_voltage_pu": 0.9039462758707294,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 30,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.986541699996451,
+            "max_district_loading_percent": 78.92901058730195,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 93.3615552497202,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 76,
+          "complete": true
+        },
+        "loss_weighted": {
+          "metrics": {
+            "peak_demand_kw": 224067.73259932848,
+            "max_line_loading_percent": 89.6498566589383,
+            "max_transformer_loading_percent": 82.87158360221444,
+            "min_voltage_pu": 0.9473068738613646,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 10,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.679724000001443,
+            "max_district_loading_percent": 78.92901058730195,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 93.3615552497202,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 79,
+          "peak_step": 76,
+          "complete": true
+        },
+        "worst_path": {
+          "metrics": {
+            "peak_demand_kw": 224067.73259932848,
+            "max_line_loading_percent": 90.5077099094483,
+            "max_transformer_loading_percent": 83.38236484639438,
+            "min_voltage_pu": 0.9383321202893903,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 17,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.860278699998162,
+            "max_district_loading_percent": 78.92901058730195,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 93.3615552497202,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 76,
+          "complete": true
+        }
+      },
+      "detailed": {
+        "snapshots": [
+          {
+            "step": 76,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9461820458231033,
+              "max_line_loading_percent": 87.01692595182708,
+              "max_transformer_loading_percent": 81.69272283522811,
+              "losses_kw": 3165.7532839613013
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.9051884791587953,
+              "max_line_loading_percent": 92.43130747939333,
+              "max_transformer_loading_percent": 83.88455799450473,
+              "losses_kw": 6098.121327615254
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.04099356666430798,
+              "max_line_loading_percent": -5.414381527566249,
+              "max_transformer_loading_percent": -2.1918351592766214,
+              "losses_kw": -2932.3680436539526
+            },
+            "runtime_seconds": 20.106580399995437
+          },
+          {
+            "step": 80,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9455717676360492,
+              "max_line_loading_percent": 88.38374089530005,
+              "max_transformer_loading_percent": 81.37194999063391,
+              "losses_kw": 3172.7672520444135
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.9039462758707294,
+              "max_line_loading_percent": 93.95059596883941,
+              "max_transformer_loading_percent": 83.56265145560036,
+              "losses_kw": 6112.0875984510085
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.04162549176531982,
+              "max_line_loading_percent": -5.566855073539358,
+              "max_transformer_loading_percent": -2.190701464966452,
+              "losses_kw": -2939.320346406595
+            },
+            "runtime_seconds": 19.693459000001894
+          }
+        ],
+        "assumptions": [
+          "Block charging distributed by member baseline demand shares.",
+          "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+          "Selected snapshots only; no full-year electrical feasibility claim."
+        ]
+      }
+    },
+    {
+      "scenario": "worst_winter",
+      "daily_kwh": 4645161.290322582,
+      "expected_daily_kwh": 4645161.29032258,
+      "allocation_max_error_kw": 1.7462298274040222e-10,
+      "peak_kw": 268881.27911919414,
+      "lv_share_threshold": 0.4462936222004672,
+      "models": {
+        "original": {
+          "metrics": {
+            "peak_demand_kw": 268881.2791191941,
+            "max_line_loading_percent": 116.86080829659582,
+            "max_transformer_loading_percent": 103.03303751255177,
+            "min_voltage_pu": 0.8720763709898873,
+            "nonconverged_steps": 0,
+            "overload_steps": 17,
+            "voltage_violation_steps": 62,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.585013000003528,
+            "max_district_loading_percent": 94.71481270476228,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 112.03386629966421,
+            "network_capacity_overload_steps": 18,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 76,
+          "complete": true
+        },
+        "loss_weighted": {
+          "metrics": {
+            "peak_demand_kw": 268881.2791191941,
+            "max_line_loading_percent": 109.83487623215143,
+            "max_transformer_loading_percent": 101.37727917098998,
+            "min_voltage_pu": 0.9278539815174355,
+            "nonconverged_steps": 0,
+            "overload_steps": 14,
+            "voltage_violation_steps": 21,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.552430000010645,
+            "max_district_loading_percent": 94.71481270476228,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 112.03386629966421,
+            "network_capacity_overload_steps": 18,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 79,
+          "peak_step": 76,
+          "complete": true
+        },
+        "worst_path": {
+          "metrics": {
+            "peak_demand_kw": 268881.2791191941,
+            "max_line_loading_percent": 111.20215769957946,
+            "max_transformer_loading_percent": 102.1962727832266,
+            "min_voltage_pu": 0.9164529872303611,
+            "nonconverged_steps": 0,
+            "overload_steps": 15,
+            "voltage_violation_steps": 25,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.733883399996557,
+            "max_district_loading_percent": 94.71481270476228,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 112.03386629966421,
+            "network_capacity_overload_steps": 18,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 76,
+          "complete": true
+        }
+      },
+      "detailed": {
+        "snapshots": [
+          {
+            "step": 76,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9250173413502212,
+              "max_line_loading_percent": 106.78805730244537,
+              "max_transformer_loading_percent": 100.10024810239135,
+              "losses_kw": 4501.322248968211
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.8737402867245466,
+              "max_line_loading_percent": 114.90978163765052,
+              "max_transformer_loading_percent": 103.03303751255177,
+              "losses_kw": 8908.391045211982
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.051277054625674556,
+              "max_line_loading_percent": -8.121724335205158,
+              "max_transformer_loading_percent": -2.9327894101604244,
+              "losses_kw": -4407.0687962437705
+            },
+            "runtime_seconds": 18.65213329999824
+          },
+          {
+            "step": 80,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9242302240519956,
+              "max_line_loading_percent": 108.48188732363388,
+              "max_transformer_loading_percent": 99.70615886462546,
+              "losses_kw": 4512.147300642472
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.8720763709898873,
+              "max_line_loading_percent": 116.86080829659582,
+              "max_transformer_loading_percent": 102.6393192389776,
+              "losses_kw": 8933.307244835984
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.05215385306210829,
+              "max_line_loading_percent": -8.378920972961936,
+              "max_transformer_loading_percent": -2.9331603743521413,
+              "losses_kw": -4421.159944193511
+            },
+            "runtime_seconds": 15.984526899992488
+          }
+        ],
+        "assumptions": [
+          "Block charging distributed by member baseline demand shares.",
+          "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+          "Selected snapshots only; no full-year electrical feasibility claim."
+        ]
+      }
+    },
+    {
+      "scenario": "worst_summer",
+      "daily_kwh": 3040000.0,
+      "expected_daily_kwh": 3040000.0,
+      "allocation_max_error_kw": 8.731149137020111e-11,
+      "peak_kw": 172300.38871673148,
+      "lv_share_threshold": 0.6964580921363135,
+      "models": {
+        "original": {
+          "metrics": {
+            "peak_demand_kw": 172300.38871673148,
+            "max_line_loading_percent": 70.128106522062,
+            "max_transformer_loading_percent": 63.065223711029574,
+            "min_voltage_pu": 0.9358212183146891,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 16,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.594875800001319,
+            "max_district_loading_percent": 60.69722187127889,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 71.79182863197146,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        },
+        "loss_weighted": {
+          "metrics": {
+            "peak_demand_kw": 172300.38871673148,
+            "max_line_loading_percent": 67.852772920899,
+            "max_transformer_loading_percent": 62.530324011988014,
+            "min_voltage_pu": 0.9672024774259242,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 0,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.4877128999942215,
+            "max_district_loading_percent": 60.69722187127889,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 71.79182863197146,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        },
+        "worst_path": {
+          "metrics": {
+            "peak_demand_kw": 172300.38871673148,
+            "max_line_loading_percent": 68.31653684840443,
+            "max_transformer_loading_percent": 62.8069051771044,
+            "min_voltage_pu": 0.9606366641586219,
+            "nonconverged_steps": 0,
+            "overload_steps": 0,
+            "voltage_violation_steps": 0,
+            "unmet_energy_kwh": 0,
+            "pending_energy_kwh": 0,
+            "requested_energy_kwh": 0,
+            "delivered_energy_kwh": 0,
+            "grid_ev_energy_kwh": 0.0,
+            "runtime_seconds": 5.668402800001786,
+            "max_district_loading_percent": 60.69722187127889,
+            "district_overload_steps": 0,
+            "max_network_capacity_loading_percent": 71.79182863197146,
+            "network_capacity_overload_steps": 0,
+            "energy_excess_kwh": 0.0,
+            "energy_limit_exceeded_steps": 0
+          },
+          "worst_step": 80,
+          "peak_step": 80,
+          "complete": true
+        }
+      },
+      "detailed": {
+        "snapshots": [
+          {
+            "step": 80,
+            "detailed": {
+              "converged": true,
+              "min_voltage_pu": 0.9675017311137911,
+              "max_line_loading_percent": 66.69865435599375,
+              "max_transformer_loading_percent": 61.47221842453974,
+              "losses_kw": 2003.4511430424056
+            },
+            "reduced": {
+              "converged": true,
+              "min_voltage_pu": 0.9358212183146891,
+              "max_line_loading_percent": 70.128106522062,
+              "max_transformer_loading_percent": 63.065223711029574,
+              "losses_kw": 3679.8848550281427
+            },
+            "detailed_minus_reduced": {
+              "min_voltage_pu": 0.031680512799102,
+              "max_line_loading_percent": -3.429452166068245,
+              "max_transformer_loading_percent": -1.5930052864898343,
+              "losses_kw": -1676.433711985737
+            },
+            "runtime_seconds": 15.645922900002915
+          }
+        ],
+        "assumptions": [
+          "Block charging distributed by member baseline demand shares.",
+          "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+          "Selected snapshots only; no full-year electrical feasibility claim."
+        ]
+      }
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { usePresentationCue } from './presentation/bridge';
 import './strategies.css';
 import { visibleControllers } from './visibleControllers';
 type J = Record<string, any>;
@@ -37,6 +38,11 @@ export function StrategyOptionsEditor({ value, onChange }: { value: J; onChange:
 }
 
 export function StrategiesWorkspace({ experiments, onUse, onPrepared }: { experiments: J[]; onUse: (id: string) => void; onPrepared: () => void }) {
+  const [section, setSection] = useState<'library' | 'development'>('library');
+  const presentationCue = usePresentationCue();
+  useEffect(() => {
+    if (presentationCue?.view === 'strategies' && ['library','development'].includes(presentationCue.section || '')) setSection(presentationCue.section as 'library' | 'development');
+  }, [presentationCue]);
   const [catalog, setCatalog] = useState<J>({});
   const [record, setRecord] = useState('');
   const [scenario, setScenario] = useState('');
@@ -65,7 +71,12 @@ export function StrategiesWorkspace({ experiments, onUse, onPrepared }: { experi
     } catch (e: any) { setError(e.message); } finally { setBusy(false); }
   };
   return <div className="strategy-workspace">
-    <section className="panel"><p className="eyebrow">Charging controller library</p><h2>One scenario, different charging decisions</h2>
+    <nav className="setup-steps" aria-label="Strategies sections" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+      <button type="button" aria-current={section === 'library' ? 'step' : undefined} aria-controls="strategy-library" onClick={() => setSection('library')}>Controller library</button>
+      <button type="button" aria-current={section === 'development' ? 'step' : undefined} aria-controls="strategy-development" onClick={() => setSection('development')}>Strategy development</button>
+    </nav>
+    {error && section === 'library' && <p role="alert" className="strategy-error">{error}</p>}
+    <section id="strategy-library" hidden={section !== 'library'} className="panel"><p className="eyebrow">Charging controller library</p><h2>One scenario, different charging decisions</h2>
       <p>Choose a controller for your experiment or develop a research-backed idea. Train learned policies in the RL workspace, then compare them here using the same scenario.</p>
       <div className="strategy-grid">{(catalog.strategies || []).map((strategy: J) => <article key={strategy.id} className="strategy-card">
         <span className="strategy-family">{strategy.family.replaceAll('_', ' ')}</span><h3>{strategy.label}</h3><p>{strategy.description}</p>
@@ -75,7 +86,7 @@ export function StrategiesWorkspace({ experiments, onUse, onPrepared }: { experi
         <button className="ghost" onClick={() => onUse(strategy.id)}>Use in experiment</button>
       </article>)}</div>
     </section>
-    <section className="panel"><p className="eyebrow">Strategy development</p><h2>From an idea to a tested controller</h2>
+    <section id="strategy-development" hidden={section !== 'development'} className="panel"><p className="eyebrow">Strategy development</p><h2>From an idea to a tested controller</h2>
       <p>Save a proposal, complete its specification, build it with Codex, then prepare a comparison or challenge. Records are versioned; earlier evidence stays available.</p>
       <div className="strategy-options">
         <label>Saved strategy record<select value={record} onChange={e => setRecord(e.target.value)}><option value="">Choose a record</option>{(catalog.records || []).map((r: J) => <option key={r.record_id} value={r.record_id}>{r.name} · {r.stage} · {r.record_id.slice(-6)}</option>)}</select></label>

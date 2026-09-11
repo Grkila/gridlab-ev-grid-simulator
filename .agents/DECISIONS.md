@@ -85,3 +85,25 @@ Canonical Python rules generate plugin skill/assets and render MCP/chat guidance
 
 ## 2026-09-10: Per-node EV load aggregation
 User requested controllable total node demand. Use homogeneous cohorts internally and continuous equal sharing, retaining arrival/departure, charger, efficiency and energy constraints. Preserve individual mode and freeze aggregate_ev_nodes in benchmarks; reject binary RL. Power targets affect EV load only. Cohort policy can change greedy priority and safety behavior, so run new evidence rather than claiming all controller results identical.
+
+## 2026-09-10: continuous benchmark PPO
+
+Continuous node PPO uses the shared node allocator and frozen benchmark fixtures. The optional maintained SB3 backend has exact committed-update checkpoints and disjoint train/validation/test seeds. Canonical MCP/plugin/chat guidance distinguishes it from historical binary REINFORCE. See docs/continuous-rl.md and docs/continuous-rl-validation.md.
+
+Curriculum scaling explicitly uses capacity-aware passing tested bounds after an attempted LLF65544 replay failed service under unchanged input hashes. That failed evidence is retained,not accepted. LLF and valley-filling remain mandatory held-out competitors,including strongest original tested fleet and105% thereof. Unknown comparative electrical evidence yields inconclusive. No trained superiority follows from software checks.
+
+## 2026-09-10: comparison is the RL objective
+
+User clarified that RL should outperform other policies; reaching80,000EVs alone is not success. Replacement campaign objective is `outperform_baselines`. All seven non-MPC algorithms receive identical validation/final-test cases; service/grid feasibility leads ranking,paired peak differences break ties only on fully served feasible cases.80k/84k remain explicit stress probes in the replacement request,with target attainment reported separately and never sufficient for superiority. Unknown evidence and missing comparator coverage prohibit a comparative winner. Prior queued target-only campaign was cancelled withzero training time.
+
+## 2026-09-11: Explicit whole-day charging schedules
+
+Experiments expose home-only and whole-day schedules; the latter uses editable linked percentage sliders that always sum to100%. Standard benchmark suites freeze one schedule, with whole-day shares70%home/20%workplace/10%public across allten tests. Shared versioned visit generation covers home17:00-21:00 to next-day09:00, work07:00-10:00 to15:00-19:00 and public00:00-23:45 with3-4hour dwell. This is one visit per vehicle per day, not repeated intraday travel. Legacyexperimentgeneration and originalhomebenchmarkpools remain compatible. Profileversion and expandedpoolprefix checks protect frozen suites. Night-delay policies remain unchanged and mayfaildaytimeenergyservice. See docs/whole-day-charging.md.
+
+## 2026-09-11: Presentation integration
+
+Use a separate Vite presentation entry with Reveal navigation, one persistent Three.js scene and one persistent same-origin app iframe. The bridge only changes UI views/stages; it cannot execute commands. Keep direct-study findings distinct from live-run evidence and illustrative RL/3D visuals. High-contrast dark backgrounds and dark text on lime controls implement the presentation preference. Details: docs/presentation.md.
+
+Presentation revision: use exact piecewise interpolation on cached OSM road geometry for cars; keep synthetic city/grid provenance explicit. Animate saved results as visual reveals. Demo prompts only fill the real chat composer; the presenter chooses whether to send. Use concise Serbian presentation copy and Serbian embedded chat controls.
+
+2026-09-11 showcase defaults: prefer the verified 10,000-EV saved run when no explicit run is supplied. Keep benchmark status and synthetic PPO demo labels visible. Chart transport reads one case at a time and omits only unused non-RL per-vehicle traces; no simulation or stored evidence changes. Simulator replacement is an adapter/validation extension, while selected detailed replay already exists.

@@ -1,0 +1,7 @@
+{
+  "roads": 31021,
+  "closedPaths": 36,
+  "samples": 6480,
+  "sourceSnapshot": "7335a7e224d1f355079aaf4512fd9a532f211c1b7d86e53a08f46a0e10599453",
+  "verdict": "passed"
+}

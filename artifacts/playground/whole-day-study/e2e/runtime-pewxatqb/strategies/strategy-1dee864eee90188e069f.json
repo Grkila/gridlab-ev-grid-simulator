@@ -1,0 +1,1 @@
+{"parent":null,"record_id":"strategy-1dee864eee90188e069f","spec":{"idea":"Allocate available grid capacity according to charging urgency.","name":"deadline_headroom","objective":"Meet departure energy requests within network limits.","research":"adaptation"},"stage":"PROPOSE","status":"proposed"}

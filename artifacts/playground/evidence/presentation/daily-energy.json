@@ -1,0 +1,46 @@
+{
+  "fixture": "2025-06-1-as_supplied-normal.json",
+  "sha256": "64fc65d11f0aa3de503ee59cf99cbd4189e8fd4db7b438f4b0ad53bf1878a47a",
+  "city_gross_kwh": 2565500.000000001,
+  "city_net_kwh": 2537071.881883162,
+  "grid_headroom_kwh": 1611464.059058419,
+  "battery_headroom_kwh": 1450317.653152577,
+  "efficiency": 0.9,
+  "charger_kw": 7.4,
+  "assumptions": "June representative day; 120 MW LV budget; 50% baseline and 100% EV at LV; ideal 24h availability. Ignores local/AC constraints and additional network losses. Upper bound, not demonstrated service.",
+  "variants": [
+    {
+      "battery_kwh": 40,
+      "grid_kwh_per_car": 44.44444444444444,
+      "full_charges_upper_bound": 36257,
+      "hours_at_7_4kw": 6.006006006006006
+    },
+    {
+      "battery_kwh": 60,
+      "grid_kwh_per_car": 66.66666666666667,
+      "full_charges_upper_bound": 24171,
+      "hours_at_7_4kw": 9.00900900900901
+    },
+    {
+      "battery_kwh": 80,
+      "grid_kwh_per_car": 88.88888888888889,
+      "full_charges_upper_bound": 18128,
+      "hours_at_7_4kw": 12.012012012012011
+    }
+  ],
+  "proven_home": {
+    "vehicles": 48000,
+    "battery_kwh_per_car": 14,
+    "cohorts": [
+      637,
+      633,
+      623
+    ],
+    "seeds": [
+      61001,
+      61002,
+      61003
+    ],
+    "horizon_hours": 33
+  }
+}

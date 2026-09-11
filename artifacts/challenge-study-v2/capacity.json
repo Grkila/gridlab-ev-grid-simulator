@@ -1,0 +1,1163 @@
+[
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "immediate",
+    "location": "home",
+    "district": null,
+    "best_tested": 13000,
+    "next_failed": 13500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "896a4183c0c4ef6b57d3",
+          "ae1459e3960fac7f4521",
+          "5c5922644c600a8f790d"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "f4dc8bd0fba55742421c",
+          "e6a4163c87cf30af13b0",
+          "7eb12dedeb2ea5662450"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "354bf65a819eb8d8e85d",
+          "0bccc0693f570da61b6c",
+          "bb0336b193a4a24765cd"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "passed",
+        "run_ids": [
+          "5c1fc47719f12adb2ade",
+          "00d1db5bf7e940e6ddde",
+          "9fece0a29e4aa85f47f1"
+        ]
+      },
+      {
+        "n": 12500,
+        "status": "passed",
+        "run_ids": [
+          "f4f583e3398bb6e13586",
+          "fb879da860eb8ef6708c",
+          "4d5ed18ce8ea93bc3848"
+        ]
+      },
+      {
+        "n": 13000,
+        "status": "passed",
+        "run_ids": [
+          "66d15e604f7ad8e872c2",
+          "b13b4615c5a3224745ed",
+          "533b0a04efc082ce7a4a"
+        ]
+      },
+      {
+        "n": 13500,
+        "status": "failed",
+        "run_ids": [
+          "4da7cf03c57e1097c17b",
+          "9dab3c62d1a52114dd9e",
+          "0ead8a508a9bffa24eae"
+        ]
+      },
+      {
+        "n": 15000,
+        "status": "failed",
+        "run_ids": [
+          "085d7203c9fab5770007",
+          "0eaa386b71872821bdba",
+          "0533186ca816668d9e14"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "01ab08f86a6a2d1e4d69",
+          "31d25f0ab3301f88ef68",
+          "2ffc436ee0cd9893d892"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "254a3ef1adf3499cfa4e",
+          "a6803c50723a090b84dd",
+          "931f9807d84349070d48"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "643b39c178b7f90ebac4",
+          "6896849c3db8aba382a9",
+          "83d36dc27a84dc6d1c66"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "capacity_aware",
+    "location": "home",
+    "district": null,
+    "best_tested": 48000,
+    "next_failed": 48500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "42cfd240a3860a3522b7",
+          "b72271a2f86c679572ea",
+          "85670972dcc9dd896774"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "10a3bfbf73ba94fc3286",
+          "816bc768da2907d61114",
+          "801aad136de4bd994a7c"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "1a45d0dd5d096cd6780b",
+          "34e7b95d8bceaf15b0fe",
+          "feb0ca0538a0a4129db1"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "passed",
+        "run_ids": [
+          "cbe3c0de80b3c00e10c8",
+          "3a9c11d2394a2b6d5d5c",
+          "1fb554d91de183109cd3"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "passed",
+        "run_ids": [
+          "5c9b76030f15533c1e70",
+          "d7b1722bc086bf6c695c",
+          "9b87a158ec25bbad341b"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "passed",
+        "run_ids": [
+          "b7a6c96fe91656738d7a",
+          "8bf41b9d178cbd2baa06",
+          "4102e9f0e93d93ac2ea7"
+        ]
+      },
+      {
+        "n": 45000,
+        "status": "passed",
+        "run_ids": [
+          "2671d8eb638895183d32",
+          "0b54bdf67a2405926134",
+          "d09c282e2b4ea1fceb4c"
+        ]
+      },
+      {
+        "n": 47500,
+        "status": "passed",
+        "run_ids": [
+          "232ae5596ed9ab6a399b",
+          "fc5f28a83353837f70e2",
+          "a4513f508348596fda9f"
+        ]
+      },
+      {
+        "n": 48000,
+        "status": "passed",
+        "run_ids": [
+          "ac36975e1151a5dfa832",
+          "11eac23f4686861c8449",
+          "23de8f88e1540a3def29"
+        ]
+      },
+      {
+        "n": 48500,
+        "status": "failed",
+        "run_ids": [
+          "0da4bbbf8d2420a0be4b",
+          "afde0572cfd1fcf2185c",
+          "a783bbf179e97b7eed6e"
+        ]
+      },
+      {
+        "n": 50000,
+        "status": "failed",
+        "run_ids": [
+          "be140b41f5fff6d8d866",
+          "61a66e72dc354d75672d",
+          "42a09e3131720577e82d"
+        ]
+      },
+      {
+        "n": 60000,
+        "status": "failed",
+        "run_ids": [
+          "e5c6dda3494901d6bf30",
+          "7db923c2c00ae9558f62",
+          "1098aec6cbc185f2e42e"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "5985ae9b32a35ef8cc8f",
+          "a7d0c9b6d6554f483f68",
+          "be614c8121aae5153917"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-12-1-as_supplied-normal",
+    "strategy": "immediate",
+    "location": "home",
+    "district": null,
+    "best_tested": null,
+    "next_failed": null,
+    "baseline_status": "failed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "failed",
+        "run_ids": [
+          "ed2504bb470d37fe43d3",
+          "aeb06344532d816f0603",
+          "9681fd1032f1904db3ca"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "failed",
+        "run_ids": [
+          "42fb9902295d3f340210",
+          "d61e7aeab3730d0c6a79",
+          "fa19c4a8abe41e7bb48c"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-12-1-as_supplied-normal",
+    "strategy": "capacity_aware",
+    "location": "home",
+    "district": null,
+    "best_tested": null,
+    "next_failed": null,
+    "baseline_status": "failed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "failed",
+        "run_ids": [
+          "6559a7ee3762ced6c791",
+          "1005056211f02f24fc63",
+          "faeb7d05cbd8c751ce88"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "failed",
+        "run_ids": [
+          "0b49c16b41ca0361fe80",
+          "3ac8f709d0187a3a413c",
+          "ea60346ca146fbb771b1"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-12-1.2-regulated-normal",
+    "strategy": "immediate",
+    "location": "home",
+    "district": null,
+    "best_tested": 3000,
+    "next_failed": 3500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "208111f43f89c46fddeb",
+          "5c1af1b419391c545ffe",
+          "0e1f7ab97ef27c7b7276"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "94525aa6b0474dad2a92",
+          "0c47f4ab8fe85e6c0ec4",
+          "14fc473545bebf08e888"
+        ]
+      },
+      {
+        "n": 3000,
+        "status": "passed",
+        "run_ids": [
+          "a2d8f8cf725f48019cb6",
+          "e9c2233722c2531005fc",
+          "f778e6a5f09f8a18e320"
+        ]
+      },
+      {
+        "n": 3500,
+        "status": "failed",
+        "run_ids": [
+          "4f6fa68e0b73aafc5b83",
+          "9d02a8bdef39abfe1c24",
+          "ba784c6baf90841e072d"
+        ]
+      },
+      {
+        "n": 4000,
+        "status": "failed",
+        "run_ids": [
+          "47dbdd456ac549dae83f",
+          "0c526204401a418102e0",
+          "b0cd3e3e7f725f7027c6"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "failed",
+        "run_ids": [
+          "15dd9ab4b26d9a71cbef",
+          "532e5d5d49936e784442",
+          "45d4d8b7dd32d8dd2c38"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "failed",
+        "run_ids": [
+          "8d9d5dd3b3333ca7d5bd",
+          "d398e3fad4892d462649",
+          "1e0d7cff13eb673898c5"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "cbb3ea74831b617daaa3",
+          "e6923df5c6d0103fde22",
+          "c4e8f42c53a78f4d5571"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "9d1b9e93631bd6eebd7a",
+          "6ea76a4554ffed45b177",
+          "d17fa530a512a860704e"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "6e9301b50d49a974dcd4",
+          "0003bf611df5f3d1d19a",
+          "80c0e66ed1cf44dbbe79"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-12-1.2-regulated-normal",
+    "strategy": "capacity_aware",
+    "location": "home",
+    "district": null,
+    "best_tested": 20500,
+    "next_failed": 21000,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "8be96d40dd5cfaa8e4e0",
+          "2b0d24caaa8bb0ad1d12",
+          "f30b9a87fcb46526cf33"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "c8255387772820d47190",
+          "9a3c260d2ae6c721a01a",
+          "bbcf5a90caa833475811"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "9a6ce4657a32923d7632",
+          "0446e56ac3b25a4a45f3",
+          "2610a8b5d13bdc1b0602"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "passed",
+        "run_ids": [
+          "8aa4f80142b0479c75e6",
+          "0f1f19ba5cd86e123ca6",
+          "162f0b0726adafd86962"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "passed",
+        "run_ids": [
+          "1dfefe286a9a57e75693",
+          "00baba8ce8d003c324bc",
+          "b969ecbc58c68986d836"
+        ]
+      },
+      {
+        "n": 20500,
+        "status": "passed",
+        "run_ids": [
+          "612b3249b30b35e3579c",
+          "5b75ce0a9345980e9245",
+          "bfca98c545e1200c1acf"
+        ]
+      },
+      {
+        "n": 21000,
+        "status": "failed",
+        "run_ids": [
+          "af45806a56c00d7762c9",
+          "f4d82c886c0a66c9037e",
+          "1e1e413378d66b795728"
+        ]
+      },
+      {
+        "n": 22500,
+        "status": "failed",
+        "run_ids": [
+          "f2e1547e61b4477542a8",
+          "ba90bfd237db1d507f51",
+          "748917eac9914df79274"
+        ]
+      },
+      {
+        "n": 25000,
+        "status": "failed",
+        "run_ids": [
+          "9d46681f7df2fb455342",
+          "c0e996dd7623051beb60",
+          "915f6003f0c53523d65e"
+        ]
+      },
+      {
+        "n": 30000,
+        "status": "failed",
+        "run_ids": [
+          "1bc037a541365f2cccd6",
+          "16c7714870963798337c",
+          "0ed3f6885f1a80422529"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "cdcf0a06901032141bc2",
+          "2482ecb4480cad201d82",
+          "5354d7820ad04c8bffda"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "422f8a93ba3ef9d2672d",
+          "8328345ea1834061b604",
+          "427b6114b3e55df9e033"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "immediate",
+    "location": "work",
+    "district": null,
+    "best_tested": 10000,
+    "next_failed": 10500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "37449340700b41246f14",
+          "e80bec3bc6c17c1be403",
+          "26e966ecd5520a71c2a1"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "055105263cf2df8ec4e7",
+          "cb488bb29a029c5607eb",
+          "f242c9fcae446d1b02a9"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "46e217108bffa902a295",
+          "6ddf9f8895e3afefa527",
+          "3960a2693b1b8dffb8c6"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "passed",
+        "run_ids": [
+          "1e1e074e55bd69d52460",
+          "6a2aac6bcbe115527b4c",
+          "111bedbb6912ec34bf88"
+        ]
+      },
+      {
+        "n": 10500,
+        "status": "failed",
+        "run_ids": [
+          "b828bde32de259539885",
+          "9b1170a6710fd9bab17c",
+          "3fc10d1e782890adba20"
+        ]
+      },
+      {
+        "n": 11000,
+        "status": "failed",
+        "run_ids": [
+          "0d1ac73cb9244356271a",
+          "a6bb2aa79fd0689c9b25",
+          "e0f0b8dc5dcbdbc73c45"
+        ]
+      },
+      {
+        "n": 12500,
+        "status": "failed",
+        "run_ids": [
+          "9e360ef99b188c52b6f5",
+          "96b3fe8f641e317164d2",
+          "d1e629ba13c27199162a"
+        ]
+      },
+      {
+        "n": 15000,
+        "status": "failed",
+        "run_ids": [
+          "4f41da13c9f9b60a24d1",
+          "6312844cd0cae599c5c6",
+          "b83015c73e4e9e9f4446"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "68f0b7c5b287fb55b294",
+          "24c935564dd5021b0492",
+          "77c6c048b3d630b30f1a"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "a72a0bffbf2c4d67b0eb",
+          "dfa6da8f0abff72b9e5e",
+          "b8815ac2b9d628db3b17"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "unknown",
+        "run_ids": [
+          "c7c79bb639b3222e04ff",
+          "c97f45f3a4d68607e777",
+          "c9c1a9a214adca10f15c"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "capacity_aware",
+    "location": "work",
+    "district": null,
+    "best_tested": 27500,
+    "next_failed": 28000,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "5e400e99e08e68ccb39a",
+          "cbda09cb286d59b5cfb2",
+          "48724ed6a7cda1d382df"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "44d886e11c3d16441693",
+          "ece6a3f99d44af6b0d78",
+          "4bbc77c18f6689520a68"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "144597189720fb6ba08d",
+          "2effbf982315d1fa0e8d",
+          "94edada9366a98050717"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "passed",
+        "run_ids": [
+          "a9b638c7e293d3906456",
+          "ad208d51b1e39205f8dd",
+          "c0cfb9866319387dc754"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "passed",
+        "run_ids": [
+          "cc2e9f57c900a37504e3",
+          "d6bbf2109c2b9100c9c9",
+          "5bdee01802997f0bc5ef"
+        ]
+      },
+      {
+        "n": 25000,
+        "status": "passed",
+        "run_ids": [
+          "88745b1cd0d0503831ca",
+          "b4947974299f9b92bf47",
+          "5b969621f8bce3d1e401"
+        ]
+      },
+      {
+        "n": 27500,
+        "status": "passed",
+        "run_ids": [
+          "fbe18274c483f34ddcce",
+          "b89149b270173846a812",
+          "3930b33d89d17c81c2a6"
+        ]
+      },
+      {
+        "n": 28000,
+        "status": "failed",
+        "run_ids": [
+          "bb8545f48a2de84300ba",
+          "d31a995b0ecbbae7d6e0",
+          "4562aa4492660353d3fc"
+        ]
+      },
+      {
+        "n": 28500,
+        "status": "failed",
+        "run_ids": [
+          "9b8adfb393fe6cbd941e",
+          "7b28888c6da66b0c94e4",
+          "fcf5f3bb3100884bb1bd"
+        ]
+      },
+      {
+        "n": 30000,
+        "status": "failed",
+        "run_ids": [
+          "e3b13ccd9b278e2056f4",
+          "f5ecc6811859ccf663a8",
+          "74bc61c9097d72d506ec"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "545f4b67ccd14b747da3",
+          "3112348e7986daeba144",
+          "14cce797652e6cb1a6bd"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "82da2d4d50aab28fcf92",
+          "d0b1777f9a68ff550949",
+          "f04dadcff63f15e1301c"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "immediate",
+    "location": "public",
+    "district": null,
+    "best_tested": 6000,
+    "next_failed": 6500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "3d46e11fe15e5d9d8027",
+          "65961cf2b3571a1731b6",
+          "87571b6829ea842c91e1"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "6921fac7f5c6e8257481",
+          "fe3453c244559f520ad6",
+          "a8fe7754610b084822c6"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "8f66a62551d6921724e8",
+          "747fad8f680205de0e22",
+          "e023611d7d0ecf510a3a"
+        ]
+      },
+      {
+        "n": 6000,
+        "status": "passed",
+        "run_ids": [
+          "222394cdff9a56fb99fd",
+          "c8cf3043fd33b0614496",
+          "00f216386cd1aaa4d23e"
+        ]
+      },
+      {
+        "n": 6500,
+        "status": "failed",
+        "run_ids": [
+          "f138d2a86667d2ea9141",
+          "8531bf30cbd94b2129a9",
+          "3ab76dbd38b331892055"
+        ]
+      },
+      {
+        "n": 7500,
+        "status": "failed",
+        "run_ids": [
+          "c0c1ab3e174de0f722ad",
+          "907022898c8eb31a463e",
+          "20b328b8982416aeef22"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "failed",
+        "run_ids": [
+          "c2d1afa64aedb50892fd",
+          "21189d39022d031b3a77",
+          "922b68e1cbbf0683b10c"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "d5de58d84a995946c690",
+          "3444edbd95419df8b846",
+          "8223da92b94120f85711"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "5ade0d972776a2d83a1d",
+          "c9064a300b69187b632f",
+          "0757026efe976c057c32"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "a863cacfb0a0c5646340",
+          "a6d8ae9ed5b9e5ae3319",
+          "971f06516fcb837d1115"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "capacity_aware",
+    "location": "public",
+    "district": null,
+    "best_tested": 6000,
+    "next_failed": 6500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "b2dc29eef3a2c42a590f",
+          "f61cd6730cb50439d95a",
+          "1337900fa92f4b3d8ba6"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "cf248c185d7e53320b0a",
+          "99e44fc67f618ba99020",
+          "53e867f16b45fa6e4494"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "5a295510ad674342aeb5",
+          "7a0e14bcef2a34d5d173",
+          "f035da8129cf6494884a"
+        ]
+      },
+      {
+        "n": 6000,
+        "status": "passed",
+        "run_ids": [
+          "e102c76257b12b37368c",
+          "8190515478c5a5cef9dd",
+          "56bf34f282fedfb5db62"
+        ]
+      },
+      {
+        "n": 6500,
+        "status": "failed",
+        "run_ids": [
+          "a372850a8a4089edaed2",
+          "45a1503a758849ff3e26",
+          "f73058a5c5a1698dada8"
+        ]
+      },
+      {
+        "n": 7500,
+        "status": "failed",
+        "run_ids": [
+          "38fcb9646d45ca5b1c66",
+          "35467d18b5dc5409af5e",
+          "27a048a91574815becd7"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "failed",
+        "run_ids": [
+          "1476ef082457daa5f679",
+          "d63872bdb00942ac4f36",
+          "090f4b665d742d9db16c"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "a19489fb68ae41f69615",
+          "cdbd9408eb30423c1b53",
+          "97b56a0feb7133ea2a09"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "e3970d98c30caf362e3c",
+          "21f0c8b91206aff42282",
+          "6edf28a323d8231fcb5f"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "0725ca7d3c287ba162bd",
+          "bd6c10a5907c48d9d64e",
+          "91ed4ec949aa9847c28f"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "immediate",
+    "location": "home",
+    "district": "TELEP",
+    "best_tested": 1000,
+    "next_failed": 1500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "c77b3fc9cc2cede8a0d2",
+          "6562c4c19d072a3b7801",
+          "5b405b6837334380cb2e"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "2803a7d0b155b86c8c17",
+          "92b46ba51d0a4d0aa3c4",
+          "c174348543fff2afcdf9"
+        ]
+      },
+      {
+        "n": 1500,
+        "status": "failed",
+        "run_ids": [
+          "819413f7e5fb859d9f1c",
+          "7c058028d905872e0793",
+          "1cf859b52eefc5c94ba4"
+        ]
+      },
+      {
+        "n": 2000,
+        "status": "failed",
+        "run_ids": [
+          "fc430aba5d4eaf4238f9",
+          "cd546b379b494ca2c255",
+          "2b28de3f0f4207e79427"
+        ]
+      },
+      {
+        "n": 3000,
+        "status": "failed",
+        "run_ids": [
+          "be77cc3e3ab6e4684f8c",
+          "19edb9e393c561b4f703",
+          "33ed2d4ac02b7eea2cfd"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "failed",
+        "run_ids": [
+          "3813fc223365182d467e",
+          "3cef40dd052c3a82d9c6",
+          "8729ccb602f43a8eb5da"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "unknown",
+        "run_ids": [
+          "6b9a9093a49fdf6405a0",
+          "a35624d1e200fd320577",
+          "c95086e501fce43cffa5"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "unknown",
+        "run_ids": [
+          "e1bc9d64f6612496b1c5",
+          "9c3ccf3753d4094d54fd",
+          "e6c659aa8b3eb8d0e7dc"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "unknown",
+        "run_ids": [
+          "ce2051fb2704e47b5e85",
+          "6c72c65b573f67079642",
+          "0ec8d522bd6e9014b2ad"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "unknown",
+        "run_ids": [
+          "b56fbf36ca45b42815fe",
+          "df219f055d0092c5fd6f",
+          "d8d6b96432528462c53b"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "strategy": "capacity_aware",
+    "location": "home",
+    "district": "TELEP",
+    "best_tested": 5000,
+    "next_failed": 5500,
+    "baseline_status": "passed",
+    "attempts": [
+      {
+        "n": 0,
+        "status": "passed",
+        "run_ids": [
+          "32085a8f16efbee3540e",
+          "0889d0f647c3592a4929",
+          "d4f280c82a8c92f04f19"
+        ]
+      },
+      {
+        "n": 1000,
+        "status": "passed",
+        "run_ids": [
+          "62cc69b55dec1340660a",
+          "ae1a822cd6c167c387d6",
+          "c2b3cf53942b9932ba4b"
+        ]
+      },
+      {
+        "n": 5000,
+        "status": "passed",
+        "run_ids": [
+          "2632dbfd2dc14bc0176c",
+          "db8ae8d4c5043d3e35a2",
+          "8f55a2f95fda575bfd9c"
+        ]
+      },
+      {
+        "n": 5500,
+        "status": "failed",
+        "run_ids": [
+          "ee93257219605d7831b6",
+          "e5c945e4fd20b65f8637",
+          "42fae0d1c91042f28240"
+        ]
+      },
+      {
+        "n": 6000,
+        "status": "failed",
+        "run_ids": [
+          "95ebfb9f66dd03775962",
+          "507bbfd132c9a34243ae",
+          "d4d14e72b3ac9e910e9d"
+        ]
+      },
+      {
+        "n": 7500,
+        "status": "failed",
+        "run_ids": [
+          "17d822967538505fe8a0",
+          "d701c940740e297c874e",
+          "f3ee28585787f260e7de"
+        ]
+      },
+      {
+        "n": 10000,
+        "status": "failed",
+        "run_ids": [
+          "b8749f73755473fcda67",
+          "71b7ddd43e15ebe034c1",
+          "87431d7717d573623525"
+        ]
+      },
+      {
+        "n": 20000,
+        "status": "failed",
+        "run_ids": [
+          "0bc9cf696cbab02a38a6",
+          "3295d240651270ec9e24",
+          "1fb0668ef853f8c4a83a"
+        ]
+      },
+      {
+        "n": 40000,
+        "status": "failed",
+        "run_ids": [
+          "baec0b46b0979b64da3e",
+          "ec7eacc0ea7e94481656",
+          "c92cd56105c342c9b0f5"
+        ]
+      },
+      {
+        "n": 80000,
+        "status": "failed",
+        "run_ids": [
+          "0bbfcd476b6c8c3f8994",
+          "9eacc30117ddbeaaed64",
+          "540b80d6dc388af613ff"
+        ]
+      }
+    ],
+    "interpretation": "Largest passing sampled fleet across three seeds; local bracket, not global maximum."
+  }
+]

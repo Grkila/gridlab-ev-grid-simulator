@@ -31,6 +31,41 @@ python -m pip install -e .
 
 The editable install reads the pinned runtime dependencies from `requirements.txt`, including GeoPandas; do not install a second conflicting version over them.
 
+### Quick start on another Windows computer
+
+Install [Python 3.11](https://www.python.org/downloads/) and [Node.js](https://nodejs.org/), clone this repository, and run the following commands in PowerShell from the repository root:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -e .
+npm --prefix web ci
+npm --prefix web run build
+.\.venv\Scripts\python.exe scripts/run_playground_app.py
+```
+
+Open `http://127.0.0.1:8517` if the browser does not open it automatically. After the first setup, only the final command is needed to start the application again. The simulator and presentation work without an OpenAI API key. The optional in-app chat additionally requires an installed and authenticated Codex CLI; it uses that user's existing Codex authentication.
+
+The application is intentionally local and single-user: its server listens only on `127.0.0.1`. Do not expose it directly to a public network. To update an existing checkout, stop the application, run `git pull`, repeat `npm --prefix web ci` and `npm --prefix web run build`, and refresh the editable Python installation if `requirements.txt` or `pyproject.toml` changed.
+
+### Quick start on Linux
+
+On Ubuntu or Debian, install the system prerequisites and clone the repository:
+
+```bash
+sudo apt update
+sudo apt install python3 python3-venv nodejs npm git
+git clone https://github.com/Grkila/EV-days-chneider-challenge.git
+cd EV-days-chneider-challenge
+chmod +x setup.sh start.sh
+./setup.sh
+./start.sh
+```
+
+If the browser does not open automatically, visit `http://127.0.0.1:8517`. The setup script accepts Python 3.10 or 3.11, creates an isolated `.venv`, installs the pinned Python dependencies, installs the exact frontend dependencies from `web/package-lock.json`, and builds the production interface. Later starts only require `./start.sh`.
+
+These commands work directly on distributions whose `python3` is Python 3.10 or 3.11, such as Ubuntu 22.04 or Debian 12. Ubuntu 24.04 ships Python 3.12 by default, so install a parallel Python 3.11 environment before running `setup.sh`. Other Linux distributions can use the same scripts after Python 3.10/3.11, the matching `venv` module, Node.js, and npm are installed through their package manager. The optional in-app chat requires a separately installed and authenticated Codex CLI on that Linux account.
+
 This is deliberately a checkout-oriented application, not a standalone wheel: configuration, data, and artifact paths live beside the source. Use an editable install from a clone. A non-editable installation fails with an actionable message unless `MVGRID_ROOT` points to a valid checkout.
 
 On POSIX shells, activate with `source .venv/bin/activate`; all later commands use the same forward-slash script paths shown below.

@@ -1,0 +1,23 @@
+{
+  "contract": {
+    "version": "1.0.0",
+    "operation": "ev_start_benchmark",
+    "execution": "succeeded",
+    "evidence": "incomplete",
+    "verdict": "not_evaluated"
+  },
+  "job_id": "bench-9b179943271740b0",
+  "status": "starting",
+  "suite_id": "suite-3e709edbb01b3c69755e",
+  "pid": 113280,
+  "completed_rows": 0,
+  "total_rows": 30,
+  "strategies": [
+    "immediate",
+    "capacity_aware",
+    "mpc"
+  ],
+  "created_at": "2026-09-10T18:35:08.318864+00:00",
+  "elapsed_seconds": 0.0,
+  "implementation_id": "fdb702feceaa"
+}

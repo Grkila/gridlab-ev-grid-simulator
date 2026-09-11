@@ -1,0 +1,127 @@
+{
+  "experiment": {
+    "contract": {
+      "version": "1.0.0",
+      "operation": "ev_save_experiment",
+      "execution": "succeeded",
+      "evidence": "not_evaluated",
+      "verdict": "not_evaluated"
+    },
+    "experiment_id": "exp-bf08b8697388a90cc36f",
+    "definition": {
+      "operating_mode": "regulated",
+      "schema_version": 1,
+      "name": "DEMO · 10.000 EV · poređenje strategija",
+      "hypothesis": "Charging schedules change peak and constraints at equal requested energy.",
+      "metric_boundary": "city_total",
+      "observation_contract": "current_state",
+      "case_origin": "llm",
+      "assumptions": [
+        "Demand shapes are user-supplied seasonal hourly profiles.",
+        "Land-use and charging-window archetypes are explicit planning assumptions.",
+        "Presentation demo: synthetic June home-only sessions, individual sessions, fixed seed; not measured city capacity."
+      ],
+      "demand": {
+        "scope": "city_total",
+        "measurement": "supply_including_losses",
+        "monthly_energy": 76965.0,
+        "unit": "MWh",
+        "month": 6,
+        "days_per_month": 30,
+        "days": 1,
+        "annual_growth_rate": 0.03,
+        "years_ahead": 0,
+        "scenario": "base",
+        "variation": "base",
+        "composition": {
+          "mode": "preserve_city",
+          "residential": null,
+          "commercial": null,
+          "industrial": null
+        },
+        "randomize": false,
+        "daily_scale_min": 0.8,
+        "daily_scale_max": 1.2,
+        "shape_noise": 0.1
+      },
+      "fleet": {
+        "charging_profile": "home_only",
+        "fleet_size": 10000,
+        "charger_kw": 7.4,
+        "energy_kwh": 14.0,
+        "efficiency": 0.9,
+        "location_mix": {
+          "residential": 1.0,
+          "workplace": 0.0,
+          "public": 0.0
+        },
+        "district_mix": null
+      },
+      "district_capacity": {
+        "scenario": "central",
+        "overrides": {}
+      },
+      "network_capacity": {
+        "lv_baseline_fraction": 0.5,
+        "lv_ev_fraction": 1.0
+      },
+      "rl": null,
+      "strategy_options": {
+        "horizon_steps": 96,
+        "forecast": "persistence",
+        "valley_iterations": 8,
+        "max_variables": 30000,
+        "solver_seconds": 3.0,
+        "voltage_stop_pu": 0.95,
+        "voltage_full_pu": 0.99,
+        "recovery_fraction": 0.25
+      },
+      "strategies": [
+        "immediate",
+        "fixed_delay",
+        "randomized_delay",
+        "capacity_aware"
+      ],
+      "seeds": [
+        41001
+      ],
+      "fleet_sizes": null,
+      "limits": {
+        "min_voltage_pu": 0.95,
+        "max_voltage_pu": 1.05,
+        "max_loading_percent": 100.0
+      },
+      "assertions": [],
+      "max_cases": 4,
+      "max_runtime_seconds": 1200.0,
+      "stress_first": false,
+      "stop_on_violation": false,
+      "fixed_start_hour": 23
+    }
+  },
+  "run": {
+    "run_id": "run-3484553ec8bb4a5f",
+    "status": "completed",
+    "experiment_id": "exp-bf08b8697388a90cc36f",
+    "verdict": "evaluated_no_assertions",
+    "contract": {
+      "version": "1.0.0",
+      "operation": "ev_get_run",
+      "execution": "succeeded",
+      "evidence": "not_evaluated",
+      "verdict": "not_evaluated"
+    },
+    "completed_cases": 4,
+    "created_at": "2026-09-11T07:32:25.832364+00:00",
+    "current_case": "case-0003",
+    "current_step": 132,
+    "elapsed_seconds": 209.1049192000064,
+    "error": null,
+    "failed_cases": 0,
+    "phase": "finished",
+    "pid": 94668,
+    "total_cases": 4,
+    "total_steps_per_case": 132,
+    "name": "June | 10,000 EVs | Home-only | 4 strategies"
+  }
+}

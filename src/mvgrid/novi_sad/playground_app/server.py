@@ -11,6 +11,7 @@ from mvgrid.novi_sad.playground.service import Service
 from mvgrid.novi_sad.playground.rl_service import RLService
 from mvgrid.novi_sad.playground.strategy_workflow import StrategyWorkflow
 from mvgrid.novi_sad.playground.benchmark import BenchmarkService
+from mvgrid.novi_sad.playground.continuous_campaign import ContinuousCampaignService
 from mvgrid.novi_sad.playground.network import build_network, REDUCED_PATH
 from .chat import ChatService
 
@@ -27,11 +28,30 @@ def network_payload():
     return _network_payload((stat.st_mtime_ns,stat.st_size))
 
 
+def chart_results(payload):
+    """Remove unused per-vehicle traces from non-RL chart responses only.
+
+    All intervals, aggregate counts, electrical state, metrics and evidence remain.
+    RL needs its action traces. The default endpoint still returns full evidence.
+    """
+    for case in payload.get('cases', []):
+        if case.get('strategy') == 'rl':
+            continue
+        case.pop('sessions', None)
+        for interval in case.get('intervals', []):
+            interval.pop('applied_actions_kw', None)
+            for block in interval.get('blocks', []):
+                block.pop('vehicles', None)
+    payload['detail'] = 'charts'
+    return payload
+
+
 def create_server(port=8517,root=None):
     service=Service(root)
     rl_service=RLService(service.root)
     strategies=StrategyWorkflow(service)
     benchmarks=BenchmarkService(service.root)
+    continuous=ContinuousCampaignService(service.root)
     chats=ChatService(service)
     static=(REPOSITORY_ROOT/'web'/'dist').resolve()
 
@@ -65,6 +85,9 @@ def create_server(port=8517,root=None):
                     from mvgrid.novi_sad.playground.agent_contract import get_contract
                     return self.respond(get_contract(parse_qs(urlsplit(self.path).query).get('client_version',[None])[0]))
                 if path=='/api/catalog': return self.respond(service.catalog())
+                if path=='/api/continuous-rl/catalog': return self.respond(continuous.catalog())
+                if len(parts)==4 and parts[:3]==['api','continuous-rl','campaigns']: return self.respond(continuous.get(parts[3]))
+                if len(parts)==5 and parts[:3]==['api','continuous-rl','campaigns'] and parts[4]=='results': return self.respond(continuous.results(parts[3]))
                 if path=='/api/benchmarks': return self.respond(benchmarks.catalog())
                 if len(parts)==4 and parts[:3]==['api','benchmarks','jobs']: return self.respond(benchmarks.results(parts[3]))
                 if len(parts)==5 and parts[:3]==['api','benchmarks','suites'] and parts[4]=='compare': return self.respond(benchmarks.comparison(parts[3]))
@@ -76,7 +99,15 @@ def create_server(port=8517,root=None):
                 if path=='/api/experiments': return self.respond(service.list_experiments())
                 if path=='/api/runs': return self.respond(sorted(service.list_runs(),key=lambda r:r.get('created_at',''),reverse=True))
                 if len(parts)==3 and parts[:2]==['api','runs']: return self.respond(service.get_run(parts[2]))
-                if len(parts)==4 and parts[:2]==['api','runs'] and parts[3]=='results': return self.respond(service.get_results(parts[2]))
+                if len(parts)==4 and parts[:2]==['api','runs'] and parts[3]=='results':
+                    if parse_qs(urlsplit(self.path).query).get('detail') == ['charts']:
+                        result=service.get_results(parts[2],summary=True)
+                        for i,case in enumerate(result['cases']):
+                            detail=service.get_results(parts[2],case_id=case['case_id'])
+                            result['cases'][i]=chart_results(detail)['cases'][0]
+                        result['detail']='charts'
+                        return self.respond(result)
+                    return self.respond(service.get_results(parts[2]))
                 query=parse_qs(urlsplit(self.path).query)
                 if len(parts)==4 and parts[:3]==['api','chat','requests']:
                     from mvgrid.novi_sad.playground.service import read_json
@@ -128,7 +159,12 @@ def create_server(port=8517,root=None):
                 if not isinstance(payload,dict): raise ValueError('JSON object required')
                 path=urlsplit(self.path).path
                 parts=path.strip('/').split('/')
-                if path=='/api/benchmarks/suites': result=benchmarks.create_suite(payload.get('definition',{}))
+                if path=='/api/continuous-rl/campaigns': result=continuous.create(payload['benchmark_job_id'],payload.get('config',{}))
+                elif len(parts)==5 and parts[:3]==['api','continuous-rl','campaigns'] and parts[4] in ('start','resume','cancel'):
+                    if payload.get('runtime_root') and Path(payload['runtime_root']).resolve()!=service.root:
+                        raise ValueError('Continuous training broker storage differs from the MCP storage.')
+                    result=continuous.cancel(parts[3]) if parts[4]=='cancel' else continuous.start(parts[3],resume=parts[4]=='resume')
+                elif path=='/api/benchmarks/suites': result=benchmarks.create_suite(payload.get('definition',{}))
                 elif path=='/api/benchmarks/jobs':
                     if payload.get('runtime_root') and Path(payload['runtime_root']).resolve()!=service.root:
                         raise ValueError('Benchmark broker storage differs from the MCP storage.')

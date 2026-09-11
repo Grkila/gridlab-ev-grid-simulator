@@ -1,0 +1,20 @@
+{
+  "tests_run": 59,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "modules": [
+    "test_playground_demand",
+    "test_playground_simulation",
+    "test_playground_monitoring",
+    "test_capacity_layers",
+    "test_loss_accounting",
+    "test_feeder_equivalent",
+    "test_operating_scenario",
+    "test_node_aggregation",
+    "test_smoothed_llf",
+    "test_valley_odc"
+  ],
+  "excluded": "MCP, RL, UI/service tests; user requested direct simulation only",
+  "detailed_reference_sha256": "f124985f989e93946f0c9ad7cfdbf311e2f47860b25e5fc8d3ddd9bb3d2ee92f"
+}

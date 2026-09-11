@@ -1,0 +1,50 @@
+{
+  "slides": 51,
+  "errors": [],
+  "writes": [],
+  "contrast": [
+    {
+      "fg": "#f0f6ed",
+      "bg": "#163f36",
+      "ratio": 10.626332704756528
+    },
+    {
+      "fg": "#d4f59d",
+      "bg": "#163f36",
+      "ratio": 9.646004787261546
+    },
+    {
+      "fg": "#c9ddd1",
+      "bg": "#163f36",
+      "ratio": 8.200005071293903
+    },
+    {
+      "fg": "#ffffff",
+      "bg": "#126047",
+      "ratio": 7.52727417706777
+    },
+    {
+      "fg": "#123226",
+      "bg": "#d4f59d",
+      "ratio": 11.488627373905915
+    },
+    {
+      "fg": "#254b3c",
+      "bg": "#d5e5dc",
+      "ratio": 7.473419629938733
+    }
+  ],
+  "checks": [
+    "all slides",
+    "live iframe persistence",
+    "setup cues",
+    "keyboard from iframe",
+    "notes",
+    "overview",
+    "reduced motion",
+    "deep link reload",
+    "source links",
+    "mobile overflow",
+    "backend unavailable"
+  ]
+}

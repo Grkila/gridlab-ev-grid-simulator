@@ -1,0 +1,1 @@
+{"completed_cases":1,"created_at":"2026-09-10T14:13:09.544534+00:00","current_case":"case-0000","current_step":132,"elapsed_seconds":6.748913599993102,"error":null,"experiment_id":"exp-a5a0650d06bc77509ee0","phase":"finished","pid":27148,"run_id":"run-c9884e672fb74538","status":"completed","total_cases":1,"total_steps_per_case":132,"verdict":"evaluated_no_assertions"}

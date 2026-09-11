@@ -1,0 +1,187 @@
+{
+  "status": "PASS",
+  "reviewer": "Independent code/evidence reviewer; no study-runner import",
+  "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+  "current_runs": 487,
+  "historical_runs": 11,
+  "fixtures": 43,
+  "source_photo_monthly_sums": {
+    "2024": 1119805,
+    "2025": 1151640
+  },
+  "printed_totals": {
+    "2024": 1116804,
+    "2025": 1147635
+  },
+  "errors": [],
+  "pending": [],
+  "warnings": [],
+  "independent_ac_checks": [
+    {
+      "row": 0,
+      "side": "lower",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 63647.4609375,
+      "independent": {
+        "status": "passed",
+        "min_voltage_pu": 0.9652662925006881,
+        "supply_kw": 178937.18063434574,
+        "reasons": []
+      },
+      "saved_status": "passed"
+    },
+    {
+      "row": 0,
+      "side": "upper",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 63648.4375,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.9652659783500855,
+        "supply_kw": 178938.18215172578,
+        "reasons": [
+          "lv_network"
+        ]
+      },
+      "saved_status": "failed"
+    },
+    {
+      "row": 72,
+      "side": "lower",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 18.0,
+      "power_kw": 63776.3671875,
+      "independent": {
+        "status": "passed",
+        "min_voltage_pu": 0.9629965515170715,
+        "supply_kw": 178770.54703645044,
+        "reasons": []
+      },
+      "saved_status": "passed"
+    },
+    {
+      "row": 72,
+      "side": "upper",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 18.0,
+      "power_kw": 63777.34375,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.9629961856599083,
+        "supply_kw": 178771.54831864368,
+        "reasons": [
+          "lv_network"
+        ]
+      },
+      "saved_status": "failed"
+    },
+    {
+      "row": 96,
+      "side": "lower",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 7503.90625,
+      "independent": {
+        "status": "passed",
+        "min_voltage_pu": 0.950003138991795,
+        "supply_kw": 121758.02198899158,
+        "reasons": []
+      },
+      "saved_status": "passed"
+    },
+    {
+      "row": 96,
+      "side": "upper",
+      "fixture": "2025-06-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 7504.8828125,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.949997478862035,
+        "supply_kw": 121759.04824442755,
+        "reasons": [
+          "voltage"
+        ]
+      },
+      "saved_status": "failed"
+    },
+    {
+      "row": 102,
+      "side": "lower",
+      "fixture": "2025-12-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 43779.296875,
+      "independent": {
+        "status": "passed",
+        "min_voltage_pu": 0.9572215172670686,
+        "supply_kw": 199366.83376692436,
+        "reasons": []
+      },
+      "saved_status": "passed"
+    },
+    {
+      "row": 102,
+      "side": "upper",
+      "fixture": "2025-12-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 43780.2734375,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.9572211939122908,
+        "supply_kw": 199367.8386715489,
+        "reasons": [
+          "lv_network"
+        ]
+      },
+      "saved_status": "failed"
+    },
+    {
+      "row": 178,
+      "side": "unsafe_baseline",
+      "fixture": "2025-12-1-as_supplied-normal",
+      "hour": 19.0,
+      "power_kw": 0.0,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.9372533030013684,
+        "supply_kw": 231949.3106611014,
+        "reasons": [
+          "voltage"
+        ]
+      },
+      "saved_status": "failed"
+    },
+    {
+      "row": 198,
+      "side": "lower",
+      "fixture": "2025-12-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 4816.40625,
+      "independent": {
+        "status": "passed",
+        "min_voltage_pu": 0.9500004727267208,
+        "supply_kw": 159487.84519767185,
+        "reasons": []
+      },
+      "saved_status": "passed"
+    },
+    {
+      "row": 198,
+      "side": "upper",
+      "fixture": "2025-12-1-as_supplied-normal",
+      "hour": 0.0,
+      "power_kw": 4817.3828125,
+      "independent": {
+        "status": "failed",
+        "min_voltage_pu": 0.949994843538489,
+        "supply_kw": 159488.87085728144,
+        "reasons": [
+          "voltage"
+        ]
+      },
+      "saved_status": "failed"
+    }
+  ]
+}

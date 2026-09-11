@@ -1,0 +1,130 @@
+[
+  {
+    "run_id": "23de8f88e1540a3def29",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "n": 48000,
+    "strategy": "capacity_aware",
+    "seed": 61003,
+    "check": {
+      "snapshots": [
+        {
+          "step": 80,
+          "detailed": {
+            "converged": true,
+            "min_voltage_pu": 0.970593212236288,
+            "max_line_loading_percent": 71.05484938201232,
+            "max_transformer_loading_percent": 58.21052232104068,
+            "losses_kw": 2360.293849026129
+          },
+          "reduced": {
+            "converged": true,
+            "min_voltage_pu": 0.9630721040133026,
+            "max_line_loading_percent": 74.57762895467009,
+            "max_transformer_loading_percent": 59.51300970458616,
+            "losses_kw": 2998.323234139421
+          },
+          "detailed_minus_reduced": {
+            "min_voltage_pu": 0.007521108222985462,
+            "max_line_loading_percent": -3.522779572657768,
+            "max_transformer_loading_percent": -1.3024873835454827,
+            "losses_kw": -638.0293851132919
+          },
+          "runtime_seconds": 57.327358299997286
+        },
+        {
+          "step": 124,
+          "detailed": {
+            "converged": true,
+            "min_voltage_pu": 0.9576368296368049,
+            "max_line_loading_percent": 92.16214495818542,
+            "max_transformer_loading_percent": 82.91649268272948,
+            "losses_kw": 1667.295546065755
+          },
+          "reduced": {
+            "converged": true,
+            "min_voltage_pu": 0.9512908632983987,
+            "max_line_loading_percent": 86.378356464213,
+            "max_transformer_loading_percent": 84.48293057691939,
+            "losses_kw": 1950.7318798874612
+          },
+          "detailed_minus_reduced": {
+            "min_voltage_pu": 0.006345966338406117,
+            "max_line_loading_percent": 5.783788493972423,
+            "max_transformer_loading_percent": -1.566437894189903,
+            "losses_kw": -283.4363338217063
+          },
+          "runtime_seconds": 34.72629360000428
+        }
+      ],
+      "assumptions": [
+        "Block charging distributed by member baseline demand shares.",
+        "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+        "Selected snapshots only; no full-year electrical feasibility claim."
+      ]
+    }
+  },
+  {
+    "run_id": "0ead8a508a9bffa24eae",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "n": 13500,
+    "strategy": "immediate",
+    "seed": 61003,
+    "check": {
+      "snapshots": [
+        {
+          "step": 79,
+          "detailed": {
+            "converged": true,
+            "min_voltage_pu": 0.9610092682428382,
+            "max_line_loading_percent": 72.86009794866835,
+            "max_transformer_loading_percent": 68.05899287950224,
+            "losses_kw": 2363.0069524689297
+          },
+          "reduced": {
+            "converged": true,
+            "min_voltage_pu": 0.9540582575841798,
+            "max_line_loading_percent": 74.60955867466686,
+            "max_transformer_loading_percent": 69.49609359571926,
+            "losses_kw": 2985.9359141662235
+          },
+          "detailed_minus_reduced": {
+            "min_voltage_pu": 0.00695101065865833,
+            "max_line_loading_percent": -1.749460725998503,
+            "max_transformer_loading_percent": -1.4371007162170173,
+            "losses_kw": -622.9289616972937
+          },
+          "runtime_seconds": 44.193589699993026
+        },
+        {
+          "step": 80,
+          "detailed": {
+            "converged": true,
+            "min_voltage_pu": 0.9596004497341049,
+            "max_line_loading_percent": 74.28119267796286,
+            "max_transformer_loading_percent": 68.56832293267536,
+            "losses_kw": 2428.292810867182
+          },
+          "reduced": {
+            "converged": true,
+            "min_voltage_pu": 0.9526295399240583,
+            "max_line_loading_percent": 76.06209633755144,
+            "max_transformer_loading_percent": 70.01801593985395,
+            "losses_kw": 3071.4992084995497
+          },
+          "detailed_minus_reduced": {
+            "min_voltage_pu": 0.006970909810046555,
+            "max_line_loading_percent": -1.7809036595885743,
+            "max_transformer_loading_percent": -1.4496930071785954,
+            "losses_kw": -643.2063976323675
+          },
+          "runtime_seconds": 36.70509710001352
+        }
+      ],
+      "assumptions": [
+        "Block charging distributed by member baseline demand shares.",
+        "Dedicated illustrative hubs attached to delivery transformer LV bus; excluded source loads zeroed.",
+        "Selected snapshots only; no full-year electrical feasibility claim."
+      ]
+    }
+  }
+]

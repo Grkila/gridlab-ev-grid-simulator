@@ -1,0 +1,1966 @@
+[
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 3.0,
+    "placement": "city",
+    "charger_kw": 7.4,
+    "seed": 61001,
+    "safe_count": 10044,
+    "next_count": 10045,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9920283216523339,
+      "max_line_loading_percent": 33.176745418971535,
+      "max_transformer_loading_percent": 30.898709263319642,
+      "supply_kw": 92322.63647691808,
+      "stage_headroom_kw": {
+        "transmission": 337677.36352308193,
+        "mv_20": 231243.39654185862,
+        "mv_10": 155411.59315201573,
+        "lv_transformers": 104327.49484693716,
+        "lv_network": 74327.49484693716
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9690253772796285,
+      "max_line_loading_percent": 59.35773470430069,
+      "max_transformer_loading_percent": 58.260574563063905,
+      "supply_kw": 167988.6965715486,
+      "stage_headroom_kw": {
+        "transmission": 262011.3034284514,
+        "mv_20": 177023.5965418586,
+        "mv_10": 135305.7931520157,
+        "lv_transformers": 30001.894846937124,
+        "lv_network": 1.8948469371243846
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9690253772796285,
+      "max_line_loading_percent": 59.35773470430069,
+      "max_transformer_loading_percent": 58.260574563049495,
+      "supply_kw": 167996.24254505278,
+      "stage_headroom_kw": {
+        "transmission": 262003.75745494722,
+        "mv_20": 177016.1965418586,
+        "mv_10": 135305.7931520157,
+        "lv_transformers": 29994.49484693713,
+        "lv_network": -5.505153062869795
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "passed"
+      },
+      {
+        "n": 8192,
+        "status": "passed"
+      },
+      {
+        "n": 16384,
+        "status": "failed"
+      },
+      {
+        "n": 12288,
+        "status": "failed"
+      },
+      {
+        "n": 10240,
+        "status": "failed"
+      },
+      {
+        "n": 9216,
+        "status": "passed"
+      },
+      {
+        "n": 9728,
+        "status": "passed"
+      },
+      {
+        "n": 9984,
+        "status": "passed"
+      },
+      {
+        "n": 10112,
+        "status": "failed"
+      },
+      {
+        "n": 10048,
+        "status": "failed"
+      },
+      {
+        "n": 10016,
+        "status": "passed"
+      },
+      {
+        "n": 10032,
+        "status": "passed"
+      },
+      {
+        "n": 10040,
+        "status": "passed"
+      },
+      {
+        "n": 10044,
+        "status": "passed"
+      },
+      {
+        "n": 10046,
+        "status": "failed"
+      },
+      {
+        "n": 10045,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 3.0,
+    "placement": "city",
+    "charger_kw": 22.0,
+    "seed": 61001,
+    "safe_count": 3378,
+    "next_count": 3379,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9920283216523339,
+      "max_line_loading_percent": 33.176745418971535,
+      "max_transformer_loading_percent": 30.898709263319642,
+      "supply_kw": 92322.63647691808,
+      "stage_headroom_kw": {
+        "transmission": 337677.36352308193,
+        "mv_20": 231243.39654185862,
+        "mv_10": 155411.59315201573,
+        "lv_transformers": 104327.49484693716,
+        "lv_network": 74327.49484693716
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9696850925764768,
+      "max_line_loading_percent": 58.67425827532497,
+      "max_transformer_loading_percent": 58.12540348427107,
+      "supply_kw": 167983.21677491732,
+      "stage_headroom_kw": {
+        "transmission": 262016.78322508268,
+        "mv_20": 176947.39654185862,
+        "mv_10": 135391.59315201573,
+        "lv_transformers": 30011.49484693716,
+        "lv_network": 11.49484693715931
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9696850925764768,
+      "max_line_loading_percent": 58.67425827532497,
+      "max_transformer_loading_percent": 58.12540348427107,
+      "supply_kw": 168005.45521041896,
+      "stage_headroom_kw": {
+        "transmission": 261994.54478958104,
+        "mv_20": 176925.39654185862,
+        "mv_10": 135391.59315201573,
+        "lv_transformers": 29989.49484693716,
+        "lv_network": -10.50515306284069
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "failed"
+      },
+      {
+        "n": 3072,
+        "status": "passed"
+      },
+      {
+        "n": 3584,
+        "status": "failed"
+      },
+      {
+        "n": 3328,
+        "status": "passed"
+      },
+      {
+        "n": 3456,
+        "status": "failed"
+      },
+      {
+        "n": 3392,
+        "status": "failed"
+      },
+      {
+        "n": 3360,
+        "status": "passed"
+      },
+      {
+        "n": 3376,
+        "status": "passed"
+      },
+      {
+        "n": 3384,
+        "status": "failed"
+      },
+      {
+        "n": 3380,
+        "status": "failed"
+      },
+      {
+        "n": 3378,
+        "status": "passed"
+      },
+      {
+        "n": 3379,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 3.0,
+    "placement": "city",
+    "charger_kw": 50.0,
+    "seed": 61001,
+    "safe_count": 1486,
+    "next_count": 1487,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9920283216523339,
+      "max_line_loading_percent": 33.176745418971535,
+      "max_transformer_loading_percent": 30.898709263319642,
+      "supply_kw": 92322.63647691808,
+      "stage_headroom_kw": {
+        "transmission": 337677.36352308193,
+        "mv_20": 231243.39654185862,
+        "mv_10": 155411.59315201573,
+        "lv_transformers": 104327.49484693716,
+        "lv_network": 74327.49484693716
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9690596248254838,
+      "max_line_loading_percent": 59.60931576768005,
+      "max_transformer_loading_percent": 57.40682214104035,
+      "supply_kw": 167965.32605435286,
+      "stage_headroom_kw": {
+        "transmission": 262034.67394564714,
+        "mv_20": 176793.39654185862,
+        "mv_10": 135561.59315201573,
+        "lv_transformers": 30027.49484693716,
+        "lv_network": 27.49484693715931
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9690596248254838,
+      "max_line_loading_percent": 59.60931576768005,
+      "max_transformer_loading_percent": 57.408207108860275,
+      "supply_kw": 168017.0371718315,
+      "stage_headroom_kw": {
+        "transmission": 261982.9628281685,
+        "mv_20": 176793.39654185862,
+        "mv_10": 135511.59315201573,
+        "lv_transformers": 29977.49484693716,
+        "lv_network": -22.50515306284069
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "failed"
+      },
+      {
+        "n": 1536,
+        "status": "failed"
+      },
+      {
+        "n": 1280,
+        "status": "passed"
+      },
+      {
+        "n": 1408,
+        "status": "passed"
+      },
+      {
+        "n": 1472,
+        "status": "passed"
+      },
+      {
+        "n": 1504,
+        "status": "failed"
+      },
+      {
+        "n": 1488,
+        "status": "failed"
+      },
+      {
+        "n": 1480,
+        "status": "passed"
+      },
+      {
+        "n": 1484,
+        "status": "passed"
+      },
+      {
+        "n": 1486,
+        "status": "passed"
+      },
+      {
+        "n": 1487,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 7.4,
+    "seed": 61001,
+    "safe_count": 8618,
+    "next_count": 8619,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9631787745418778,
+      "max_line_loading_percent": 63.13379823542452,
+      "max_transformer_loading_percent": 64.00928566063186,
+      "supply_kw": 178767.62057739924,
+      "stage_headroom_kw": {
+        "transmission": 251232.37942260076,
+        "mv_20": 170662.33143623272,
+        "mv_10": 131118.32005598652,
+        "lv_transformers": 30003.725746109587,
+        "lv_network": 3.7257461095869076
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9631507131394562,
+      "max_line_loading_percent": 63.173623612814865,
+      "max_transformer_loading_percent": 64.00953916615964,
+      "supply_kw": 178775.44767768958,
+      "stage_headroom_kw": {
+        "transmission": 251224.55232231042,
+        "mv_20": 170662.33143623272,
+        "mv_10": 131110.92005598653,
+        "lv_transformers": 29996.325746109593,
+        "lv_network": -3.6742538904072717
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "passed"
+      },
+      {
+        "n": 8192,
+        "status": "passed"
+      },
+      {
+        "n": 16384,
+        "status": "failed"
+      },
+      {
+        "n": 12288,
+        "status": "failed"
+      },
+      {
+        "n": 10240,
+        "status": "failed"
+      },
+      {
+        "n": 9216,
+        "status": "failed"
+      },
+      {
+        "n": 8704,
+        "status": "failed"
+      },
+      {
+        "n": 8448,
+        "status": "passed"
+      },
+      {
+        "n": 8576,
+        "status": "passed"
+      },
+      {
+        "n": 8640,
+        "status": "failed"
+      },
+      {
+        "n": 8608,
+        "status": "passed"
+      },
+      {
+        "n": 8624,
+        "status": "failed"
+      },
+      {
+        "n": 8616,
+        "status": "passed"
+      },
+      {
+        "n": 8620,
+        "status": "failed"
+      },
+      {
+        "n": 8618,
+        "status": "passed"
+      },
+      {
+        "n": 8619,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 22.0,
+    "seed": 61001,
+    "safe_count": 2898,
+    "next_count": 2899,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.961076412183791,
+      "max_line_loading_percent": 65.83377469801029,
+      "max_transformer_loading_percent": 64.38333333608844,
+      "supply_kw": 178774.6641384712,
+      "stage_headroom_kw": {
+        "transmission": 251225.3358615288,
+        "mv_20": 171030.7314362327,
+        "mv_10": 130767.12005598651,
+        "lv_transformers": 30020.9257461096,
+        "lv_network": 20.92574610959855
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.961076412183791,
+      "max_line_loading_percent": 65.83377469801029,
+      "max_transformer_loading_percent": 64.38333333608844,
+      "supply_kw": 178796.99055880244,
+      "stage_headroom_kw": {
+        "transmission": 251203.00944119756,
+        "mv_20": 171008.7314362327,
+        "mv_10": 130767.12005598651,
+        "lv_transformers": 29998.9257461096,
+        "lv_network": -1.074253890401451
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "failed"
+      },
+      {
+        "n": 3072,
+        "status": "failed"
+      },
+      {
+        "n": 2560,
+        "status": "passed"
+      },
+      {
+        "n": 2816,
+        "status": "passed"
+      },
+      {
+        "n": 2944,
+        "status": "failed"
+      },
+      {
+        "n": 2880,
+        "status": "passed"
+      },
+      {
+        "n": 2912,
+        "status": "failed"
+      },
+      {
+        "n": 2896,
+        "status": "passed"
+      },
+      {
+        "n": 2904,
+        "status": "failed"
+      },
+      {
+        "n": 2900,
+        "status": "failed"
+      },
+      {
+        "n": 2898,
+        "status": "passed"
+      },
+      {
+        "n": 2899,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 50.0,
+    "seed": 61001,
+    "safe_count": 1275,
+    "next_count": 1276,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9630075847880754,
+      "max_line_loading_percent": 64.60575379509291,
+      "max_transformer_loading_percent": 63.78112125272045,
+      "supply_kw": 178736.3949275108,
+      "stage_headroom_kw": {
+        "transmission": 251263.6050724892,
+        "mv_20": 170652.7314362327,
+        "mv_10": 131151.1200559865,
+        "lv_transformers": 30026.9257461096,
+        "lv_network": 26.92574610959855
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9630075847880754,
+      "max_line_loading_percent": 64.60575379509794,
+      "max_transformer_loading_percent": 63.78112125272045,
+      "supply_kw": 178787.08004758114,
+      "stage_headroom_kw": {
+        "transmission": 251212.91995241886,
+        "mv_20": 170602.7314362327,
+        "mv_10": 131151.1200559865,
+        "lv_transformers": 29976.9257461096,
+        "lv_network": -23.07425389040145
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "failed"
+      },
+      {
+        "n": 1536,
+        "status": "failed"
+      },
+      {
+        "n": 1280,
+        "status": "failed"
+      },
+      {
+        "n": 1152,
+        "status": "passed"
+      },
+      {
+        "n": 1216,
+        "status": "passed"
+      },
+      {
+        "n": 1248,
+        "status": "passed"
+      },
+      {
+        "n": 1264,
+        "status": "passed"
+      },
+      {
+        "n": 1272,
+        "status": "passed"
+      },
+      {
+        "n": 1276,
+        "status": "failed"
+      },
+      {
+        "n": 1274,
+        "status": "passed"
+      },
+      {
+        "n": 1275,
+        "status": "passed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 20.0,
+    "placement": "city",
+    "charger_kw": 7.4,
+    "seed": 61001,
+    "safe_count": 6516,
+    "next_count": 6517,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9722657747839739,
+      "max_line_loading_percent": 56.241087209803055,
+      "max_transformer_loading_percent": 51.79037282759785,
+      "supply_kw": 145406.7913917642,
+      "stage_headroom_kw": {
+        "transmission": 284593.2086082358,
+        "mv_20": 194730.93857771356,
+        "mv_10": 139706.9086728075,
+        "lv_transformers": 78218.9236252605,
+        "lv_network": 48218.923625260504
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9538359992641793,
+      "max_line_loading_percent": 74.20481097482165,
+      "max_transformer_loading_percent": 70.88693524973402,
+      "supply_kw": 194798.0475436919,
+      "stage_headroom_kw": {
+        "transmission": 235201.9524563081,
+        "mv_20": 159580.9385777136,
+        "mv_10": 126638.50867280751,
+        "lv_transformers": 30000.52362526051,
+        "lv_network": 0.5236252605100162
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9538359992641793,
+      "max_line_loading_percent": 74.20481097482165,
+      "max_transformer_loading_percent": 70.88693524973402,
+      "supply_kw": 194805.56898614485,
+      "stage_headroom_kw": {
+        "transmission": 235194.43101385515,
+        "mv_20": 159573.53857771357,
+        "mv_10": 126638.50867280751,
+        "lv_transformers": 29993.123625260516,
+        "lv_network": -6.876374739484163
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "passed"
+      },
+      {
+        "n": 8192,
+        "status": "failed"
+      },
+      {
+        "n": 6144,
+        "status": "passed"
+      },
+      {
+        "n": 7168,
+        "status": "failed"
+      },
+      {
+        "n": 6656,
+        "status": "failed"
+      },
+      {
+        "n": 6400,
+        "status": "passed"
+      },
+      {
+        "n": 6528,
+        "status": "failed"
+      },
+      {
+        "n": 6464,
+        "status": "passed"
+      },
+      {
+        "n": 6496,
+        "status": "passed"
+      },
+      {
+        "n": 6512,
+        "status": "passed"
+      },
+      {
+        "n": 6520,
+        "status": "failed"
+      },
+      {
+        "n": 6516,
+        "status": "passed"
+      },
+      {
+        "n": 6518,
+        "status": "failed"
+      },
+      {
+        "n": 6517,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 20.0,
+    "placement": "city",
+    "charger_kw": 22.0,
+    "seed": 61001,
+    "safe_count": 2191,
+    "next_count": 2192,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9722657747839739,
+      "max_line_loading_percent": 56.241087209803055,
+      "max_transformer_loading_percent": 51.79037282759785,
+      "supply_kw": 145406.7913917642,
+      "stage_headroom_kw": {
+        "transmission": 284593.2086082358,
+        "mv_20": 194730.93857771356,
+        "mv_10": 139706.9086728075,
+        "lv_transformers": 78218.9236252605,
+        "lv_network": 48218.923625260504
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9538842042877987,
+      "max_line_loading_percent": 73.85897596407774,
+      "max_transformer_loading_percent": 70.87399648286299,
+      "supply_kw": 194777.53512140713,
+      "stage_headroom_kw": {
+        "transmission": 235222.46487859287,
+        "mv_20": 159530.93857771356,
+        "mv_10": 126704.9086728075,
+        "lv_transformers": 30016.923625260504,
+        "lv_network": 16.923625260504195
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9538842042877987,
+      "max_line_loading_percent": 73.85897596407774,
+      "max_transformer_loading_percent": 70.87399648286299,
+      "supply_kw": 194799.84458150482,
+      "stage_headroom_kw": {
+        "transmission": 235200.15541849518,
+        "mv_20": 159508.93857771356,
+        "mv_10": 126704.9086728075,
+        "lv_transformers": 29994.923625260504,
+        "lv_network": -5.0763747394958045
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "passed"
+      },
+      {
+        "n": 2048,
+        "status": "passed"
+      },
+      {
+        "n": 4096,
+        "status": "failed"
+      },
+      {
+        "n": 3072,
+        "status": "failed"
+      },
+      {
+        "n": 2560,
+        "status": "failed"
+      },
+      {
+        "n": 2304,
+        "status": "failed"
+      },
+      {
+        "n": 2176,
+        "status": "passed"
+      },
+      {
+        "n": 2240,
+        "status": "failed"
+      },
+      {
+        "n": 2208,
+        "status": "failed"
+      },
+      {
+        "n": 2192,
+        "status": "failed"
+      },
+      {
+        "n": 2184,
+        "status": "passed"
+      },
+      {
+        "n": 2188,
+        "status": "passed"
+      },
+      {
+        "n": 2190,
+        "status": "passed"
+      },
+      {
+        "n": 2191,
+        "status": "passed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 20.0,
+    "placement": "city",
+    "charger_kw": 50.0,
+    "seed": 61001,
+    "safe_count": 964,
+    "next_count": 965,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9722657747839739,
+      "max_line_loading_percent": 56.241087209803055,
+      "max_transformer_loading_percent": 51.79037282759785,
+      "supply_kw": 145406.7913917642,
+      "stage_headroom_kw": {
+        "transmission": 284593.2086082358,
+        "mv_20": 194730.93857771356,
+        "mv_10": 139706.9086728075,
+        "lv_transformers": 78218.9236252605,
+        "lv_network": 48218.923625260504
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9541015896070589,
+      "max_line_loading_percent": 74.39016942365897,
+      "max_transformer_loading_percent": 71.6713416409161,
+      "supply_kw": 194769.66674852255,
+      "stage_headroom_kw": {
+        "transmission": 235230.33325147745,
+        "mv_20": 159430.93857771356,
+        "mv_10": 126806.9086728075,
+        "lv_transformers": 30018.923625260504,
+        "lv_network": 18.923625260504195
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "stage:lv_network"
+      ],
+      "min_voltage_pu": 0.9541015896069712,
+      "max_line_loading_percent": 74.39016942365456,
+      "max_transformer_loading_percent": 71.67134164093333,
+      "supply_kw": 194820.69993639804,
+      "stage_headroom_kw": {
+        "transmission": 235179.30006360196,
+        "mv_20": 159430.93857771356,
+        "mv_10": 126756.9086728075,
+        "lv_transformers": 29968.923625260504,
+        "lv_network": -31.076374739495805
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "failed"
+      },
+      {
+        "n": 768,
+        "status": "passed"
+      },
+      {
+        "n": 896,
+        "status": "passed"
+      },
+      {
+        "n": 960,
+        "status": "passed"
+      },
+      {
+        "n": 992,
+        "status": "failed"
+      },
+      {
+        "n": 976,
+        "status": "failed"
+      },
+      {
+        "n": 968,
+        "status": "failed"
+      },
+      {
+        "n": 964,
+        "status": "passed"
+      },
+      {
+        "n": 966,
+        "status": "failed"
+      },
+      {
+        "n": 965,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "TELEP",
+    "charger_kw": 7.4,
+    "seed": 61001,
+    "safe_count": 957,
+    "next_count": 958,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9500028669393757,
+      "max_line_loading_percent": 68.89268133329124,
+      "max_transformer_loading_percent": 82.99465879202911,
+      "supply_kw": 121041.44241732138,
+      "stage_headroom_kw": {
+        "transmission": 308958.5575826786,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141219.32005598652,
+        "lv_transformers": 86695.12574610961,
+        "lv_network": 56695.1257461096
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:TELEP-F2"
+      ],
+      "min_voltage_pu": 0.949953890431186,
+      "max_line_loading_percent": 68.95285631806189,
+      "max_transformer_loading_percent": 83.04194522991727,
+      "supply_kw": 121049.29555822529,
+      "stage_headroom_kw": {
+        "transmission": 308950.7044417747,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141211.92005598653,
+        "lv_transformers": 86687.7257461096,
+        "lv_network": 56687.7257461096
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "passed"
+      },
+      {
+        "n": 1024,
+        "status": "failed"
+      },
+      {
+        "n": 768,
+        "status": "passed"
+      },
+      {
+        "n": 896,
+        "status": "passed"
+      },
+      {
+        "n": 960,
+        "status": "failed"
+      },
+      {
+        "n": 928,
+        "status": "passed"
+      },
+      {
+        "n": 944,
+        "status": "passed"
+      },
+      {
+        "n": 952,
+        "status": "passed"
+      },
+      {
+        "n": 956,
+        "status": "passed"
+      },
+      {
+        "n": 958,
+        "status": "failed"
+      },
+      {
+        "n": 957,
+        "status": "passed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "TELEP",
+    "charger_kw": 22.0,
+    "seed": 61001,
+    "safe_count": 319,
+    "next_count": 320,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9501184325964965,
+      "max_line_loading_percent": 69.42289309204635,
+      "max_transformer_loading_percent": 82.61973270078154,
+      "supply_kw": 120978.65360559472,
+      "stage_headroom_kw": {
+        "transmission": 309021.3463944053,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141283.1200559865,
+        "lv_transformers": 86758.9257461096,
+        "lv_network": 56758.925746109606
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:TELEP-F2"
+      ],
+      "min_voltage_pu": 0.9499729170129245,
+      "max_line_loading_percent": 69.60186278435887,
+      "max_transformer_loading_percent": 82.76028453123499,
+      "supply_kw": 121002.00601625026,
+      "stage_headroom_kw": {
+        "transmission": 308997.99398374977,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141261.1200559865,
+        "lv_transformers": 86736.9257461096,
+        "lv_network": 56736.925746109606
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "passed"
+      },
+      {
+        "n": 512,
+        "status": "failed"
+      },
+      {
+        "n": 384,
+        "status": "failed"
+      },
+      {
+        "n": 320,
+        "status": "failed"
+      },
+      {
+        "n": 288,
+        "status": "passed"
+      },
+      {
+        "n": 304,
+        "status": "passed"
+      },
+      {
+        "n": 312,
+        "status": "passed"
+      },
+      {
+        "n": 316,
+        "status": "passed"
+      },
+      {
+        "n": 318,
+        "status": "passed"
+      },
+      {
+        "n": 319,
+        "status": "passed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-06-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "TELEP",
+    "charger_kw": 50.0,
+    "seed": 61001,
+    "safe_count": 142,
+    "next_count": 143,
+    "baseline": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9855285696772929,
+      "max_line_loading_percent": 40.963505948841814,
+      "max_transformer_loading_percent": 40.12818046440769,
+      "supply_kw": 113703.94897763744,
+      "stage_headroom_kw": {
+        "transmission": 316296.05102236255,
+        "mv_20": 217252.73143623275,
+        "mv_10": 148301.12005598654,
+        "lv_transformers": 93776.9257461096,
+        "lv_network": 63776.925746109606
+      }
+    },
+    "safe": {
+      "status": "passed",
+      "reasons": [],
+      "min_voltage_pu": 0.9500294434616984,
+      "max_line_loading_percent": 68.54186110027639,
+      "max_transformer_loading_percent": 83.09417124803092,
+      "supply_kw": 121058.22795670791,
+      "stage_headroom_kw": {
+        "transmission": 308941.77204329206,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141201.1200559865,
+        "lv_transformers": 86676.9257461096,
+        "lv_network": 56676.925746109606
+      }
+    },
+    "next": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:TELEP-F2"
+      ],
+      "min_voltage_pu": 0.9496982906209788,
+      "max_line_loading_percent": 68.948452654922,
+      "max_transformer_loading_percent": 83.41377170273626,
+      "supply_kw": 121111.28846448936,
+      "stage_headroom_kw": {
+        "transmission": 308888.7115355106,
+        "mv_20": 217252.73143623275,
+        "mv_10": 141151.1200559865,
+        "lv_transformers": 86626.9257461096,
+        "lv_network": 56626.925746109606
+      }
+    },
+    "ceiling_reached": false,
+    "probes": [
+      {
+        "n": 1,
+        "status": "passed"
+      },
+      {
+        "n": 2,
+        "status": "passed"
+      },
+      {
+        "n": 4,
+        "status": "passed"
+      },
+      {
+        "n": 8,
+        "status": "passed"
+      },
+      {
+        "n": 16,
+        "status": "passed"
+      },
+      {
+        "n": 32,
+        "status": "passed"
+      },
+      {
+        "n": 64,
+        "status": "passed"
+      },
+      {
+        "n": 128,
+        "status": "passed"
+      },
+      {
+        "n": 256,
+        "status": "failed"
+      },
+      {
+        "n": 192,
+        "status": "failed"
+      },
+      {
+        "n": 160,
+        "status": "failed"
+      },
+      {
+        "n": 144,
+        "status": "failed"
+      },
+      {
+        "n": 136,
+        "status": "passed"
+      },
+      {
+        "n": 140,
+        "status": "passed"
+      },
+      {
+        "n": 142,
+        "status": "passed"
+      },
+      {
+        "n": 143,
+        "status": "failed"
+      }
+    ]
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-12-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 7.4,
+    "seed": 61001,
+    "safe_count": 0,
+    "next_count": null,
+    "baseline": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "safe": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "next": null,
+    "ceiling_reached": false,
+    "probes": []
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-12-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 22.0,
+    "seed": 61001,
+    "safe_count": 0,
+    "next_count": null,
+    "baseline": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "safe": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "next": null,
+    "ceiling_reached": false,
+    "probes": []
+  },
+  {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "estimator_hash": "7dce6da9bd5d683c4d44a94915495c113459b1219f3996c4459d5993f5f7ad1d",
+    "fixture": "2025-12-1-as_supplied-normal",
+    "hour": 18.0,
+    "placement": "city",
+    "charger_kw": 50.0,
+    "seed": 61001,
+    "safe_count": 0,
+    "next_count": null,
+    "baseline": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "safe": {
+      "status": "failed",
+      "reasons": [
+        "undervoltage:LIMAN-F2"
+      ],
+      "min_voltage_pu": 0.9409573021993427,
+      "max_line_loading_percent": 85.58859171050273,
+      "max_transformer_loading_percent": 83.61737903310919,
+      "supply_kw": 229041.13733267115,
+      "stage_headroom_kw": {
+        "transmission": 200958.86266732885,
+        "mv_20": 135342.23465207033,
+        "mv_10": 117627.39567238538,
+        "lv_transformers": 37484.81516222788,
+        "lv_network": 7484.815162227882
+      }
+    },
+    "next": null,
+    "ceiling_reached": false,
+    "probes": []
+  }
+]

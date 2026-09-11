@@ -1,0 +1,16 @@
+{
+  "source_sha256": "7c43f6147bdf1967010defe5beb14ee4fdb3daa6154917ce90b0e6c4a693a683",
+  "benchmark_complete": false,
+  "benchmark_job_status": "failed",
+  "rows": 70,
+  "pages": 5,
+  "ev_peaks_kw": {
+    "immediate": 49300.64444444446,
+    "fixed_delay": 58511.79999999998,
+    "randomized_delay": 69421.04444444444,
+    "capacity_aware": 86108.08480034865,
+    "least_laxity_first": 86347.58279532056,
+    "valley_filling": 75296.61951131321,
+    "voltage_responsive": 86108.08480034865
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "location": "home",
+    "envelope_start_hour": 17.0,
+    "envelope_end_hour": 33.0,
+    "lv_headroom_grid_kwh": 1082446.181370223,
+    "battery_kwh_upper_bound": 974201.5632332007,
+    "vehicles_at_14kwh_upper_bound": 69585,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "location": "work",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 17.0,
+    "lv_headroom_grid_kwh": 605591.7877185341,
+    "battery_kwh_upper_bound": 545032.6089466807,
+    "vehicles_at_14kwh_upper_bound": 38930,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-06-1-as_supplied-normal",
+    "location": "public",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 23.0,
+    "lv_headroom_grid_kwh": 936813.7047056713,
+    "battery_kwh_upper_bound": 843132.3342351042,
+    "vehicles_at_14kwh_upper_bound": 60223,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1-as_supplied-normal",
+    "location": "home",
+    "envelope_start_hour": 17.0,
+    "envelope_end_hour": 33.0,
+    "lv_headroom_grid_kwh": 619149.5921119145,
+    "battery_kwh_upper_bound": 557234.6329007231,
+    "vehicles_at_14kwh_upper_bound": 39802,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1-as_supplied-normal",
+    "location": "work",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 17.0,
+    "lv_headroom_grid_kwh": 340195.17666502955,
+    "battery_kwh_upper_bound": 306175.6589985266,
+    "vehicles_at_14kwh_upper_bound": 21869,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1-as_supplied-normal",
+    "location": "public",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 23.0,
+    "lv_headroom_grid_kwh": 415896.0554796173,
+    "battery_kwh_upper_bound": 374306.4499316556,
+    "vehicles_at_14kwh_upper_bound": 26736,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1.2-regulated-normal",
+    "location": "home",
+    "envelope_start_hour": 17.0,
+    "envelope_end_hour": 33.0,
+    "lv_headroom_grid_kwh": 361283.5782722873,
+    "battery_kwh_upper_bound": 325155.2204450586,
+    "vehicles_at_14kwh_upper_bound": 23225,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1.2-regulated-normal",
+    "location": "work",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 17.0,
+    "lv_headroom_grid_kwh": 181065.70333555844,
+    "battery_kwh_upper_bound": 162959.1330020026,
+    "vehicles_at_14kwh_upper_bound": 11639,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  },
+  {
+    "fixture": "2025-12-1.2-regulated-normal",
+    "location": "public",
+    "envelope_start_hour": 8.0,
+    "envelope_end_hour": 23.0,
+    "lv_headroom_grid_kwh": 252000.65330023065,
+    "battery_kwh_upper_bound": 226800.5879702076,
+    "vehicles_at_14kwh_upper_bound": 16200,
+    "interpretation": "Necessary aggregate-energy upper bound only: ignores arrival restrictions within envelope, individual charger limits, node placement and all other electrical limits. Not a safe fleet estimate."
+  }
+]

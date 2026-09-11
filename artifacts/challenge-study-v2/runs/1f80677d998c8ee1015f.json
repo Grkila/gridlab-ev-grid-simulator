@@ -1,0 +1,1254 @@
+{
+  "status": "passed",
+  "complete": true,
+  "grid_ok": true,
+  "service_ok": true,
+  "violation_kinds": [],
+  "first_violation": null,
+  "metrics": {
+    "peak_demand_kw": 216443.23529262614,
+    "max_line_loading_percent": 85.8556854689773,
+    "max_transformer_loading_percent": 78.5546784364711,
+    "min_voltage_pu": 0.9634677291092416,
+    "nonconverged_steps": 0,
+    "overload_steps": 0,
+    "voltage_violation_steps": 0,
+    "unmet_energy_kwh": 0,
+    "pending_energy_kwh": 0,
+    "requested_energy_kwh": 0,
+    "delivered_energy_kwh": 0,
+    "grid_ev_energy_kwh": 0.0,
+    "runtime_seconds": 9.696495900003356,
+    "vehicle_count": 0,
+    "controlled_cohorts": 0,
+    "aggregate_ev_nodes": true,
+    "max_district_loading_percent": 76.31290204907334,
+    "district_overload_steps": 0,
+    "max_network_capacity_loading_percent": 90.18468137192755,
+    "network_capacity_overload_steps": 0,
+    "energy_excess_kwh": 0.0,
+    "energy_limit_exceeded_steps": 0,
+    "supply_peak_kw": 219999.99726149667,
+    "load_peak_kw": 216443.23529262614,
+    "network_losses_kwh": 85712.45465250485,
+    "ev_peak_kw": 0.0,
+    "grid_violation_steps": 0,
+    "max_per_car_unmet_kwh": 0,
+    "physically_impossible_sessions": 0,
+    "safety_intervals": 0,
+    "fallback_intervals": 0,
+    "supply_energy_kwh": 6002310.49348785,
+    "baseline_supply_energy_kwh": 6002310.536317822,
+    "baseline_reconciliation_max_error_kw": 0.0031086266390047967
+  },
+  "trace": [
+    {
+      "step": 0,
+      "supply_kw": 174575.19774575016,
+      "baseline_kw": 174575.19874216252,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9861395771571048,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 1,
+      "supply_kw": 169585.12743806985,
+      "baseline_kw": 169585.12830088855,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9878131279457801,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 2,
+      "supply_kw": 164595.05711602088,
+      "baseline_kw": 164595.0578596146,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9894784444893877,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 3,
+      "supply_kw": 163232.73591553126,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899330063636224,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 4,
+      "supply_kw": 163232.73591005334,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899353439260509,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 5,
+      "supply_kw": 163232.73590627234,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899384217491487,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 6,
+      "supply_kw": 163232.7358989938,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.989942447312648,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 7,
+      "supply_kw": 163232.73591612902,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899476772005604,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 8,
+      "supply_kw": 163232.7359162915,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.989954426074714,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 9,
+      "supply_kw": 163232.73591654465,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899630760722532,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 10,
+      "supply_kw": 163232.73591698214,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899740870264317,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 11,
+      "supply_kw": 163232.73591738482,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899880067774295,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 12,
+      "supply_kw": 163232.7359178148,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900054812873307,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 13,
+      "supply_kw": 163232.73591847267,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900272639452803,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 14,
+      "supply_kw": 163232.73591914418,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900542233200366,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 15,
+      "supply_kw": 163232.73592010984,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900873484534299,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 16,
+      "supply_kw": 163232.73592160412,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9901277506443934,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 17,
+      "supply_kw": 163232.73592261414,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9901766605460893,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 18,
+      "supply_kw": 163232.73592462006,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9902354193375338,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 19,
+      "supply_kw": 163232.73592660078,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9903054627394677,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 20,
+      "supply_kw": 163232.73592902377,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9903882967695974,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 21,
+      "supply_kw": 163232.7359315279,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9904854644002642,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 22,
+      "supply_kw": 163232.73593472608,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9905985027080446,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 23,
+      "supply_kw": 163232.7359386756,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.990728890711736,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 24,
+      "supply_kw": 163232.73594265676,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9908779888573072,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 25,
+      "supply_kw": 163232.73594748028,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9910469720058983,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 26,
+      "supply_kw": 163232.73595254336,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9912367587163119,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 27,
+      "supply_kw": 163232.7359582067,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9914479405058697,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 28,
+      "supply_kw": 163232.73596417575,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9916807154855963,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 29,
+      "supply_kw": 163232.73597068776,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9919348311534553,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 30,
+      "supply_kw": 163232.7359774706,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9922095410942168,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 31,
+      "supply_kw": 163232.73598465647,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9925035797847798,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 32,
+      "supply_kw": 163232.73599218743,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9928151586331473,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 33,
+      "supply_kw": 163232.73599941013,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9931419848778054,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 34,
+      "supply_kw": 163232.73600688946,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9933784796143351,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 35,
+      "supply_kw": 163232.736014612,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9933223543246537,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 36,
+      "supply_kw": 163232.73602178716,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9932651269355007,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 37,
+      "supply_kw": 166975.89051833545,
+      "baseline_kw": 166975.89119589713,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9919232504059527,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 38,
+      "supply_kw": 171630.94979901507,
+      "baseline_kw": 171630.95057451696,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9902518175698595,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 39,
+      "supply_kw": 176286.0090910325,
+      "baseline_kw": 176286.00995313682,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9885622069626763,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 40,
+      "supply_kw": 180941.06836012044,
+      "baseline_kw": 180941.06933175665,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9868548644259809,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 41,
+      "supply_kw": 184113.673044094,
+      "baseline_kw": 184113.67409674218,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9856609249822034,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 42,
+      "supply_kw": 187286.2777263419,
+      "baseline_kw": 187286.2788617277,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9844597882851469,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 43,
+      "supply_kw": 190458.88240320596,
+      "baseline_kw": 190458.88362671327,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9832522129858858,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 44,
+      "supply_kw": 193631.48707395812,
+      "baseline_kw": 193631.48839169886,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9820389538074237,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 45,
+      "supply_kw": 195056.1567237777,
+      "baseline_kw": 195056.1580783054,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9814630637853715,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 46,
+      "supply_kw": 196480.82636877178,
+      "baseline_kw": 196480.82776491187,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.980889972192318,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 47,
+      "supply_kw": 197905.49601151876,
+      "baseline_kw": 197905.49745151837,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.980320101814189,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 48,
+      "supply_kw": 199330.1656517745,
+      "baseline_kw": 199330.1671381249,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9797537248773132,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 49,
+      "supply_kw": 199605.83512676574,
+      "baseline_kw": 199605.83661857413,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9796181904356462,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 50,
+      "supply_kw": 199881.5046000182,
+      "baseline_kw": 199881.50609902342,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9794879951030467,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 51,
+      "supply_kw": 200157.17407211632,
+      "baseline_kw": 200157.17557947268,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9793625641175937,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 52,
+      "supply_kw": 200432.84354303763,
+      "baseline_kw": 200432.84505992194,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9792410110904248,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 53,
+      "supply_kw": 199895.46732669038,
+      "baseline_kw": 199895.46882424806,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9794250110140162,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 54,
+      "supply_kw": 199358.09110873405,
+      "baseline_kw": 199358.09258857425,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9796099689022078,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 55,
+      "supply_kw": 198820.71488943757,
+      "baseline_kw": 198820.71635290034,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9797937715467339,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 56,
+      "supply_kw": 198283.33866890246,
+      "baseline_kw": 198283.34011722653,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9799738971226608,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 57,
+      "supply_kw": 197607.84468306095,
+      "baseline_kw": 197607.84611311404,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9801986861513562,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 58,
+      "supply_kw": 196932.35069603453,
+      "baseline_kw": 196932.35210900154,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9804135854126428,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 59,
+      "supply_kw": 196256.8567075433,
+      "baseline_kw": 196256.85810488908,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9806151955351836,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 60,
+      "supply_kw": 195581.3627175384,
+      "baseline_kw": 195581.36410077664,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9808001177262617,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 61,
+      "supply_kw": 194938.5584835673,
+      "baseline_kw": 194938.55985538274,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9809530995803286,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 62,
+      "supply_kw": 194295.75424791672,
+      "baseline_kw": 194295.75560998882,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9810836517868258,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 63,
+      "supply_kw": 193652.95001052952,
+      "baseline_kw": 193652.95136459486,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.981190059752615,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 64,
+      "supply_kw": 193010.1457718758,
+      "baseline_kw": 193010.147119201,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9812717993922231,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 65,
+      "supply_kw": 199469.69844420193,
+      "baseline_kw": 199469.70004763358,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9786685361055543,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 66,
+      "supply_kw": 205929.25107693794,
+      "baseline_kw": 205929.25297606617,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9759949891167596,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 67,
+      "supply_kw": 212388.80366572278,
+      "baseline_kw": 212388.80590449882,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9731952386378213,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 68,
+      "supply_kw": 218848.35620739858,
+      "baseline_kw": 218848.3588329314,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9699559660179987,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 69,
+      "supply_kw": 219999.99726149667,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9687320970459568,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 70,
+      "supply_kw": 219999.9972210677,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.967965541605247,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 71,
+      "supply_kw": 219999.9971778315,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9672225680178184,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 72,
+      "supply_kw": 219999.99713517734,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9665189063699825,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 73,
+      "supply_kw": 219999.99709445724,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9658682281124182,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 74,
+      "supply_kw": 219999.99705545208,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.965281809973531,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 75,
+      "supply_kw": 219999.9970200398,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9647684887306921,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 76,
+      "supply_kw": 219999.99698819593,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9643348371329896,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 77,
+      "supply_kw": 219999.9969605067,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9639854765213342,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 78,
+      "supply_kw": 219999.9969375871,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.963723445974236,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 79,
+      "supply_kw": 219999.99691907,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9635505629610989,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 80,
+      "supply_kw": 219999.99690549824,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9634677291092416,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 81,
+      "supply_kw": 219999.99689659552,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9634751518900303,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 82,
+      "supply_kw": 219999.99689174735,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9635724666516045,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 83,
+      "supply_kw": 219999.9968913208,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9637587534202464,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 84,
+      "supply_kw": 219999.9968947245,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9640324504922898,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 85,
+      "supply_kw": 219999.99690117294,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.964391173811423,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 86,
+      "supply_kw": 219999.99690978162,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9648314592148742,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 87,
+      "supply_kw": 219999.99692085467,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9653484550508612,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 88,
+      "supply_kw": 219999.99693239902,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9659356055576243,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 89,
+      "supply_kw": 219999.99694431075,
+      "baseline_kw": 220000.0,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9665843793345134,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 90,
+      "supply_kw": 218401.45433994604,
+      "baseline_kw": 218401.45728300393,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9679298734802682,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 91,
+      "supply_kw": 210905.59406796435,
+      "baseline_kw": 210905.5965489605,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9716298396747558,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 92,
+      "supply_kw": 203409.73373608047,
+      "baseline_kw": 203409.73581491705,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9752449246011733,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 93,
+      "supply_kw": 196201.09980460373,
+      "baseline_kw": 196201.10154672843,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9786544235115495,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 94,
+      "supply_kw": 188992.46582927913,
+      "baseline_kw": 188992.46727853979,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9819601524626376,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 95,
+      "supply_kw": 181783.83181332823,
+      "baseline_kw": 181783.83301035114,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9851537273942337,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 96,
+      "supply_kw": 174575.19774569364,
+      "baseline_kw": 174575.19874216252,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.986139577157167,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 97,
+      "supply_kw": 169585.12743788352,
+      "baseline_kw": 169585.12830088855,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.987813127945876,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 98,
+      "supply_kw": 164595.05711598098,
+      "baseline_kw": 164595.0578596146,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.989478444489391,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 99,
+      "supply_kw": 163232.7359153928,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899330063635954,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 100,
+      "supply_kw": 163232.73590977924,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899353439261499,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 101,
+      "supply_kw": 163232.7359059693,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.989938421749132,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 102,
+      "supply_kw": 163232.73589928242,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899424473126809,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 103,
+      "supply_kw": 163232.73591586942,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899476772006999,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 104,
+      "supply_kw": 163232.73591624227,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899544260746702,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 105,
+      "supply_kw": 163232.73591660598,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.98996307607226,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 106,
+      "supply_kw": 163232.73591691742,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899740870265058,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 107,
+      "supply_kw": 163232.735917331,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9899880067773725,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 108,
+      "supply_kw": 163232.73591787642,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900054812872136,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 109,
+      "supply_kw": 163232.73591849726,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900272639452413,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 110,
+      "supply_kw": 163232.73591926062,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900542233200307,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 111,
+      "supply_kw": 163232.73592027847,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9900873484534353,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 112,
+      "supply_kw": 163232.7359215519,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9901277506442752,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 113,
+      "supply_kw": 163232.73592281574,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9901766605459285,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 114,
+      "supply_kw": 163232.73592467094,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9902354193374897,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 115,
+      "supply_kw": 163232.73592656583,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9903054627394887,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 116,
+      "supply_kw": 163232.73592899778,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9903882967695423,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 117,
+      "supply_kw": 163232.73593182664,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9904854644000813,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 118,
+      "supply_kw": 163232.73593461572,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.990598502708104,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 119,
+      "supply_kw": 163232.7359387766,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9907288907117381,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 120,
+      "supply_kw": 163232.73594285196,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9908779888573128,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 121,
+      "supply_kw": 163232.73594746288,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9910469720059941,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 122,
+      "supply_kw": 163232.73595248544,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9912367587162663,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 123,
+      "supply_kw": 163232.7359581867,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9914479405058032,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 124,
+      "supply_kw": 163232.7359641383,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9916807154855847,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 125,
+      "supply_kw": 163232.73597080784,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9919348311533155,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 126,
+      "supply_kw": 163232.7359775133,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9922095410942654,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 127,
+      "supply_kw": 163232.73598474282,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9925035797848326,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 128,
+      "supply_kw": 163232.7359917607,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9928151586331743,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 129,
+      "supply_kw": 163232.73599931144,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9931419848777229,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 130,
+      "supply_kw": 163232.73600695375,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9933784796140426,
+      "charging_count": 0,
+      "violations": 0
+    },
+    {
+      "step": 131,
+      "supply_kw": 163232.73601433187,
+      "baseline_kw": 163232.73662896128,
+      "ev_kw": 0.0,
+      "min_voltage_pu": 0.9933223543245134,
+      "charging_count": 0,
+      "violations": 0
+    }
+  ],
+  "id": "1f80677d998c8ee1015f",
+  "parameters": {
+    "runner_hash": "8a2a820e1e817201842e38f9c31675682fc3c732b2626affcc67626f5c534611",
+    "fixture": "2025-01-1.2-regulated-normal",
+    "fixture_hash": "012649e7ca169353e49f5218f13923abbf3a1973ef890f479de9cd971ea2658d",
+    "n": 0,
+    "strategy": "immediate",
+    "seed": 61001,
+    "location": "home",
+    "charger": 7.4,
+    "energy": 14.0,
+    "district": null,
+    "lv": 0.5,
+    "district_factor": 1.0,
+    "dwell": 12,
+    "timing_only": false,
+    "synchronized": false
+  },
+  "session_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "elapsed_seconds": 9.70258530000865
+}

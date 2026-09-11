@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "base": "http://127.0.0.1:8536",
+  "reads": [
+    "catalog",
+    "network",
+    "benchmarks",
+    "strategies",
+    "experiments",
+    "runs",
+    "rl/catalog",
+    "continuous-rl/catalog",
+    "agent-contract",
+    "chat/current"
+  ],
+  "geography_json": true,
+  "bridge_acknowledgements": [
+    "experiments",
+    "experiments",
+    "experiments",
+    "experiments",
+    "experiments",
+    "network",
+    "results"
+  ],
+  "posts": [],
+  "errors": []
+}

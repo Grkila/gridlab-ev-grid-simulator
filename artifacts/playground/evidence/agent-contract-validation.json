@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "contract_version": "1.0.0",
+  "unit_tests": 196,
+  "unit_seconds": 147.587,
+  "independent_tests": 21,
+  "browser_checks": 11,
+  "mcp_tools": 32,
+  "plugin_version": "0.1.0+codex.20260910174816",
+  "live_app": "http://127.0.0.1:8520",
+  "live_model_behavior_evaluated": false,
+  "logs": [
+    "agent-contract-acceptance-final.log",
+    "agent-contract-independent-final.log",
+    "agent-contract-browser.log",
+    "agent-contract-mcp.log",
+    "agent-contract-benchmark-mcp.log",
+    "agent-contract-build.log"
+  ],
+  "limitations": [
+    "Software verification is not scientific controller validation.",
+    "Different horizons can alter spatial demand allocation and net load under gross-supply measurement.",
+    "Browser lifecycle uses a fake CLI; no paid model behavior claim."
+  ],
+  "contract_sha256": "58132448b4aa8a693b9cc571de9061af05c1be4b51e3aa33e0715d11821614aa"
+}

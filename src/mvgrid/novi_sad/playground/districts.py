@@ -30,6 +30,7 @@ def validate_district_mix(blocks, mix):
 
 
 def validate_district_locations(blocks, fleet):
+    if fleet.get('charging_profile') == 'home_only': return
     if not fleet.get('district_mix') or fleet.get('location_mix',{}).get('public',.1) <= 0:
         return
     hubs={district_id(b) for b in blocks if b.get('kind')=='public_hub'}

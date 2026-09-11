@@ -32,3 +32,8 @@ policy quality. For configuration and artifact semantics see `docs/models/ev-rl.
 ## Standard benchmark
 
 Build the frontend, then start a fresh playground server. Open Benchmarks, freeze a suite, select registered strategies and run. Reuse the suite for revised or new algorithms; raise the search ceiling in a new suite when the old ceiling passes. A small ceiling is workflow verification only. Run `python scripts/verify_benchmark.py --url http://127.0.0.1:8532` for the bounded real 30-cell workflow, `python scripts/verify_benchmark_mcp.py` for fresh MCP discovery, and `node scripts/verify_benchmark_gui.cjs` with Playwright available in NODE_PATH for browser acceptance. The GUI verifier defaults to port 8532; override EV_GUI_URL as needed. See `docs/benchmark.md`.
+
+## Continuous RL campaign
+
+Install optional dependencies with `.venv/Scripts/python.exe -m pip install -r requirements-rl.txt`.
+Use `ev_get_continuous_rl_catalog`, `ev_create_continuous_campaign(benchmark_job_id, config)`, `ev_start_continuous_campaign(campaign_id)` and `ev_get_continuous_results(campaign_id)`. Resume and cancel are explicit typed tools. Campaign files live under the runtime's `continuous-rl/ppo-.../`; checkpoints are trusted local pickle-bearing artifacts. Keep request/fixture/network/binding immutable. Queued campaigns wait for the shared worker lock; queue time does not consume active budget. The RL workspace exposes the same lifecycle controls. Full protocol: docs/continuous-rl.md.

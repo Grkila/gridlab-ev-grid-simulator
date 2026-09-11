@@ -1,0 +1,112 @@
+{
+  "contract": {
+    "version": "1.0.0",
+    "operation": "ev_create_benchmark",
+    "execution": "succeeded",
+    "evidence": "not_evaluated",
+    "verdict": "not_evaluated"
+  },
+  "suite_id": "suite-40cbac52af3664f7d5b3",
+  "protocol": "novi-sad-benchmark-v1",
+  "config": {
+    "name": "Voltage-regulated grid",
+    "standard_fleet": 500,
+    "max_fleet": 50000,
+    "seeds": [
+      41001
+    ],
+    "district": "TELEP",
+    "operating_mode": "regulated",
+    "search_mode": "doubling",
+    "until_failure": true
+  },
+  "fixture_hash": "40cbac52af3664f7d5b3ceeaaeff0cb8e2fdc5ec0907a7ce01d63c040ad6f38d",
+  "ladder": [
+    0,
+    2
+  ],
+  "common_ladder": [
+    500,
+    250,
+    125,
+    62,
+    31,
+    15,
+    7,
+    3,
+    1
+  ],
+  "tests": [
+    {
+      "id": "common",
+      "title": "Shared passing fleet",
+      "kind": "common",
+      "scenario": "normal",
+      "description": "Largest tested fleet up to the reference size that every selected algorithm serves."
+    },
+    {
+      "id": "winter",
+      "title": "Winter \u00b7 fixed fleet",
+      "kind": "fixed",
+      "scenario": "winter",
+      "description": "January demand, identical reference fleet."
+    },
+    {
+      "id": "winter_worst",
+      "title": "Worst winter \u00b7 fixed fleet",
+      "kind": "fixed",
+      "scenario": "worst",
+      "description": "January demand +20%, identical reference fleet."
+    },
+    {
+      "id": "summer_worst",
+      "title": "Worst summer \u00b7 fixed fleet",
+      "kind": "fixed",
+      "scenario": "summer_worst",
+      "description": "June demand +20%, identical reference fleet."
+    },
+    {
+      "id": "synchronized",
+      "title": "Synchronized arrivals",
+      "kind": "fixed",
+      "scenario": "synchronized",
+      "description": "All EVs arrive at 18:00; reference fleet on a normal day."
+    },
+    {
+      "id": "district",
+      "title": "One district \u00b7 fixed fleet",
+      "kind": "fixed",
+      "scenario": "district",
+      "description": "All EVs in the frozen busiest district, reference fleet."
+    },
+    {
+      "id": "city_max",
+      "title": "Citywide capacity \u00b7 normal",
+      "kind": "capacity",
+      "scenario": "normal",
+      "description": "Scan the same increasing fleet ladder on a normal June day."
+    },
+    {
+      "id": "city_worst_max",
+      "title": "Citywide capacity \u00b7 worst",
+      "kind": "capacity",
+      "scenario": "worst",
+      "description": "Scan the fleet ladder on a +20% January day."
+    },
+    {
+      "id": "district_max",
+      "title": "District capacity \u00b7 normal",
+      "kind": "capacity",
+      "scenario": "district",
+      "description": "Scan the ladder with all EVs in one district."
+    },
+    {
+      "id": "district_worst_max",
+      "title": "District capacity \u00b7 worst",
+      "kind": "capacity",
+      "scenario": "district_worst",
+      "description": "Concentrated EVs and +20% January demand."
+    }
+  ],
+  "demand_measurement": "supply_including_losses"
+}
