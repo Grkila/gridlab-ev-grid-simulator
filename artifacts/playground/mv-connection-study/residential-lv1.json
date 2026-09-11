@@ -1,0 +1,161 @@
+{
+  "key": "residential-lv1",
+  "experiment": {
+    "contract": {
+      "version": "1.0.0",
+      "operation": "ev_save_experiment",
+      "execution": "succeeded",
+      "evidence": "not_evaluated",
+      "verdict": "not_evaluated"
+    },
+    "experiment_id": "exp-4b366209e56635865515",
+    "definition": {
+      "operating_mode": "as_supplied",
+      "schema_version": 1,
+      "name": "SN sensitivity / residential-lv1 / 20000 EV",
+      "hypothesis": "Removing EV share from existing LV aggregate budgets may improve feasibility; timing and connection are separate factors.",
+      "metric_boundary": "city_total",
+      "observation_contract": "current_state",
+      "case_origin": "llm",
+      "assumptions": [
+        "Demand shapes are user-supplied seasonal hourly profiles.",
+        "Land-use and charging-window archetypes are explicit planning assumptions.",
+        "14 battery kWh per vehicle, not a full 60-kWh battery.",
+        "lv_ev_fraction=0 is idealized bypass of existing aggregate LV and downstream transformer budgets. No physical new transformer, connector losses, ratings or cost is modeled. Upstream AC network and limits remain unchanged.",
+        "Same seed and location profile within each connection pair; location/time pairs are analyzed separately."
+      ],
+      "demand": {
+        "scope": "city_total",
+        "measurement": "supply_including_losses",
+        "monthly_energy": 76965.0,
+        "unit": "MWh",
+        "month": 6,
+        "days_per_month": 30,
+        "days": 1,
+        "annual_growth_rate": 0.03,
+        "years_ahead": 0,
+        "scenario": "base",
+        "variation": "base",
+        "composition": {
+          "mode": "preserve_city",
+          "residential": null,
+          "commercial": null,
+          "industrial": null
+        },
+        "randomize": false,
+        "daily_scale_min": 0.8,
+        "daily_scale_max": 1.2,
+        "shape_noise": 0.1
+      },
+      "fleet": {
+        "charging_profile": "whole_day",
+        "fleet_size": 20000,
+        "charger_kw": 7.4,
+        "energy_kwh": 14.0,
+        "efficiency": 0.9,
+        "location_mix": {
+          "residential": 1.0,
+          "workplace": 0.0,
+          "public": 0.0
+        },
+        "district_mix": null
+      },
+      "district_capacity": {
+        "scenario": "central",
+        "overrides": {}
+      },
+      "network_capacity": {
+        "lv_baseline_fraction": 0.5,
+        "lv_ev_fraction": 1.0
+      },
+      "rl": null,
+      "strategy_options": {
+        "horizon_steps": 96,
+        "forecast": "persistence",
+        "valley_iterations": 8,
+        "max_variables": 30000,
+        "solver_seconds": 3.0,
+        "voltage_stop_pu": 0.95,
+        "voltage_full_pu": 0.99,
+        "recovery_fraction": 0.25
+      },
+      "strategies": [
+        "immediate"
+      ],
+      "seeds": [
+        62001
+      ],
+      "fleet_sizes": null,
+      "limits": {
+        "min_voltage_pu": 0.95,
+        "max_voltage_pu": 1.05,
+        "max_loading_percent": 100.0
+      },
+      "assertions": [
+        {
+          "type": "hard",
+          "metric": "unmet_energy_kwh",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "nonconverged_steps",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "overload_steps",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "district_overload_steps",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "network_capacity_overload_steps",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "energy_limit_exceeded_steps",
+          "operator": "le",
+          "value": 0.0
+        },
+        {
+          "type": "hard",
+          "metric": "min_voltage_pu",
+          "operator": "ge",
+          "value": 0.95
+        }
+      ],
+      "max_cases": 1,
+      "max_runtime_seconds": 600.0,
+      "stress_first": false,
+      "stop_on_violation": false,
+      "fixed_start_hour": 23
+    }
+  },
+  "run": {
+    "run_id": "run-a04c08d28f5b497c",
+    "status": "starting",
+    "experiment_id": "exp-4b366209e56635865515",
+    "verdict": "incomplete",
+    "contract": {
+      "version": "1.0.0",
+      "operation": "ev_start_run",
+      "execution": "succeeded",
+      "evidence": "incomplete",
+      "verdict": "not_evaluated"
+    },
+    "completed_cases": 0,
+    "created_at": "2026-09-11T09:03:36.386198+00:00",
+    "pid": 15904
+  }
+}

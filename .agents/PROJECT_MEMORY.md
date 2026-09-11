@@ -111,3 +111,7 @@ The Schneider challenge fork adapts the upstream OSM MV-grid generator into one 
 - Presentation editorial revision: requested full Serbian title, concise natural headings/descriptions across50 slides via shortCopy.ts. Removed empty accent line breaks; source assumptions preserved in notes and visible numerical limitations. Humanizer skill applied; build passed.
 
 - Q2/Q4 revised to location-based managed charging and expansion proposal, retaining original study charts behind manual tabs. Dedicated MV/public charging benefit is conditional and not established by existing all-EV-at-LV model; real transformer reserve requires detailed inputs. Build and both tab/layout checks passed.
+
+- Q2 evidence presentation corrected after user challenged interpretation: removed home-to-work arrow/large-number comparison; table labels citywide supply peak,1000x14kWh, three scenarios and zero unmet. Explicitly joint timing+placement, not local transformer capacity or proof of public LV relief. Original study data preserved. Build and layout checked.
+
+- User requested estimates instead of further simulations. Stopped verify_mv_connection launcher after first run-a04c08d28f5b497c; no new result used. Q2 uses frozen June equal8h energy-budget comparison: work08-16 ~540MWh vs evening16-24 ~457MWh (+18.2%); night00-08 ~615MWh. This is ideal aggregate NN headroom, not certified fleet. Q4 explains dedicated MV with own transformer bypasses existing residential LV branch; no invented numeric MV gain.

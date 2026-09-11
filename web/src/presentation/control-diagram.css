@@ -1,0 +1,49 @@
+#capacity-aware-inputs h1{font-size:44px}
+#capacity-aware-inputs h1 br{display:none}
+#capacity-aware-inputs h1 em{margin-left:14px}
+#capacity-aware-inputs .slide-description{font-size:22px;max-width:1350px;margin-top:16px}
+.control-diagram{margin-top:30px;max-width:1400px;background:#071e1bef;padding:24px 26px 18px;border-radius:16px}
+.control-blocks{display:grid;grid-template-columns:1fr 70px 1.1fr 70px .9fr;align-items:stretch}
+.control-blocks>div:not(.control-connector){padding:20px;border:1px solid #638f7d;border-radius:10px}
+.control-kicker{font-size:13px;letter-spacing:.15em;color:#b6d4c5}
+.control-blocks h2{font-size:27px;text-transform:none;letter-spacing:-.03em;margin:12px 0 16px;color:#f0f6ed}
+.control-blocks p{font-size:17px;line-height:1.45;margin:7px 0;color:#dce9e0}
+.control-blocks .control-core{background:#d4f59d;border-color:#d4f59d}
+.control-core h2,.control-core p,.control-core .control-kicker{color:#123226}
+.control-core small{display:block;font-size:13px;color:#34533d;margin-top:16px}
+.control-connector{display:flex;flex-direction:column;justify-content:center;align-items:center;color:#d4f59d}
+.control-connector span{font-size:12px}.control-connector b{font-size:40px;font-weight:400}
+.control-city{position:relative;height:240px;margin-top:10px}
+.control-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke-width:2}
+.power-wire{stroke:#789c8a;stroke-width:4}.data-wire{stroke:#72d9db;stroke-dasharray:6 6}.command-wire{stroke:#d4f59d;stroke-dasharray:9 5}
+.control-feedback{position:absolute;top:12px;left:20%;font-size:14px;color:#72d9db;background:#071e1b;padding:3px 10px}
+.control-station{position:absolute;left:3%;top:66px;display:flex;flex-direction:column;align-items:center;background:#071e1b;padding:8px 16px;color:#d4f59d}
+.control-station strong{font-size:21px;margin:8px 0}.control-station small{font-size:14px;color:#b6d4c5}
+.control-districts{position:absolute;left:29%;right:0;top:85px;display:flex;justify-content:space-around}
+.control-district{background:#071e1b;padding:0 18px;text-align:center}.control-buildings{display:flex;align-items:flex-end;justify-content:center;gap:5px;color:#b6d4c5}
+.control-district strong{display:block;font-size:18px;margin:8px 0}.control-charger{display:flex;align-items:center;gap:8px;color:#d4f59d}.control-charger span{font-size:14px}
+.control-legend{display:flex;gap:24px;align-items:center;font-size:13px;color:#b6d4c5}.control-legend span{white-space:nowrap}.control-legend i{display:inline-block;width:22px;border-top:3px solid #789c8a;vertical-align:middle;margin-right:8px}.control-legend span:nth-child(2) i{border-color:#72d9db;border-top-style:dashed}.control-legend span:nth-child(3) i{border-color:#d4f59d;border-top-style:dashed}.control-legend small{margin-left:auto;max-width:530px;font-size:13px;line-height:1.4}
+
+/* Opaque canvas and larger live text keep the schematic legible at slide scale. */
+#capacity-aware-inputs{background:#071e1b}
+#capacity-aware-inputs .slide-eyebrow{margin-bottom:16px}
+#capacity-aware-inputs .slide-copy>*{animation:none!important;transform:none!important}
+.control-diagram{background:#071e1b;margin-top:22px;padding:18px 0 0;border-radius:0}
+.control-blocks{grid-template-columns:1fr 60px 1fr 60px 1fr}
+.control-blocks>div:not(.control-connector){padding:22px;border-width:2px;border-color:#9abcae;background:#10382f}
+.control-kicker{font-size:17px;font-weight:700;color:#e6f4ed;letter-spacing:.08em}
+.control-blocks h2{font-size:32px;font-weight:650;margin:12px 0 18px}
+.control-blocks p{font-size:22px;line-height:1.35;margin:9px 0;color:#fff}
+.control-blocks>div.control-core{background:#d4f59d;border-color:#d4f59d}
+.control-core h2,.control-core p,.control-core .control-kicker{color:#10291d}
+.control-core small{font-size:17px;color:#173b29;margin-top:18px}
+.control-connector span{font-size:15px;color:#e5f8c7}.control-connector b{font-size:48px}
+.control-city{height:230px;margin-top:16px}
+.control-wires{stroke-width:3;shape-rendering:geometricPrecision}
+.power-wire{stroke:#c2d8cc;stroke-width:5}.data-wire{stroke:#83f0f3}.command-wire{stroke:#d4f59d;stroke-width:3}
+.control-feedback{font-size:19px;font-weight:500;color:#9bfaff;left:22%;top:7px}
+.control-station{left:1%;top:70px}.control-station strong{font-size:24px}.control-station small{font-size:18px;color:#ecf7f0}
+.control-districts{top:78px}.control-buildings{color:#e6f5ed}.control-buildings svg{stroke-width:2.5}
+.control-district strong{font-size:23px}.control-charger span{font-size:18px;color:#e9ffc6}
+.control-legend{gap:20px;font-size:17px;color:#edf8f1;border-top:1px solid #739586;padding-top:13px}
+.control-legend small{font-size:16px;max-width:500px}
