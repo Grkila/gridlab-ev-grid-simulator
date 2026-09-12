@@ -7,6 +7,9 @@
 GridLab is a Windows research application for the Schneider Electric EV Days hackathon.
 It connects a synthetic Novi Sad grid, configurable EV demand, charging algorithms, reinforcement learning, and a local Codex assistant.
 
+**Nikola Jokić, Mina Grković, Selena Grković, and Dušan Grković** developed GridLab for the **Schneider Electric EV Days Challenge hackathon**.
+Team: **Jokić & Grković³**.
+
 [Windows setup](#start-on-windows) · [Application tour](#application-tour) · [Algorithms](#charging-algorithms) · [Benchmarks](#benchmarks) · [Codex and MCP](#codex-and-mcp) · [User guide](docs/USER_GUIDE.md)
 
 > [!IMPORTANT]
