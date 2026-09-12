@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "Use this record to cite the GridLab hackathon software. Preserve the separate upstream and data-source attribution."
+type: software
+title: "GridLab: EV Charging and Power Grid Simulator"
+authors:
+  - family-names: "Jokić"
+    given-names: "Nikola"
+  - family-names: "Grković"
+    given-names: "Mina"
+  - family-names: "Grković"
+    given-names: "Selena"
+  - family-names: "Grković"
+    given-names: "Dušan"
+repository-code: "https://github.com/Grkila/gridlab-ev-grid-simulator"
+url: "https://github.com/Grkila/gridlab-ev-grid-simulator"
+license: MIT
+abstract: >-
+  GridLab simulates electric-vehicle charging on a synthetic Novi Sad power grid
+  using OpenStreetMap data and pandapower. The Windows application compares
+  charging controllers, electrical constraints, benchmarks, and reinforcement
+  learning. It includes a local Codex assistant and Model Context Protocol tools.
+  The network is a planning proxy, not an as-built utility model.
+  Team Jokić & Grković³ developed the application for the Schneider Electric
+  EV Days Challenge hackathon.
+keywords:
+  - electric vehicles
+  - EV charging
+  - power grid simulation
+  - charging optimization
+  - pandapower
+  - OpenStreetMap
+  - reinforcement learning
+  - Model Context Protocol

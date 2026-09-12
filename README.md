@@ -1,11 +1,12 @@
 ![GridLab — EV charging. Grid capacity. Shared evidence.](artifacts/handoff/showcase/banner.png)
 
-# GridLab: EV charging capacity in Novi Sad
+# GridLab: EV Charging and Power Grid Simulator
 
 **Design a charging scenario. Compare controllers. Inspect the energy and grid constraints behind each result.**
 
-GridLab is a Windows research application for the Schneider Electric EV Days hackathon.
-It connects a synthetic Novi Sad grid, configurable EV demand, charging algorithms, reinforcement learning, and a local Codex assistant.
+GridLab is a Windows EV charging simulator for the Schneider Electric EV Days hackathon.
+It uses OpenStreetMap data and pandapower to model charging demand on a synthetic Novi Sad power grid.
+Compare charging optimization, grid capacity, reinforcement learning, and Codex workflows through the Model Context Protocol (MCP).
 
 **Nikola Jokić, Mina Grković, Selena Grković, and Dušan Grković** developed GridLab for the **Schneider Electric EV Days Challenge hackathon**.
 Team: **Jokić & Grković³**.
@@ -58,8 +59,8 @@ Live chat requires an installed and authenticated Codex CLI. Ordinary simulation
 1. Clone the repository.
 
    ```powershell
-   git clone https://github.com/Grkila/EV-days-chneider-challenge.git
-   cd EV-days-chneider-challenge
+   git clone https://github.com/Grkila/gridlab-ev-grid-simulator.git
+   cd gridlab-ev-grid-simulator
    ```
 
 2. Install dependencies and build the interfaces.
@@ -585,6 +586,7 @@ A successful training smoke test establishes execution, not policy quality.
 - [Model methodology](docs/models/novi-sad.md)
 - [Reproducibility](docs/reproducibility.md)
 - [Data sources and terms](docs/data-sources-and-licenses.md)
+- [Software citation](CITATION.cff)
 
 This work adapts the OSM grid methodology by Tobias Gebhard, Andrea Tundis, and Florian Steinke.
 See their [2024 paper](https://doi.org/10.1109/ISGTEUROPE62998.2024.10863461) and the preserved [upstream attribution](CONTRIBUTORS.md).
