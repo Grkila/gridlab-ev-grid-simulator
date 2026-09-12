@@ -1,6 +1,6 @@
 // Isolated browser acceptance: serve the production build and mock API boundaries.
 // No live experiments, workers, or saved evidence are modified.
-const { chromium } = require('playwright');
+const { chromium } = require('../web/node_modules/playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');

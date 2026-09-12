@@ -1,0 +1,283 @@
+{
+  "errors": [],
+  "inventory": [
+    {
+      "name": "overview",
+      "url": "http://127.0.0.1:8517/?view=overview",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "experiment-scenario",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "demand-assumptions",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "capacity-assumptions",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "charging-profile",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "optimization-settings",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "experiment-review",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "experiment-json",
+      "url": "http://127.0.0.1:8517/?view=experiments",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "demand-dashboard",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "exact-demand",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "panel"
+    },
+    {
+      "name": "cars-at-09",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "cars-at-13",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "cars-at-19",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "cars-at-22",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "car-count-popup",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "loading-heatmap",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "panel"
+    },
+    {
+      "name": "district-headroom",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "panel"
+    },
+    {
+      "name": "capacity-dashboard",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-9705783b2f734e3c",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "network-loaded",
+      "url": "http://127.0.0.1:8517/?view=network",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "algorithm-library",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "algorithm-assumptions",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-propose",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-specify",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-build",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-compare",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-challenge",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-revise",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "codex-handoff",
+      "url": "http://127.0.0.1:8517/?view=strategies",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "benchmark-setup",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "benchmark-rationale",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "benchmark-dashboard",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "benchmark-matrix",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "panel"
+    },
+    {
+      "name": "benchmark-capacity-chart",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "benchmark-trial-evidence",
+      "url": "http://127.0.0.1:8517/?view=benchmarks",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "ppo-demo",
+      "url": "http://127.0.0.1:8517/?view=rl",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "ppo-demo-learning",
+      "url": "http://127.0.0.1:8517/?view=rl",
+      "type": "panel"
+    },
+    {
+      "name": "ppo-interrupted",
+      "url": "http://127.0.0.1:8517/?view=rl",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "binary-training-settings",
+      "url": "http://127.0.0.1:8517/?view=rl",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "binary-interrupted",
+      "url": "http://127.0.0.1:8517/?view=rl",
+      "type": "panel"
+    },
+    {
+      "name": "rl-reward",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-bb878beb04274b5d",
+      "type": "panel"
+    },
+    {
+      "name": "per-car-demand",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-bb878beb04274b5d",
+      "type": "viewport",
+      "width": 1440,
+      "height": 960
+    },
+    {
+      "name": "charger-timeline",
+      "url": "http://127.0.0.1:8517/?view=results&run=run-bb878beb04274b5d",
+      "type": "panel"
+    }
+  ]
+}

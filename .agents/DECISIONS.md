@@ -1,5 +1,17 @@
 # Architecture decisions
 
+## 2026-09-12: Windows hackathon handoff
+
+Use separate setup and start scripts for Windows PowerShell 5.1 and PowerShell 7.
+Require Python 3.11 x64 and Node.js 24. Include pinned RL dependencies in standard setup.
+Use explicit prerequisite discovery and a repository environment. Keep the server on loopback with exclusive Windows port binding.
+Do not run simulations during setup or start.
+
+Exclude runtime catalogs, saved runs, training, and chat from Git. Preserve local copies and frozen published study evidence.
+Remove Linux launchers and GitHub Actions. Verify locally. Do not add hosting or saved-result packages.
+The final user clarification limits documentation to the application. Keep the presentation launch option and English source.
+Keep model inputs, numerical behavior, study findings, and attribution unchanged.
+
 ## 2026-09-10: User-selected voltage-regulated operating scenario
 
 The user requested a more optimistic operating scenario with positive winter EV service and the neutral name **Voltage-regulated grid**. `operating_mode=regulated` freezes source voltage at 1.04 pu and shifts baseline input above 220 MW to other hours while preserving each day's input energy. Complete days are processed before departure-tail slicing; demand below the cap is unchanged. The same helper is used by experiments, benchmarks and RL training. Settings remain visible, and saved network metadata records the intervention. Pass thresholds remain 0.95–1.05 pu, full asset/stage ratings, and departure energy delivery. The as-supplied scenario is available explicitly. The original large-capacity run was cancelled and moved out of the visible catalog to prioritize the regulated 500-car reference / 5,000-car search study; its partial evidence is not a completed capacity result.
@@ -104,6 +116,6 @@ Experiments expose home-only and whole-day schedules; the latter uses editable l
 
 Use a separate Vite presentation entry with Reveal navigation, one persistent Three.js scene and one persistent same-origin app iframe. The bridge only changes UI views/stages; it cannot execute commands. Keep direct-study findings distinct from live-run evidence and illustrative RL/3D visuals. High-contrast dark backgrounds and dark text on lime controls implement the presentation preference. Details: docs/presentation.md.
 
-Presentation revision: use exact piecewise interpolation on cached OSM road geometry for cars; keep synthetic city/grid provenance explicit. Animate saved results as visual reveals. Demo prompts only fill the real chat composer; the presenter chooses whether to send. Use concise Serbian presentation copy and Serbian embedded chat controls.
+Presentation revision: use exact piecewise interpolation on cached OSM road geometry for cars. Keep synthetic city/grid provenance explicit. Animate saved results as visual reveals. Demo prompts only fill the real chat composer. The presenter chooses whether to send. The Windows handoff supersedes the former Serbian language choice with English copy and controls.
 
 2026-09-11 showcase defaults: prefer the verified 10,000-EV saved run when no explicit run is supplied. Keep benchmark status and synthetic PPO demo labels visible. Chart transport reads one case at a time and omits only unused non-RL per-vehicle traces; no simulation or stored evidence changes. Simulator replacement is an adapter/validation extension, while selected detailed replay already exists.

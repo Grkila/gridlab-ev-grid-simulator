@@ -1,5 +1,20 @@
 # Runbook
 
+## Windows handoff
+
+Run `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1`.
+Use `-PythonPath` when the Python launcher does not register the required 3.11 interpreter.
+Start with `powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start.ps1`.
+Use `pwsh` instead of `powershell` for PowerShell 7.
+The default port is 8517. Options are `-Port`, `-Presentation`, and `-NoBrowser`.
+Press Ctrl+C to stop the attached server. Cancel active workers before shutdown.
+
+Use `scripts/run_api_e2e.py` for generated verification fixtures in isolated runtime storage.
+Use `scripts/verify_windows_launch.py` for launch failures and `scripts/verify_handoff_training.py` for bounded learning checks.
+Run these scripts with `.venv/Scripts/python.exe`.
+See [current verification](../docs/handoff-verification.md) and [developer commands](../docs/DEVELOPMENT.md).
+Older sections below record historical studies and ports. They do not identify an active server.
+
 ## Loss-aware and voltage-regulated tests
 
 The active updated preview is `http://127.0.0.1:8533`. Rebuild with `npm --prefix web run build` and use a fresh backend after source changes. New presets reconcile loss-inclusive input; `load` retains an explicit legacy delivered-load interpretation. The GUI offers **Voltage-regulated grid** (1.04 pu source voltage and daily-energy-preserving 220 MW baseline peak shifting) or original operating assumptions.
@@ -31,9 +46,9 @@ policy quality. For configuration and artifact semantics see `docs/models/ev-rl.
 
 ## Standard benchmark
 
-Build the frontend, then start a fresh playground server. Open Benchmarks, freeze a suite, select registered strategies and run. Reuse the suite for revised or new algorithms; raise the search ceiling in a new suite when the old ceiling passes. A small ceiling is workflow verification only. Run `python scripts/verify_benchmark.py --url http://127.0.0.1:8532` for the bounded real 30-cell workflow, `python scripts/verify_benchmark_mcp.py` for fresh MCP discovery, and `node scripts/verify_benchmark_gui.cjs` with Playwright available in NODE_PATH for browser acceptance. The GUI verifier defaults to port 8532; override EV_GUI_URL as needed. See `docs/benchmark.md`.
+Build the frontend, then start a fresh playground server. Open Benchmarks, freeze a suite, select registered strategies and run. Reuse the suite for revised or new algorithms; raise the search ceiling in a new suite when the old ceiling passes. A small ceiling is workflow verification only. Run `python scripts/verify_benchmark.py --url http://127.0.0.1:8532` for the bounded real 30-cell workflow, `python scripts/verify_benchmark_mcp.py` for fresh MCP discovery, and `node scripts/verify_benchmark_gui.cjs` with Playwright installed by Windows setup for browser acceptance. The GUI verifier defaults to port 8532; override EV_GUI_URL as needed. See `docs/benchmark.md`.
 
 ## Continuous RL campaign
 
-Install optional dependencies with `.venv/Scripts/python.exe -m pip install -r requirements-rl.txt`.
+Windows setup installs the RL dependencies from `requirements-rl.txt`.
 Use `ev_get_continuous_rl_catalog`, `ev_create_continuous_campaign(benchmark_job_id, config)`, `ev_start_continuous_campaign(campaign_id)` and `ev_get_continuous_results(campaign_id)`. Resume and cancel are explicit typed tools. Campaign files live under the runtime's `continuous-rl/ppo-.../`; checkpoints are trusted local pickle-bearing artifacts. Keep request/fixture/network/binding immutable. Queued campaigns wait for the shared worker lock; queue time does not consume active budget. The RL workspace exposes the same lifecycle controls. Full protocol: docs/continuous-rl.md.

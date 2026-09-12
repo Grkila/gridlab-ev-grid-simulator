@@ -1,5 +1,13 @@
 # Artifacts
 
+`handoff/screenshots/` contains the English application and presentation captures.
+See [screenshot coverage](../docs/SCREENSHOTS.md) and [Windows verification](../docs/handoff-verification.md).
+
+`playground/` retains published evidence and local runtime catalogs.
+Git ignores saved experiments, runs, archived catalogs, training output, and chat storage.
+Removing their Git tracking preserves the current local copies.
+`challenge-study-v2/` retains the frozen published study, including its evidence.
+
 `novi_sad/reference/` contains the single challenge handoff set:
 
 - `models/`: pandapower JSON, compact results, and model manifest.

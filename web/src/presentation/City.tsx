@@ -95,8 +95,8 @@ export function City({scene, reduced, visible}:{scene:Scene; reduced:boolean; vi
     };raf=requestAnimationFrame(animate);
     return()=>{cancelAnimationFrame(raf);observer.disconnect();renderer.domElement.removeEventListener('webglcontextlost',onLost);world.traverse(object=>{const mesh=object as THREE.Mesh;if(mesh.geometry)mesh.geometry.dispose();if(mesh.material)(Array.isArray(mesh.material)?mesh.material:[mesh.material]).forEach(m=>m.dispose());});renderer.dispose();renderer.domElement.remove();};
   },[geo]);
-  return <div className="city-host" ref={host} aria-label="Stilizovan 3D model Novog Sada; vozila prate ulice iz OSM podataka">
-    {fallback && <svg className="city-fallback" viewBox="-17 -15 34 30" role="img" aria-label="Statički prikaz mape">
+  return <div className="city-host" ref={host} aria-label="Stylized Novi Sad model. Illustrative vehicles follow OSM streets.">
+    {fallback && <svg className="city-fallback" viewBox="-17 -15 34 30" role="img" aria-label="Static map view">
       {geo?.routes.filter((_,i)=>i%3===0).map((r,i)=><polyline key={i} points={r.map(p=>project(p[0],p[1]).join(',')).join(' ')} fill="none" stroke="#77dcb9" strokeWidth=".025"/>)}
       {geo?.points.map((p,i)=><circle key={i} cx={project(p[0],p[1])[0]} cy={project(p[0],p[1])[1]} r=".035" fill="#ddf99d"/>)}
       {!geo && <text x="0" y="0" textAnchor="middle" fill="#ddf99d" fontSize="1">Mapa nije dostupna</text>}

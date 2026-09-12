@@ -1,5 +1,5 @@
 // Real HTTP/browser acceptance. No API interception, training, or benchmark execution.
-const {chromium}=require('playwright');
+const {chromium}=require('../web/node_modules/playwright');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const base=process.env.E2E_URL,out=process.env.E2E_OUT;
 const checks=[],traffic=[],errors=[];let browser;
@@ -52,11 +52,13 @@ async function finished(id){
   assert.ok(Math.abs(evidence.cases[0].metrics.delivered_energy_kwh-168)<1e-6);
   console.log('PASS: real browser save/start and complete 132-interval results');
   await page.reload();await page.getByText('Manage run',{exact:true}).click();await page.getByLabel('Run name').fill('E2E renamed');
+  const rename=page.waitForResponse(r=>r.url().endsWith('/rename')&&r.request().method()==='POST');
   await page.getByRole('button',{name:'Rename run',exact:true}).click();
-  await page.waitForTimeout(250);assert.equal((await api('/api/runs/'+run.run_id)).name,'E2E renamed');
+  assert.equal((await rename).status(),200); assert.equal((await api('/api/runs/'+run.run_id)).name,'E2E renamed');
   await page.getByRole('button',{name:'Delete run',exact:true}).click();
+  const restored=page.waitForResponse(r=>r.url().endsWith('/restore')&&r.request().method()==='POST');
   await page.getByRole('button',{name:'Undo delete',exact:true}).click();
-  await page.waitForTimeout(250);assert.equal((await api('/api/runs/'+run.run_id)).name,'E2E renamed');
+  assert.equal((await restored).status(),200); assert.equal((await api('/api/runs/'+run.run_id)).name,'E2E renamed');
   await page.getByRole('button',{name:'Compare runs',exact:true}).click();
   await page.getByRole('checkbox').nth(0).check();await page.getByRole('checkbox').nth(1).check();
   const comparison=page.waitForResponse(r=>r.url().endsWith('/api/compare'));

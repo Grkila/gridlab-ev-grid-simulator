@@ -228,10 +228,11 @@ export function RLWorkspace({ experiments, draft, onSaved, onModels, onUseModel 
 
 const actionCount = (value: any) => Array.isArray(value) ? value.filter(Boolean).length : typeof value === "object" && value !== null ? Object.values(value).filter(Boolean).length : value;
 export function RLResults({ currentCase, selectedStep }: { currentCase: J; selectedStep: number }) {
+  const [inspected, setInspected] = useState<{id: string; step: number} | null>(null);
   const intervals: J[] = currentCase.intervals || [];
   const [page, setPage] = useState(0);
   const [district, setDistrict] = useState("");
-  useEffect(() => { setPage(0); setDistrict(""); }, [currentCase.case_id]);
+  useEffect(() => { setPage(0); setDistrict(""); setInspected(null); }, [currentCase]);
   const snapshots = useMemo(() => intervals.map(interval => new Map<string, J>((interval.blocks || []).flatMap((block: J) => (block.vehicles || []).map((vehicle: J) => [String(vehicle.id), { ...vehicle, block_id: block.id }])))), [intervals]);
   const vehicles = useMemo<J[]>(() => {
     const all = new Map<string, J>();
@@ -244,6 +245,7 @@ export function RLResults({ currentCase, selectedStep }: { currentCase: J; selec
   const shownPage = Math.min(page, pages - 1);
   const rows = intervals.map((interval, step) => ({ step, ...interval.rl, requested_on: actionCount(interval.rl?.requested_on), executed_on: actionCount(interval.rl?.executed_on), ...Object.fromEntries(Object.entries(interval.rl?.components || {}).map(([key, value]) => [`component_${key}`, value])) }));
   const metrics = currentCase.metrics || {};
+  const inspectedState = inspected ? snapshots[inspected.step]?.get(inspected.id) : null;
   return <div className="rl-results">
     <section className="panel"><p className="eyebrow">Learned controller evidence</p><h2>Reward, switching & constraints</h2><p>These are evaluation results from the frozen policy. The time selector highlights the same interval across all result views.</p><div className="rl-small-metrics"><span>Total reward<b>{number(metrics.rl_reward)}</b></span><span>Switches<b>{number(metrics.rl_switches, 0)}</b></span><span>Interventions<b>{number(metrics.rl_interventions, 0)}</b></span><span>Energy excess<b>{number(metrics.energy_excess_kwh)} kWh</b></span></div>
       <h3>Interval reward</h3><RLChart rows={rows} series={[["reward", "Reward"]]} selectedStep={selectedStep} />
@@ -252,8 +254,17 @@ export function RLResults({ currentCase, selectedStep }: { currentCase: J; selec
     </section>
     <section className="panel"><div className="panel-head"><div><p className="eyebrow">Binary charger decisions</p><h2>Charger on / off timeline</h2></div><label>District<select value={district} onChange={event => { setDistrict(event.target.value); setPage(0); }}><option value="">All districts</option>{districts.map(id => <option key={id} value={id}>{id}</option>)}</select></label></div>
       <div className="rl-timeline-legend"><span><i className="on" /> On</span><span><i className="off" /> Paused</span><span><i className="done" /> Charged</span><span><i className="absent" /> Not connected</span></div>
-      <p>Each cell is a 15-minute interval. Hover a cell for power, remaining energy, and charger state. Only chargers observed in recorded intervals are included.</p>
-      <div className="rl-timeline-scroll"><table className="rl-timeline"><thead><tr><th>Charger / EV</th>{intervals.map((_, step) => <th key={step} className={step === selectedStep ? "selected" : ""}><span>{step % 4 === 0 ? time(step) : ""}</span></th>)}</tr></thead><tbody>{filtered.slice(shownPage * 20, shownPage * 20 + 20).map(vehicle => <tr key={vehicle.id}><th title={`${vehicle.district_id} · ${vehicle.block_id}`}>{vehicle.id}</th>{snapshots.map((snapshot, step) => { const state = snapshot.get(vehicle.id); const mode = !state ? "absent" : state.power_kw > 1e-9 ? "on" : state.status === "completed" ? "done" : "off"; const label = `${vehicle.id} · ${time(step)} · ${state ? `${mode === "on" ? "On" : mode === "done" ? "Charged" : "Paused"} · ${number(state.power_kw)} kW · ${number(state.remaining_kwh)} kWh remaining` : "Not connected"}`; return <td key={step} className={`${mode} ${step === selectedStep ? "selected" : ""}`} title={label} aria-label={label} />; })}</tr>)}</tbody></table></div>
+      <p>Each cell is a 15-minute interval. Select or hover a cell to inspect the car. Only recorded charger states appear here.</p>
+      <div className="rl-car-inspector" aria-live="polite">
+        <strong>{inspected ? `${inspected.id} · ${time(inspected.step)}` : 'Select a car and an interval'}</strong>
+        {inspected && <div className="rl-small-metrics">
+          <span>Applied charging power<b>{inspectedState ? `${number(inspectedState.power_kw)} kW` : 'Not connected'}</b></span>
+          <span>Remaining battery demand<b>{inspectedState ? `${number(inspectedState.remaining_kwh)} kWh` : '—'}</b></span>
+          <span>Recorded state<b>{inspectedState?.status || 'Not connected'}</b></span>
+          <span>Demand block<b>{inspectedState?.block_id || '—'}</b></span>
+        </div>}
+      </div>
+      <div className="rl-timeline-scroll"><table className="rl-timeline"><thead><tr><th>Charger / EV</th>{intervals.map((_, step) => <th key={step} className={step === selectedStep ? "selected" : ""}><span>{step % 4 === 0 ? time(step) : ""}</span></th>)}</tr></thead><tbody>{filtered.slice(shownPage * 20, shownPage * 20 + 20).map(vehicle => <tr key={vehicle.id}><th title={`${vehicle.district_id} · ${vehicle.block_id}`}>{vehicle.id}</th>{snapshots.map((snapshot, step) => { const state = snapshot.get(vehicle.id); const mode = !state ? "absent" : state.power_kw > 1e-9 ? "on" : state.status === "completed" ? "done" : "off"; const label = `${vehicle.id} · ${time(step)} · ${state ? `${mode === "on" ? "On" : mode === "done" ? "Charged" : "Paused"} · ${number(state.power_kw)} kW · ${number(state.remaining_kwh)} kWh remaining` : "Not connected"}`; return <td key={step} className={`${mode} ${step === selectedStep ? "selected" : ""}`} title={label} aria-label={label} tabIndex={step === selectedStep ? 0 : -1} onMouseEnter={() => setInspected({id: vehicle.id, step})} onFocus={() => setInspected({id: vehicle.id, step})} onClick={() => setInspected({id: vehicle.id, step})} />; })}</tr>)}</tbody></table></div>
       {!filtered.length && <p>No recorded charger states for this selection.</p>}
       <div className="rl-pagination"><button disabled={shownPage === 0} onClick={() => setPage(shownPage - 1)}>Previous</button><span>{filtered.length} chargers · page {shownPage + 1} / {pages}</span><button disabled={shownPage >= pages - 1} onClick={() => setPage(shownPage + 1)}>Next</button></div>
     </section>

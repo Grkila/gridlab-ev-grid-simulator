@@ -100,6 +100,8 @@ class RepositoryTests(unittest.TestCase):
         pattern = re.compile(r"\[[^]]*\]\(([^)]+)\)")
         missing = []
         for document in ROOT.rglob("*.md"):
+            if document.is_relative_to(ROOT / "artifacts/handoff/clean-checkout"):
+                continue  # Setup verification uses an independent copy of the repository.
             if any(part in {".git", ".venv", "data", "node_modules"} for part in document.parts[len(ROOT.parts):]):
                 continue
             for target in pattern.findall(document.read_text(encoding="utf-8")):

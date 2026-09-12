@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "Setup is incomplete",
+      "exit_code": 1
+    },
+    {
+      "check": "does not exist",
+      "exit_code": 1
+    },
+    {
+      "check": "node.exe",
+      "exit_code": 1
+    },
+    {
+      "check": "is occupied",
+      "exit_code": 1
+    },
+    {
+      "check": "Occupied-port owner remains available",
+      "passed": true
+    },
+    {
+      "check": "Two application servers cannot share a port",
+      "passed": true
+    }
+  ]
+}

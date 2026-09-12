@@ -34,7 +34,7 @@ npm --prefix web run build
 node scripts/verify_chat_gui.cjs
 ```
 
-The browser check requires Playwright on `NODE_PATH`. It launches an isolated real HTTP server and a deliberately fake CLI emitting JSONL. It exercises repeated messages, reused CLI item IDs, full evidence retrieval, reload, multiple tabs, minimize/cancel, a lost accepted POST response, polling loss, cancellation failure, new conversations and mobile layout. It never launches Codex or pays for a model call. The stdio check separately runs the real MCP server and simulations.
+Windows setup installs Playwright for the browser check. It launches an isolated real HTTP server and a deliberately fake CLI emitting JSONL. It exercises repeated messages, reused CLI item IDs, full evidence retrieval, reload, multiple tabs, minimize/cancel, a lost accepted POST response, polling loss, cancellation failure, new conversations and mobile layout. It never launches Codex or pays for a model call. The stdio check separately runs the real MCP server and simulations.
 
 The synthetic storage check measures a 1 MB tool result: full results remain retrievable, the summary response is 256 bytes, warm summary reads open no detail files, and an unchanged chat poll is 239 bytes. These are fixture measurements, not a claim about simulation speed.
 

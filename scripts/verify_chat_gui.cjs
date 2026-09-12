@@ -1,5 +1,5 @@
 // Uses bundled Playwright (NODE_PATH); real local HTTP server with an explicit fake CLI.
-const {chromium}=require('playwright');
+const {chromium}=require('../web/node_modules/playwright');
 const {spawn}=require('child_process');
 const path=require('path');
 const fs=require('fs');

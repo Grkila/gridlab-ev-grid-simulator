@@ -1,0 +1,13 @@
+{
+  "binary_job": "train-cf800e32cbd549d5",
+  "binary_episodes": 2,
+  "binary_weights_changed": true,
+  "ppo_backend_steps": 16,
+  "ppo_backend_environment": "CartPole-v1",
+  "versions": {
+    "torch": "2.9.1+cpu",
+    "gymnasium": "1.2.2",
+    "stable_baselines3": "2.7.1"
+  },
+  "interpretation": "Binary EV simulator training and PPO package execution only. No convergence, full PPO campaign, or policy superiority claim."
+}

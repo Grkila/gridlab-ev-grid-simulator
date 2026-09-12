@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const { chromium } = require('../web/node_modules/playwright');
 const fs = require('fs');
 const path = require('path');
 const output = path.resolve(__dirname, '../artifacts/playground/evidence');

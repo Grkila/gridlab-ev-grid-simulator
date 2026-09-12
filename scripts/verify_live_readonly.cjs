@@ -1,5 +1,5 @@
 // Read-only smoke test of the user's running MVP and presentation bridge.
-const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {chromium}=require('../web/node_modules/playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const base=process.env.E2E_URL||'http://127.0.0.1:8536';let browser;
 (async()=>{
   const reads=[];

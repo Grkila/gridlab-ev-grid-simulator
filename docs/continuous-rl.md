@@ -24,7 +24,7 @@ Before tuning, every curriculum anchor replays the original seeds and verifies d
 
 ## Training and evaluation
 
-Optional backend: `pip install -r requirements-rl.txt` in the repository environment. Pinned SB3 2.7.1,Gymnasium1.2.2,PyTorch2.9.1. PPO uses two128-unit tanh layers for actor/critic,gamma0.999,GAE0.95,clip0.2,five epochs,batch128,total rollout1024,targetKL0.02,entropy0,value coefficient0.5,gradient norm0.5. Three learning rates (0.0001,0.0003,0.001) share initialization for screening. Two additional initialization seeds replicate the selected rate. Every candidate has the same transition budget.
+Windows setup installs the CPU backend from `requirements-rl.txt`. No separate RL installation is required. Pinned SB3 2.7.1,Gymnasium1.2.2,PyTorch2.9.1. PPO uses two128-unit tanh layers for actor/critic,gamma0.999,GAE0.95,clip0.2,five epochs,batch128,total rollout1024,targetKL0.02,entropy0,value coefficient0.5,gradient norm0.5. Three learning rates (0.0001,0.0003,0.001) share initialization for screening. Two additional initialization seeds replicate the selected rate. Every candidate has the same transition budget.
 
 Default wall budget10h,hard maximum12h:10% pilot,60% five training runs,20% final evaluation and10% reserve. All resets count. The one/two-environment comparison uses isolated synchronous environments, not parallel CPU processes. A full-update timing plus25% margin is a conservative estimate, not an empirical p90. Fewer than eight updates per candidate yields `insufficient_throughput`. Missing validation episodes or replicas cannot produce a selected/complete result.
 

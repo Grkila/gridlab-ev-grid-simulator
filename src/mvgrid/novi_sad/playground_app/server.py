@@ -4,6 +4,7 @@ from functools import lru_cache
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import mimetypes
+import socket
 from pathlib import Path
 from urllib.parse import urlsplit, unquote, parse_qs
 from mvgrid.paths import REPOSITORY_ROOT
@@ -199,7 +200,14 @@ def create_server(port=8517,root=None):
             except (ValueError,KeyError,TypeError) as exc: self.respond({'error':str(exc)},400)
             except Exception as exc: self.respond({'error':str(exc)},500)
 
-    server=ThreadingHTTPServer(('127.0.0.1',port),Handler)
+    class LoopbackServer(ThreadingHTTPServer):
+        def server_bind(self):
+            if hasattr(socket, 'SO_EXCLUSIVEADDRUSE'):
+                self.allow_reuse_address = False
+                self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+            super().server_bind()
+
+    server=LoopbackServer(('127.0.0.1',port),Handler)
     chats.broker_url=f"http://127.0.0.1:{server.server_port}"
     server.chat_service=chats
     return server

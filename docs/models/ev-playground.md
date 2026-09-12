@@ -1,5 +1,8 @@
 # EV hypothesis playground
 
+For current Windows setup, use the [project README](../../README.md).
+For complete procedures and screenshots, use the [user guide](../USER_GUIDE.md).
+
 The EV hypothesis playground runs bounded, repeatable charging experiments against a reduced Novi Sad medium-voltage planning proxy. It is suitable for screening hypotheses and finding counterexamples. It is not a utility-validated network, an operational controller, or a claim about the maximum EV hosting capacity of Novi Sad.
 
 The [independent network-validity audit](../network-validity-independent-audit.md) still bounds the AC model: it has no physical LV feeders or MV/LV assets. The current [capacity alignment](../capacity-alignment-2025.md) adds aggregate transmission and downstream transformer/LV capacity checks with explicit editable demand-share assumptions. These checks do not calculate LV voltage or individual asset loading.

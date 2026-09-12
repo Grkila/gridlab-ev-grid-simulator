@@ -11,9 +11,26 @@ __pycache__/
 ppnet.json
 *.log
 *.err
-/artifacts/playground/runtime/
-/artifacts/playground/strategy-poc-runtime/runs/
-/artifacts/playground/strategy-poc-runtime/worker.lock
+# Local experiment catalogs, saved runs, training, and chat.
+/artifacts/playground/**/runtime/
+/artifacts/playground/**/runtime-*/
+/artifacts/playground/**/*-runtime/
+/artifacts/playground/**/runs/
+/artifacts/playground/retired-*/
+/artifacts/handoff/runtime*/
+/artifacts/handoff/**/runtime*/
+/artifacts/handoff/clean-checkout/
+/artifacts/handoff/tmp/
+# Local presentation captures are outside the application documentation handoff.
+/artifacts/handoff/screenshots/slide-*.png
+/artifacts/handoff/screenshots/presentation-*.png
+/artifacts/handoff/screenshots/contact-sheets/slides-*.jpg
+/artifacts/handoff/presentation-checks/
+/artifacts/handoff/showcases-*/
+/artifacts/handoff/ste-slides-review.txt
+/artifacts/handoff/e2e/runtime.json
+/artifacts/handoff/e2e/failure.json
+/artifacts/handoff/e2e/presentation.png
 
 /web/node_modules/
 /web/dist/

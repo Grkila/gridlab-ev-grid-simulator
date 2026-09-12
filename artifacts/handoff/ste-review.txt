@@ -1,0 +1,22 @@
+README.md:123:16 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is rejected]
+README.md:126:12 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is occupied]
+README.md:150:59 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is excluded]
+README.md:182:27 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is connected]
+README.md:269:83 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are ignored]
+README.md:270:72 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is included]
+README.md:271:30 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is required]
+docs/USER_GUIDE.md:137:43 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is crossed]
+docs/USER_GUIDE.md:142:49 present-perfect: Compound tense. Use simple past/present unless current relevance is the point (then keep and flag). [have dedicated]
+docs/USER_GUIDE.md:144:78 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are rejected]
+docs/USER_GUIDE.md:189:57 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [were attached]
+docs/USER_GUIDE.md:275:48 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is selected]
+docs/DEVELOPMENT.md:106:41 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are excluded]
+docs/README.md:36:66 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are distributed]
+docs/handoff-verification.md:59:14 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are generated]
+docs/handoff-verification.md:59:80 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [is required]
+docs/handoff-verification.md:83:97 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [are unchanged]
+docs/handoff-verification.md:85:49 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [were removed]
+docs/handoff-verification.md:85:94 passive-voice: Possible passive voice. Name the actor and use an active verb, unless the actor is unknown or irrelevant. [was added]
+
+19 violations (0 hard, baseline 0), 6312 words, 0.3 per 100 words
+Hedges/modality (may, might, could) are never flagged: confidence is content.

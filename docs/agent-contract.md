@@ -68,7 +68,7 @@ instructions after restart.
 
 Acceptance commands: `python -m unittest discover -s tests`,
 `python scripts/verify_playground_mcp.py`, `npm --prefix web run build`, and
-`node scripts/verify_chat_gui.cjs` (bundled Playwright on NODE_PATH).
+`node scripts/verify_chat_gui.cjs` (Playwright installed by Windows setup).
 The independent validator owns `tests/test_agent_contract_adversarial.py` and
 `docs/agent-contract-validation.md`. Browser/chat lifecycle tests use an explicitly
 fake CLI; real stdio tests exercise the actual MCP server and test subprocess.

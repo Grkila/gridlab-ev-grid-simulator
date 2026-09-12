@@ -1,5 +1,8 @@
 # Centralized EV reinforcement learning
 
+For current Windows setup, use the [project README](../../README.md).
+For complete procedures and screenshots, use the [user guide](../USER_GUIDE.md).
+
 The RL workspace trains a shared neural binary charging policy and evaluates frozen
 models through the same reduced pandapower simulator as the other strategies.
 This is a synthetic planning experiment, not a utility controller deployment.

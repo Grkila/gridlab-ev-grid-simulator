@@ -1,8 +1,15 @@
 # Project memory
 
+- 2026-09-12: `docs/SIMULATOR.md` and the README now connect input provenance, seasonal/monthly demand normalization, feeder reduction, and detailed replay. Recalculation of `artifacts/playground/evidence/model_validation.json` gives 0.655739% relative minimum-voltage difference for its single 150 MW no-EV snapshot, but 23.973346% loss difference. A derived 99.344% voltage agreement must not become an overall simulator-accuracy claim. This documentation check reused saved evidence and did not rerun or change the numerical model.
+
+- 2026-09-12: README showcase revision adds generated cover art and 42 actual Windows captures in `artifacts/handoff/showcase`. Maps wait for loaded tiles and viewport images check full-height navigation. README covers hourly vehicle states, heatmaps, exact demand, controller assumptions, Codex development, ten benchmark rationales, and 39 MCP tools. Historical benchmark failure, interrupted training, and synthetic PPO playback retain explicit labels. `docs/TROUBLESHOOTING.md` provides Windows diagnosis procedures. The RL timeline now exposes selected or focused car power, remaining energy, state, and block without changing simulation calculations. All 288 unit tests and the production build passed. See the handoff report for current browser verification.
+
+- 2026-09-12: Windows handoff verified with Python 3.11.15 x64, Node 24.15.0, PowerShell 5.1 and 7.6.5. `scripts/setup.ps1` installs the standard RL stack. `scripts/start.ps1` supports port, browser, and presentation options. Clean setup and repeat setup passed. All 288 unit tests passed. The isolated application check passed 84 checks. See `docs/handoff-verification.md` for bounded training and verification limits.
+- 2026-09-12: User narrowed documentation to the application. README, USER_GUIDE, CONFIGURATION, and SCREENSHOTS cover its workspaces and states. English presentation source remains functional. Presentation captures stay local. Git ignores saved runtime catalogs and preserves all 599 local files removed from tracking. Published study evidence and reference inputs remain retained. No CI/CD or hosting is included.
+
 - 2026-09-11: Results demand chart separates city MW from EV kW with synchronized interval markers and explicit units. Clarified completed-session and interval charging counts. Saved screenshot case run-acb9643529ac47f1/case-0000 reconciles all 132 intervals; 22:30 has 97.8667 kW EV and 15 charging + 70 completed = 85 connected. Build, browser inspection and 286 regression tests passed. See docs/demand-chart.md and artifacts/playground/evidence/demand-chart-audit.json.
 
-Last verified: 2026-09-10
+Last verified: 2026-09-12
 
 ## Purpose
 
@@ -108,7 +115,7 @@ The Schneider challenge fork adapts the upstream OSM MV-grid generator into one 
 
 - MCP follow-up: removed duplicate Codex slide (50 total). Single click-only MCP demo; no timer/autoplay. Tabs show tool history, captured real chat with unsent prompt, and actual algorithm-development form. Codex/plugin/terminal access noted once. Build and focused browser checks passed for 50 slides, single demo, manual timing, GUI assets, layout and no writes. Prior full51-slide energy acceptance passed;288 regression tests passed.
 
-- Presentation editorial revision: requested full Serbian title, concise natural headings/descriptions across50 slides via shortCopy.ts. Removed empty accent line breaks; source assumptions preserved in notes and visible numerical limitations. Humanizer skill applied; build passed.
+- The 2026-09-12 Windows handoff replaces the former Serbian presentation revision. The deck now has 52 English slides in `slides.ts`. Stable IDs, source assumptions, and numerical findings remain unchanged.
 
 - Q2/Q4 revised to location-based managed charging and expansion proposal, retaining original study charts behind manual tabs. Dedicated MV/public charging benefit is conditional and not established by existing all-EV-at-LV model; real transformer reserve requires detailed inputs. Build and both tab/layout checks passed.
 

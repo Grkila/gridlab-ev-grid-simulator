@@ -3,17 +3,17 @@ import {useState,type ReactNode} from 'react';
 export function LocationPolicy({policy,children}:{policy?:boolean;children:ReactNode}){
   const [evidence,setEvidence]=useState(false);
   const cards=policy?[
-    ['Punjači na poslu','Procena za jun: oko 18% više energetskog prostora od 08–16 h nego od 16–24 h.'],
-    ['Više dostupnih mesta','Više priključenih vozila deli ograničenu snagu. Broj punjača ne povećava kapacitet mreže.'],
-    ['Javni centri na SN mreži','Zaseban SN priključak sa svojom trafostanicom oslobađa postojeći stambeni NN ogranak od tog punjenja.'],
+    ['Workplace chargers','June estimate: about 18% more energy headroom from 08:00–16:00 than from 16:00–24:00.'],
+    ['More charging spaces','More connected vehicles share limited power. More chargers do not increase grid capacity.'],
+    ['Public hubs on the MV grid','A dedicated MV connection with its own transformer removes that charging demand from the existing residential LV branch.'],
   ]:[
-    ['Kod kuće · noću','Korisnik zada rok odlaska. Punjenje se raspoređuje van vrha, npr. 00–06 h, ako je to dovoljno.'],
-    ['Na poslu · tokom dana','Raspodelimo punjenje tokom boravka. U junskom profilu ima više prostora nego uveče.'],
-    ['Javni i brzi punjači','Kada lokalna rezerva opada, smanjimo snagu punjenja u dozvoljenim granicama.'],
+    ['Home · night','The driver sets a departure time. Schedule charging outside the peak, for example 00:00–06:00, when sufficient.'],
+    ['Workplace · daytime','Spread charging across the parking period. The June profile provides more headroom than the evening period.'],
+    ['Public and fast chargers','Reduce charging power within permitted limits when local reserve decreases.'],
   ];
-  return <div className="location-policy"><div className="mcp-demo-tabs"><button aria-pressed={!evidence} onClick={()=>setEvidence(false)}>{policy?'Predlog razvoja':'Predlog upravljanja'}</button><button aria-pressed={evidence} onClick={()=>setEvidence(true)}>{policy?'Rezultati studije':'Procena iz krive'}</button></div>
+  return <div className="location-policy"><div className="mcp-demo-tabs"><button aria-pressed={!evidence} onClick={()=>setEvidence(false)}>{policy?'Expansion proposal':'Control proposal'}</button><button aria-pressed={evidence} onClick={()=>setEvidence(true)}>{policy?'Study results':'Demand-curve estimate'}</button></div>
     {evidence?children:<><div className="location-cards">{cards.map(([title,body],i)=><article key={title}><small>0{i+1}</small><h2>{title}</h2><p>{body}</p></article>)}</div>
-    <div className="location-takeaway">{policy?'Više izbora gde i kada punimo olakšava upravljanje i postepeno širenje.':'Raspoloživa snaga + energija do odlaska → raspored punjenja.'}</div>
-    <p className="chart-note">{policy?'Procena, ne potvrđen kapacitet. Dobit SN priključka zavisi od nove trafostanice i uzvodne mreže; priključak zahteva ulaganje. Više punjača pomaže uz zajedničko ograničenje snage.':'Simulator proverava modelovane delove mreže na 15 minuta. Rezerva svakog stvarnog transformatora zahteva detaljniji model i podatke. Period 00–06 h je primer, ne fiksni start svih vozila.'}</p></>}
+    <div className="location-takeaway">{policy?'More choices of place and time support managed expansion.':'Available power + energy before departure → charging schedule.'}</div>
+    <p className="chart-note">{policy?'This is an estimate. MV benefits depend on a new transformer and upstream limits. The connection requires investment. Additional chargers need a shared power limit.':'The simulator checks modeled assets every 15 minutes. Real transformer reserve requires detailed data. The 00:00–06:00 window is an example, not a synchronized start.'}</p></>}
   </div>;
 }
