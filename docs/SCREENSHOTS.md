@@ -5,7 +5,7 @@ Focused panel images show individual charts without a full-page sidebar.
 The capture checks wait for saved evidence and loaded map tiles.
 
 The [asset notes](../artifacts/handoff/showcase/README.md) identify source records and distinguish real, interrupted, and illustrative evidence.
-Runtime JSON stays local. The banner is generated concept artwork.
+Runtime JSON stays local. The banner is generated concept artwork with a sourced Novi Sad bridge/riverbank visual reference and attribution in the asset notes.
 
 ## Application feature coverage
 

@@ -17,6 +17,8 @@ Team: **Jokić & Grković³**.
 > The network is a synthetic planning proxy. It is not an as-built EDS model or a utility-certified capacity assessment.
 > The banner is concept artwork. The application images below are actual Windows browser captures.
 
+Banner bridge reference: [Novi Sad and Petrovaradin panorama](https://commons.wikimedia.org/wiki/File:Novi_Sad,_Petrovaradin,_pohled_na_m%C4%9Bsto_a_pevnost.jpg) by Aktron / Wikimedia Commons, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/); used as a visual reference for generated artwork.
+
 ![Completed charging experiment with city demand, EV demand, vehicle states, and interval selection](artifacts/handoff/showcase/demand-dashboard.png)
 
 At 19:00, this local experiment has 1,947 connected vehicles and about 13.4 MW of EV charging demand.
