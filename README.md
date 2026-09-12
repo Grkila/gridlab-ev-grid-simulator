@@ -8,7 +8,7 @@ GridLab is a Windows EV charging simulator for the Schneider Electric EV Days ha
 It uses OpenStreetMap data and pandapower to model charging demand on a synthetic Novi Sad power grid.
 Compare charging optimization, grid capacity, reinforcement learning, and Codex workflows through the Model Context Protocol (MCP).
 
-**Nikola Jokić, Mina Grković, Selena Grković, and Dušan Grković** developed GridLab for the **Schneider Electric EV Days Challenge hackathon**.
+**Nikola Jokić, Mina Grković, Selena Grković, and Dušan Grković** developed GridLab for the [Schneider Electric EV Days Challenge hackathon](https://ev-days.rs/).
 Team: **Jokić & Grković³**.
 
 [Windows setup](#start-on-windows) · [Application tour](#application-tour) · [Algorithms](#charging-algorithms) · [Benchmarks](#benchmarks) · [Codex and MCP](#codex-and-mcp) · [User guide](docs/USER_GUIDE.md)
